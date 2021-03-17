@@ -1,0 +1,92 @@
+/* Maxima code for working with the quantum angular momentum operators Jx, Jy, and Jz.
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+  This work is licensed under a Creative Commons Attribution 4.0 International License.
+*/
+
+load(simplifying);
+
+/*Tell Maxima that 'operator' is a feature.*/
+declare(operator, feature);
+
+Jx_p(e) := not mapatom(e) and inpart(e,0) = 'Jx;
+Jy_p(e) := not mapatom(e) and inpart(e,0) = 'Jy;
+Jz_p(e) := not mapatom(e) and inpart(e,0) = 'Jz;
+
+/*Tell Maxima that Jx, Jy, and Jz are linear. Also declare Jx,Jy, and
+  Jz to be operators.*/
+declare([Jx, Jy, Jz],linear);
+declare([Jx, Jy, Jz],operator);
+
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+declare(ħ,constant);
+
+/* Implement the rules Jz Jy --> Jy Jz -%i ħ Jx and Jz Jx --> Jx Jz + %i ħ Jy */
+simp_Jz(e) :=
+  if Jy_p(e) then Jy(Jz(first(e))) - %i*ħ*Jx(first(e))
+  elseif Jx_p(e) then Jx(Jz(first(e))) + %i*ħ*Jy(first(e))
+  else simpfuncall('Jz,e);
+
+simplifying('Jz, 'simp_Jz);
+
+/* Implement the rule Jy Jx --> Jx Jy - %i ħ Jz */
+ simp_Jy(e) :=
+    if Jx_p(e) then Jx(Jy(first(e))) - %i*ħ*Jz(first(e))
+    else simpfuncall('Jy,e);
+   
+simplifying('Jy, 'simp_Jy); 
+
+/* Convert an expression e from functional form to a "dot" form; for example,
+   dot_form(Jx(Jy(ψ)), ψ) --> Jx.Jy and dot_form(107*Jx(Jx(ψ)),ψ) --> 107*Jx^^2 */
+dot_form(e,ψ) := block([opsubst : true], 
+  subst([ψ=1, Jx = lambda([q], Jx.q), Jy = lambda([q], Jy.q), 
+    Jz = lambda([q], Jz.q)], e));
+
+plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
+timesp(e) :=  (not mapatom(e)) and inpart(e,0) = "*";
+nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
+ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
+
+/* Convert from "dot" form to a functional form; for example,
+   operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)) and operator_apply(107*Jx^^2, ψ) --> 107*Jx(Jx(ψ)) */
+
+operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
+  if constantp(e) then (
+    e*ψ)
+
+  elseif mapatom(e) and featurep(e, 'operator) then (
+    e(ψ))
+
+  elseif plusp(e) then (
+    map(lambda([q], operator_apply(q,ψ)), e))
+
+  /* constant * operator is OK, but if you do operator*operator, Maxima uses its canonical order */
+  elseif timesp(e) then (
+    operator_apply(first(e), operator_apply(rest(e),ψ))) 
+
+  elseif ncexptp(e) then (
+    [e,n] : args(e),
+    if integerp(n) and n > 0 then (
+      operator_apply(e, operator_apply(e^^(n-1), ψ)))
+    else (
+      error("I don't know how to apply ", e^n, " to ", ψ)))
+
+  elseif nctimesp(e) then (
+    operator_apply(first(e), operator_apply(rest(e), ψ)))    
+
+  else (
+       error("I don't know how to apply ", e, " to ", ψ)));  
+
+operator_express(e) := block([sublis_apply_lambda : true],
+   sublis([Jx = lambda([s], -%i*ħ*(y*diff(s,z) - z*diff(s,y))),
+          Jy = lambda([s], -%i*ħ*(z*diff(s,x) - x*diff(s,z))),
+          Jz = lambda([s], -%i*ħ*(x*diff(s,y) - y*diff(s,x)))], e))
+ 
+    
+
+  
+
+    
