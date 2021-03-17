@@ -36,13 +36,13 @@ simplifying('Jz, 'simp_Jz);
  simp_Jy(e) :=
     if Jx_p(e) then Jx(Jy(first(e))) - %i*ħ*Jz(first(e))
     else simpfuncall('Jy,e);
-   
-simplifying('Jy, 'simp_Jy); 
+
+simplifying('Jy, 'simp_Jy);
 
 /* Convert an expression e from functional form to a "dot" form; for example,
    dot_form(Jx(Jy(ψ)), ψ) --> Jx.Jy and dot_form(107*Jx(Jx(ψ)),ψ) --> 107*Jx^^2 */
-dot_form(e,ψ) := block([opsubst : true], 
-  subst([ψ=1, Jx = lambda([q], Jx.q), Jy = lambda([q], Jy.q), 
+dot_form(e,ψ) := block([opsubst : true],
+  subst([ψ=1, Jx = lambda([q], Jx.q), Jy = lambda([q], Jy.q),
     Jz = lambda([q], Jz.q)], e));
 
 plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
@@ -65,7 +65,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
 
   /* constant * operator is OK, but if you do operator*operator, Maxima uses its canonical order */
   elseif timesp(e) then (
-    operator_apply(first(e), operator_apply(rest(e),ψ))) 
+    operator_apply(first(e), operator_apply(rest(e),ψ)))
 
   elseif ncexptp(e) then (
     [e,n] : args(e),
@@ -75,18 +75,12 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
       error("I don't know how to apply ", e^n, " to ", ψ)))
 
   elseif nctimesp(e) then (
-    operator_apply(first(e), operator_apply(rest(e), ψ)))    
+    operator_apply(first(e), operator_apply(rest(e), ψ)))
 
   else (
-       error("I don't know how to apply ", e, " to ", ψ)));  
+       error("I don't know how to apply ", e, " to ", ψ)));
 
 operator_express(e) := block([sublis_apply_lambda : true],
    sublis([Jx = lambda([s], -%i*ħ*(y*diff(s,z) - z*diff(s,y))),
           Jy = lambda([s], -%i*ħ*(z*diff(s,x) - x*diff(s,z))),
-          Jz = lambda([s], -%i*ħ*(x*diff(s,y) - y*diff(s,x)))], e))
- 
-    
-
-  
-
-    
+          Jz = lambda([s], -%i*ħ*(x*diff(s,y) - y*diff(s,x)))], e));
