@@ -63,20 +63,24 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
   elseif plusp(e) then (
     map(lambda([q], operator_apply(q,ψ)), e))
 
-  /* constant * operator is OK, but if you do operator*operator, Maxima uses its canonical order */
+  /* constant * operator is OK, otherwise, error. */
   elseif timesp(e) then (
-    operator_apply(first(e), operator_apply(rest(e),ψ)))
+    if constantp(first(e)) then (
+      operator_apply(first(e), operator_apply(rest(e),ψ)))
+    else (     
+       error("I don't know how to apply ", e, " to ", ψ)))
 
   elseif ncexptp(e) then (
     [e,n] : args(e),
     if integerp(n) and n > 0 then (
       operator_apply(e, operator_apply(e^^(n-1), ψ)))
     else (
-      error("I don't know how to apply ", e^n, " to ", ψ)))
+      error("I don't know how to apply ", e^^n, " to ", ψ)))
 
   elseif nctimesp(e) then (
     operator_apply(first(e), operator_apply(rest(e), ψ)))
 
+  /* Catches, for example, F^n, F/G, ... */
   else (
        error("I don't know how to apply ", e, " to ", ψ)));
 
