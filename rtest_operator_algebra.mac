@@ -1,4 +1,4 @@
-(declare([F,G], operator),0);
+(declare([F,G, H], operator),0);
 0$
 
 operator_apply(0,x);
@@ -75,6 +75,18 @@ F(F(x))$
 
 operator_apply(F.G - G.F,x);
 F(G(x)) - G(F(x))$
+
+operator_apply(F.G.F,x);
+F(G(F(x)))$
+
+operator_apply(F^^3,x);
+F(F(F(x)))$
+
+errcatch(operator_apply(F^^(3/2),x));
+[]$
+
+errcatch(operator_apply(F^^a,x));
+[]$
 
 (kill(all),0);
 0$
