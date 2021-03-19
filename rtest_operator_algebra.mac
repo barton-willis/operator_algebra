@@ -88,6 +88,45 @@ errcatch(operator_apply(F^^(3/2),x));
 errcatch(operator_apply(F^^a,x));
 []$
 
+dot_form(F(x));
+F.x$
+
+dot_form(107*F(x));
+107*F.x$
+
+dot_form(107*F(x)/46);
+107*F.x / 46$
+
+dot_form(F(%pi));
+F.%pi$
+
+dot_form(F(-x));
+F.-x$
+
+dot_form(F(a-b));
+F. (a-b)$
+
+dot_form(F(F(x)));
+F^^2 . x$
+
+dot_form(F(G(x)));
+F.G.x$
+
+dot_form(F(G(x)) - G(F(x)));
+F.G.x - G.F.x$
+
+dot_form(F(G(x)) + G(F(x)));
+F.G.x + G.F.x$
+
+dot_form(23*F(G(x)) + 42*G(F(x)));
+23*F.G.x + 42*G.F.x$
+
+dot_form(23*F(G(x)) + 42*G(F(x)));
+23*F.G.x + 42*G.F.x$
+
+dot_form(F(G(F(G(x)))));
+(F.G)^^2 . x$
+
 (kill(all),0);
 0$
 

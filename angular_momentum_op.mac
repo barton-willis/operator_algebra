@@ -1,0 +1,39 @@
+/* Maxima code for working with the quantum angular momentum operators
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+Copyright (c) Barton Willis, 2021
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+*/
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+declare(ħ,constant);
+
+Lx_p(e) := not mapatom(e) and inpart(e,0) = 'Lx;
+Ly_p(e) := not mapatom(e) and inpart(e,0) = 'Ly;
+Lz_p(e) := not mapatom(e) and inpart(e,0) = 'Lz;
+
+/*Tell Maxima that Lx, Ly, and Lz are linear. Also declare Lx,Ly, and
+  Lz to be operators.*/
+declare([Lx, Ly, Lz],linear);
+declare([Lx, Ly, Lz],operator);
+
+put(Lx, lambda([q], -%i*ħ*(y * diff(q,z) - z*diff(q,y))), 'formula);
+put(Ly, lambda([q], -%i*ħ*(z * diff(q,x) - x*diff(q,z))), 'formula);
+put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
+
+/* Implement the rules Lz Ly --> Ly Lz -%i ħ Lx and Lz Lx --> Lx Lz + %i ħ Ly */
+simp_Lz(e) :=
+  if Ly_p(e) then Ly(Lz(first(e))) - %i*ħ*Lx(first(e))
+  elseif Lx_p(e) then Lx(Lz(first(e))) + %i*ħ*Ly(first(e))
+  else simpfuncall('Lz,e);
+
+simplifying('Lz, 'simp_Lz);
+
+/* Implement the rule Ly Lx --> Lx Ly - %i ħ Lz */
+ simp_Ly(e) :=
+    if Lx_p(e) then Lx(Ly(first(e))) - %i*ħ*Lz(first(e))
+    else simpfuncall('Ly,e);
+
+simplifying('Ly, 'simp_Ly);

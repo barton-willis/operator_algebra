@@ -1,0 +1,28 @@
+/* Maxima code for working with the quantum angular momentum operators
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+Copyright (c) Barton Willis, 2021
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+*/
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+declare(ħ,constant);
+
+/* The one-dimensional case */
+Q_p(e) := not mapatom(e) and inpart(e,0) = 'Q;
+P_p(e) := not mapatom(e) and inpart(e,0) = 'P;
+
+declare([Q,P],linear);
+declare([Q,P],operator);
+
+put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
+put(Q, lambda([q], x*q), 'formula);
+
+/* Implement the rule P Q --> Q P  + %i*ħ */
+simp_P(e) :=
+  if Q_p(e) then Q(P(first(e))) + %i*ħ*first(e)
+  else simpfuncall('P,e);
+
+simplifying('P, 'simp_P);

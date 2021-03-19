@@ -1,10 +1,11 @@
-/* Maxima code for working with the quantum angular momentum operators Jx, Jy, and Jz.
+/* Maxima code for working with the operators.
 
    Barton Willis
    Professor of Mathematics
    University of Nebraska at Kearney
 
-  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+Copyright (c) Barton Willis, 2021
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
 load(simplifying);
@@ -12,47 +13,25 @@ load(simplifying);
 /*Tell Maxima that 'operator' is a feature.*/
 declare(operator, feature);
 
-Jx_p(e) := not mapatom(e) and inpart(e,0) = 'Jx;
-Jy_p(e) := not mapatom(e) and inpart(e,0) = 'Jy;
-Jz_p(e) := not mapatom(e) and inpart(e,0) = 'Jz;
-
-/*Tell Maxima that Jx, Jy, and Jz are linear. Also declare Jx,Jy, and
-  Jz to be operators.*/
-declare([Jx, Jy, Jz],linear);
-declare([Jx, Jy, Jz],operator);
-
-/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
-declare(ħ,constant);
-
-/* Implement the rules Jz Jy --> Jy Jz -%i ħ Jx and Jz Jx --> Jx Jz + %i ħ Jy */
-simp_Jz(e) :=
-  if Jy_p(e) then Jy(Jz(first(e))) - %i*ħ*Jx(first(e))
-  elseif Jx_p(e) then Jx(Jz(first(e))) + %i*ħ*Jy(first(e))
-  else simpfuncall('Jz,e);
-
-simplifying('Jz, 'simp_Jz);
-
-/* Implement the rule Jy Jx --> Jx Jy - %i ħ Jz */
- simp_Jy(e) :=
-    if Jx_p(e) then Jx(Jy(first(e))) - %i*ħ*Jz(first(e))
-    else simpfuncall('Jy,e);
-
-simplifying('Jy, 'simp_Jy);
-
-/* Convert an expression e from functional form to a "dot" form; for example,
-   dot_form(Jx(Jy(ψ)), ψ) --> Jx.Jy and dot_form(107*Jx(Jx(ψ)),ψ) --> 107*Jx^^2 */
-dot_form(e,ψ) := block([opsubst : true],
-  subst([ψ=1, Jx = lambda([q], Jx.q), Jy = lambda([q], Jy.q),
-    Jz = lambda([q], Jz.q)], e));
-
+/* Utilities */
 plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
 timesp(e) :=  (not mapatom(e)) and inpart(e,0) = "*";
 nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
 ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
 
-/* Convert from "dot" form to a functional form; for example,
-   operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)) and operator_apply(107*Jx^^2, ψ) --> 107*Jx(Jx(ψ)) */
+/* Convert an expression e from functional form to a "dot" form; for example,
+   if F & G are operators, then
+   dot_form(F(G(x)) --> F . G . x and dot_form(107*F(G(x)) --> 107*F^^2 . x */
 
+dot_form(e) :=
+  if plusp(e) then map('dot_form, e)
+  elseif timesp(e) and constantp(first(e)) then first(e)*dot_form(rest(e))
+  elseif not mapatom(e) and featurep(inpart(e,0), 'operator) then inpart(e,0). dot_form(first(e))
+  else e;
+
+/* Convert from "dot" form to a functional form; for example, if Jx & Jy are
+   operators, then operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/
+   
 operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
   if constantp(e) then (
     e*ψ)
@@ -84,7 +63,11 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
   else (
        error("I don't know how to apply ", e, " to ", ψ)));
 
-operator_express(e) := block([sublis_apply_lambda : true],
-   sublis([Jx = lambda([s], -%i*ħ*(y*diff(s,z) - z*diff(s,y))),
-          Jy = lambda([s], -%i*ħ*(z*diff(s,x) - x*diff(s,z))),
-          Jz = lambda([s], -%i*ħ*(x*diff(s,y) - y*diff(s,x)))], e));
+operator_express(e) := block([opsubst : true,fn],
+   if mapatom(e) then e
+   else (
+     fn : inpart(e,0),
+     if featurep(fn,'operator) and get(fn,'formula) # false then (
+         get(fn, 'formula)(operator_express(first(e))))
+    else 
+       map('operator_express, e)));
