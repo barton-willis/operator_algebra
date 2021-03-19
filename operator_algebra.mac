@@ -14,6 +14,9 @@ load(simplifying);
 declare(operator, feature);
 
 /* Utilities */
+
+operatorp(e) := (mapatom(e) and featurep(e,'operator)) or (subvarp(e) and featurep(inpart(e,0) ,'operator));
+
 plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
 timesp(e) :=  (not mapatom(e)) and inpart(e,0) = "*";
 nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
@@ -26,7 +29,7 @@ ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
 dot_form(e) :=
   if plusp(e) then map('dot_form, e)
   elseif timesp(e) and constantp(first(e)) then first(e)*dot_form(rest(e))
-  elseif not mapatom(e) and featurep(inpart(e,0), 'operator) then inpart(e,0). dot_form(first(e))
+  elseif operatorp(e) then inpart(e,0). dot_form(first(e))
   else e;
 
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
@@ -36,7 +39,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
   if constantp(e) then (
     e*ψ)
 
-  elseif mapatom(e) and featurep(e, 'operator) then (
+  elseif operatorp(e) then (
     e(ψ))
 
   elseif plusp(e) then (
@@ -47,7 +50,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
     if constantp(first(e)) then (
       operator_apply(first(e), operator_apply(rest(e),ψ)))
     else (     
-       error("I don't know how to apply ", e, " to ", ψ)))
+      error("I don't know how to apply ", e, " to ", ψ)))
 
   elseif ncexptp(e) then (
     [e,n] : args(e),
@@ -61,13 +64,13 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
 
   /* Catches, for example, F^n, F/G, ... */
   else (
-       error("I don't know how to apply ", e, " to ", ψ)));
+      error("I don't know how to apply ", e, " to ", ψ)));
 
 operator_express(e) := block([opsubst : true,fn],
    if mapatom(e) then e
    else (
      fn : inpart(e,0),
-     if featurep(fn,'operator) and get(fn,'formula) # false then (
-         get(fn, 'formula)(operator_express(first(e))))
+     if operatorp(e) and get(fn,'formula) # false then (
+        get(fn, 'formula)(operator_express(first(e))))
     else 
        map('operator_express, e)));
