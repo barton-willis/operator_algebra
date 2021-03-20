@@ -26,11 +26,11 @@ ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
    if F & G are operators, then
    dot_form(F(G(x)) --> F . G . x and dot_form(107*F(G(x)) --> 107*F^^2 . x */
 
-dot_form(e) :=
+dot_form(e) := block([inflag : true],
   if plusp(e) then map('dot_form, e)
   elseif timesp(e) and constantp(first(e)) then first(e)*dot_form(rest(e))
-  elseif operatorp(e) then inpart(e,0). dot_form(first(e))
-  else e;
+  elseif not mapatom(e) and operatorp(inpart(e,0)) then inpart(e,0). dot_form(first(e))
+  else e);
 
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
    operators, then operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/
@@ -70,7 +70,7 @@ operator_express(e) := block([opsubst : true,fn],
    if mapatom(e) then e
    else (
      fn : inpart(e,0),
-     if operatorp(e) and get(fn,'formula) # false then (
+     if operatorp(fn) and get(fn,'formula) # false then (
         get(fn, 'formula)(operator_express(first(e))))
     else 
        map('operator_express, e)));

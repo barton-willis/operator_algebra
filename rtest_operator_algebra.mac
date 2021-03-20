@@ -1,6 +1,15 @@
 (declare([F,G, H], operator),0);
 0$
 
+map('operatorp,[F,G,H]);
+[true,true,true]$
+
+map('operatorp,[f,Y,I]);
+[false,false,false]$
+
+map('operatorp,[F[x],G[%pi],H[6,28]]);
+[true,true,true]$
+
 operator_apply(0,x);
 0$
 
@@ -103,8 +112,8 @@ F.%pi$
 dot_form(F(-x));
 F.-x$
 
-dot_form(F(a-b));
-F. (a-b)$
+dot_form(F(aa-bb));
+F . (aa-bb)$
 
 dot_form(F(F(x)));
 F^^2 . x$

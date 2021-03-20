@@ -57,4 +57,4 @@
 *.ods
 *.cvs
 *.fdb_latexmk
-*.pdf
+*.pdf*.ERR
