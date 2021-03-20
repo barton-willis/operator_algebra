@@ -74,3 +74,11 @@ operator_express(e) := block([opsubst : true,fn],
         get(fn, 'formula)(operator_express(first(e))))
     else 
       map('operator_express, e)));
+
+operator_adjoint(e) :=
+  if operatorp(e) then get(e,'operator_adjoint)
+  elseif (numberp(e) or e=%i) then conjugate(e)
+  elseif plusp(e) then map('operator_adjoint, e)
+  elseif nctimesp(e) then map('operator_adjoint, reverse(e))
+  elseif ncexptp(e) then operator_adjoint(first(e))^^second(e)
+  else error("Unable to find adjoint of ",e);
