@@ -49,6 +49,9 @@ operator_apply(-2*sqrt(3)*F,-x);
 operator_apply(a*F,x);
 a*F(x)$
 
+operator_apply(F/sqrt(5), X);
+F(X)/sqrt(5)$
+
 operator_apply(a*b*F,x);
 a*b*F(x)$
 
@@ -135,6 +138,47 @@ dot_form(23*F(G(x)) + 42*G(F(x)));
 
 dot_form(F(G(F(G(x)))));
 (F.G)^^2 . x$
+
+/* subscripted operators */
+
+xx : operator_apply(F[%pi], x);
+F[%pi](x)$
+
+dot_form(xx);
+F[%pi] . x$
+
+xx : operator_apply(F[%pi,5], x);
+F[%pi,5](x)$
+
+dot_form(xx);
+F[%pi,5] . x$
+
+xx : operator_apply(F[%pi,5], x);
+F[%pi,5](x)$
+
+dot_form(xx);
+F[%pi,5] . x$
+
+(declare(σ,operator),0);
+0$
+
+xx : operator_apply(σ[x], x);
+σ[x](x)$
+
+dot_form(xx);
+σ[x] . x$
+
+xx : operator_apply(σ[x].σ[y], X);
+σ[x](σ[y](X))$
+
+dot_form(xx);
+σ[x].σ[y] . X$
+
+xx : operator_apply(σ[x].σ[y] - σ[y].σ[x], X);
+σ[x](σ[y](X)) - σ[y](σ[x](X))$
+
+dot_form(xx);
+σ[x].σ[y] . X  - σ[y].σ[x] . X$
 
 (kill(all),0);
 0$

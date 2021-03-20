@@ -33,14 +33,14 @@ dot_form(e) := block([inflag : true],
   else e);
 
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
-   operators, then operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/
+   operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/
    
 operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
   if constantp(e) then (
     e*ψ)
 
   elseif operatorp(e) then (
-    e(ψ))
+    apply(e,[ψ]))
 
   elseif plusp(e) then (
     map(lambda([q], operator_apply(q,ψ)), e))
@@ -69,8 +69,8 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
 operator_express(e) := block([opsubst : true,fn],
    if mapatom(e) then e
    else (
-     fn : inpart(e,0),
-     if operatorp(fn) and get(fn,'formula) # false then (
+      fn : inpart(e,0),
+      if operatorp(fn) and get(fn,'formula) # false then (
         get(fn, 'formula)(operator_express(first(e))))
     else 
-       map('operator_express, e)));
+      map('operator_express, e)));
