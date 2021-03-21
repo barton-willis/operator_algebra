@@ -26,7 +26,7 @@ operator_formula(fn) :=
   if symbolp(fn) then (
     get(fn, 'formula))
   elseif subvarp(fn) then (
-    apply(operator_formula(first(fn)), args(fn)))
+    apply(operator_formula(op(fn)), args(fn)))
   else false;
 
 /* Convert an expression e from functional form to a "dot" form; for example,

@@ -1,0 +1,38 @@
+declare([P,Q,U], operator);
+
+declare([P,Q], linear);
+
+declare(ħ,constant);
+
+Q_p(e) := not mapatom(e) and inpart(e,0) = 'Q;
+
+P_p(e) := not mapatom(e) and inpart(e,0) = 'P;
+
+U_p(e) := not mapatom(e) and subvarp(inpart(e,0)) and inpart(e,0) = 'U;
+
+put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
+
+put(Q, lambda([q], x*q), 'formula);
+
+put(U, lambda([q], buildq([q],  lambda([qq],  U[q+1](x)*qq))), 'formula);
+
+/* Implement the rules P Q --> Q P  + %i*ħ  and P U[k] --> -%i * ħ U[k+1] + U[k] P */
+simp_P(e) :=
+  if Q_p(e) then Q(P(first(e))) + %i*ħ*first(e)
+  elseif U_p(e) then block([listarith : true], 
+     print([e,first(e),op(e),args(e)]),
+    -%i*ħ*arraymake(op(e), args(e)+1) + P(first(e)))
+  else simpfuncall('P,e);
+
+simp_U(e) :=
+  if plusp(e) then map(lambda([s], operator_apply('U,s)),e)
+  elseif timesp(e) and constantp(first(e)) then first(e) * operator_apply('U, rest(e))
+  else simpfuncall('U,e);
+
+simplifying('U, 'simp_U);
+
+operator_apply(P.Q - Q.P, ψ);
+
+operator_apply(P^^5 . Q^^2 - Q^^2 . P^^5, ψ);
+
+ratsimp(dot_form(%));
