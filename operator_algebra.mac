@@ -22,6 +22,13 @@ timesp(e) :=  (not mapatom(e)) and inpart(e,0) = "*";
 nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
 ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
 
+operator_formula(fn) :=
+  if symbolp(fn) then (
+    get(fn, 'formula))
+  elseif subvarp(fn) then (
+    apply(operator_formula(first(fn)), args(fn)))
+  else false;
+
 /* Convert an expression e from functional form to a "dot" form; for example,
    if F & G are operators, then
    dot_form(F(G(x)) --> F . G . x and dot_form(107*F(G(x)) --> 107*F^^2 . x */
