@@ -89,3 +89,6 @@ operator_adjoint(e) :=
   elseif nctimesp(e) then map('operator_adjoint, reverse(e))
   elseif ncexptp(e) then operator_adjoint(first(e))^^second(e)
   else error("Unable to find adjoint of ",e);
+
+operator_simp(e) := block([f : gensym()],
+   subst(f=1, dot_form(expand(operator_apply(e,f)))));
