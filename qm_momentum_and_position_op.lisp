@@ -14,11 +14,8 @@
 (defun potential-p (e)
     (and (consp e) (eq (caar e) 'mqapply) (eq (caaadr e) '|$u|)))
 
-;;put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
-;;put(Q, lambda([q], x*q), 'formula);
-
 (mfuncall '$put '$q  #'(lambda (s) (mul '$x s)) '$formula)
-(mfuncall '$put '$p  #'(lambda (s) (mul -1 '$%i '$|Ħ| ($diff s '$x))) '$formula)
+(mfuncall '$put '$p  #'(lambda (s) (mul -1 '$%i '$ħ ($diff s '$x))) '$formula)
 
 (defun simp-momentum-op (e y z)
     (declare (ignore y))
@@ -26,7 +23,7 @@
     (let ((e (simplifya (cadr e) z))) ;specdisrep? I've forgotten...
       (cond 
           ((position-p e) ;P Q --> Q P  - %i*ħ 
-            (add (take '($q) (take '($p) (cadr e))) (mul -1 '$%i '$|Ħ| (cadr e))))
+            (add (take '($q) (take '($p) (cadr e))) (mul -1 '$%i '$ħ (cadr e))))
           ((potential-p e) ; P U[n] --> -%i ħ U[n+1] + U[n] P
             (let ((n (car (subfunsubs e))) (fn (car (subfunargs e))))
                 (add
@@ -52,10 +49,11 @@
 
 (setf (get '$q 'operators) #'simp-position-op) 
 
-;(defun simp-potential-op (e y z)
-;    (declare (ignore y))
-   ;; (print `(e = ,e))
-  ;  e)
+(defun simp-potential-op (e y z)
+    (declare (ignore y))
+    (let ((a (mapcar #'(lambda (s) (simplifya s z)) (subfunsubs e)))
+          (b (mapcar #'(lambda (s) (simplifya s z)) (subfunargs e))))
+       (subfunmakes '|$u| a b)))
 
-;(setf (get '$|u| 'specsimp) #'simp-potential-op)
+(setf (get '$|u| 'specsimp) #'simp-potential-op)
 
