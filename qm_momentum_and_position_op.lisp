@@ -6,14 +6,14 @@
 (mfuncall '$declare '$p '$operator)
 (mfuncall '$declare '$q '$operator)
 
-(defmfun position-p (e)
+(defun position-p (e)
     (and (consp e) (eq (caar e) '$q)))
 
-(defmfun momentum-p (e)  
+(defun momentum-p (e)  
     (and (consp e) (eq (caar e) '$p)))
 
-(defmfun potential-p (e)
-    (and (consp e) ($subvarp ($op e)) (eq (caar e) '$U)))
+(defun potential-p (e)
+    (and (consp e) (eq (caar e) 'mqapply) (eq (caaadr e) '|$u|)))
 
 ;;put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
 ;;put(Q, lambda([q], x*q), 'formula);
@@ -27,7 +27,12 @@
     (let ((e (simplifya (cadr e) z))) ;specdisrep? I've forgotten...
       (cond 
           ((position-p e) ;P Q --> Q P  + %i*ħ 
-             (add (take '($q) (take '($p) (cadr e))) (mul '$%i '$ħ (cadr e))))
+            (add (take '($q) (take '($p) (cadr e))) (mul '$%i '$ħ (cadr e))))
+          ((potential-p e) ; P U[n] --> -%i ħ U[n+1] + U[n] P
+            (let ((n (car (subfunsubs e))) (fn (car (subfunargs e))))
+                (add
+                    (mul -1 '$%i '$ħ (subfunmakes '|$u| (list (add 1 n)) (list fn)))
+                    (subfunmakes '|$u| (list n) (list (take '($p) fn))))))
           ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($p) s)) (cdr e)) t))
           ((and (mtimesp e) ($constantp (second e)))
@@ -46,4 +51,12 @@
              (mult (second e) (take '($q) (muln (cddr e) t))))
           (t (list (list '$q 'simp) e))))) 
 
-(setf (get '$q 'operators) #'simp-position-op)    
+(setf (get '$q 'operators) #'simp-position-op) 
+
+(defun simp-potential-op (e y z)
+    (declare (ignore y))
+   ;; (print `(e = ,e))
+    e)
+
+(setf (get '$|u| 'specsimp) #'simp-potential-op)
+
