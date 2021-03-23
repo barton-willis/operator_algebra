@@ -6,13 +6,13 @@
 (mfuncall '$declare '$p '$operator)
 (mfuncall '$declare '$q '$operator)
 
-(defmfun $Q_p (e)
+(defmfun position-p (e)
     (and (consp e) (eq (caar e) '$q)))
 
-(defmfun $P_p (e)  
+(defmfun momentum-p (e)  
     (and (consp e) (eq (caar e) '$p)))
 
-(defmfun $U_p (e)
+(defmfun potential-p (e)
     (and (consp e) ($subvarp ($op e)) (eq (caar e) '$U)))
 
 ;;put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
@@ -29,7 +29,7 @@
     (oneargcheck e)
     (let ((e (simplifya (cadr e) z))) ;specdisrep? I've forgotten...
       (cond 
-          (($Q_p e) ;P Q --> Q P  + %i*ħ 
+          ((position-p e) ;P Q --> Q P  + %i*ħ 
              (add (take '($q) (take '($p) (cadr e))) (mul '$%i '$ħ (cadr e))))
           ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($p) s)) (cdr e)) t))
