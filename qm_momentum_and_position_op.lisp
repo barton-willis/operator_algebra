@@ -1,16 +1,23 @@
 
-;;; Declare the reduced Planck constant to be constant. 
-
+;;; Declare the reduced Planck constant to be constant and positive.
 (mfuncall '$declare '$ħ '$constant)
+(mfuncall '$assume (take '(mgreaterp) '$ħ 0))
+
+;;; Declare p,q, and U to be operators; p and q are the momentum and position operators,
+;;; respectively, and U is a multiplication operator (a potential). 
 (mfuncall '$declare '$p '$operator)
 (mfuncall '$declare '$q '$operator)
+(mfuncall '$declare '|$u| '$operator)
 
+;;; True iff e has the form q(XXX).
 (defun position-p (e)
     (and (consp e) (eq (caar e) '$q)))
 
+;;; True iff e has the form p(XXX).
 (defun momentum-p (e)  
     (and (consp e) (eq (caar e) '$p)))
 
+;;; True iff e has the form U[xxx](YYY).
 (defun potential-p (e)
     (and (consp e) (eq (caar e) 'mqapply) (eq (caaadr e) '|$u|)))
 
@@ -52,8 +59,19 @@
 (defun simp-potential-op (e y z)
     (declare (ignore y))
     (let ((a (mapcar #'(lambda (s) (simplifya s z)) (subfunsubs e)))
-          (b (mapcar #'(lambda (s) (simplifya s z)) (subfunargs e))))
-       (subfunmakes '|$u| a b)))
+          (b (mapcar #'(lambda (s) (simplifya s z)) (subfunargs e)))
+          (e (cadr e)))
+
+       (cond ((position-p (first b)) ; Do U[n] q --> q U[n]
+                ;; The call to $expand xxx 0 0 is disapointing, but try
+                ;; operator_simplify(U[n] . q^^4) without the call to $expand.
+                (take '($q) ($expand (subfunmakes '|$u| a (cdar b)) 0 0)))
+
+             ;;Start of rule that does U[n] . U[m] --> U[m] U[n] when
+             ;; (say) (great m n).
+            ;;;; ((and (potential-p (first b)) (great (cadar b) e))
+
+             (t (subfunmakes '|$u| a b)))))
 
 (setf (get '$|u| 'specsimp) #'simp-potential-op)
 
