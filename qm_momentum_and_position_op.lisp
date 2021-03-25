@@ -39,7 +39,12 @@
           ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($p) s)) (cdr e)) t))
           ((and (mtimesp e) ($constantp (second e)))
-             (mult (second e) (take '($p) (muln (cddr e) t))))
+             (let ((cnst 1))
+                (setq e (cdr e)) ; remove (mtimes simp)
+                (while (and (cdr e) ($constantp (car e)))
+                    (setq cnst (mul cnst (pop e))))
+                (mult cnst (take '($q) (car e)))))
+
           (t (list (list '$p 'simp) e))))) 
 
 (setf (get '$p 'operators) #'simp-momentum-op)
@@ -50,8 +55,14 @@
     (let ((e (simplifya (cadr e) z)))
       (cond ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($q) s)) (cdr e)) t))
+
           ((and (mtimesp e) ($constantp (second e)))
-             (mult (second e) (take '($q) (muln (cddr e) t))))
+             (let ((cnst 1))
+                (setq e (cdr e)) ; remove (mtimes simp)
+                (while (and (cdr e) ($constantp (car e)))
+                    (setq cnst (mul cnst (pop e))))
+                (mult cnst (take '($q) (car e)))))
+
           (t (list (list '$q 'simp) e))))) 
 
 (setf (get '$q 'operators) #'simp-position-op) 
@@ -59,8 +70,9 @@
 (defun simp-potential-op (e y z)
     (declare (ignore y))
     (let ((a (mapcar #'(lambda (s) (simplifya s z)) (subfunsubs e)))
-          (b (mapcar #'(lambda (s) (simplifya s z)) (subfunargs e)))
-          (e (cadr e)))
+          (b (mapcar #'(lambda (s) (simplifya s z)) (subfunargs e))))
+
+        (setq e (cadr e))
 
        (cond ((position-p (first b)) ; Do U[n] q --> q U[n]
                 ;; The call to $expand xxx 0 0 is disapointing, but try
