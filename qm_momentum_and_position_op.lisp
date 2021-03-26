@@ -24,8 +24,10 @@
 (mfuncall '$put '$q  #'(lambda (s) (mul '$x s)) '$formula)
 (mfuncall '$put '$p  #'(lambda (s) (mul -1 '$%i '$ħ ($diff s '$x))) '$formula)
 
+(defvar *p* 0)
 (defun simp-momentum-op (e y z)
     (declare (ignore y))
+    (incf *p*)
     (oneargcheck e)
     (let ((e (simplifya (cadr e) z))) ;specdisrep? I've forgotten...
       (cond 
