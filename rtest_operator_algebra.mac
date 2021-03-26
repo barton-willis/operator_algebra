@@ -1,4 +1,4 @@
-(declare([F,G, H], operator),0);
+(declare([F,G,H], operator),0);
 0$
 
 map('operatorp,[F,G,H]);
