@@ -38,12 +38,13 @@
                     (subfunmakes '|$u| (list n) (list (take '($p) fn))))))
           ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($p) s)) (cdr e)) t))
+
           ((and (mtimesp e) ($constantp (second e)))
              (let ((cnst 1))
                 (setq e (cdr e)) ; remove (mtimes simp)
                 (while (and (cdr e) ($constantp (car e)))
                     (setq cnst (mul cnst (pop e))))
-                (mult cnst (take '($q) (car e)))))
+                (mult cnst (take '($p) (car e)))))
 
           (t (list (list '$p 'simp) e))))) 
 
@@ -56,7 +57,7 @@
       (cond ((mplusp e)
              (addn (mapcar #'(lambda (s) (take '($q) s)) (cdr e)) t))
 
-          ((and (mtimesp e) ($constantp (second e)))
+          ((and t (mtimesp e) ($constantp (second e)))
              (let ((cnst 1))
                 (setq e (cdr e)) ; remove (mtimes simp)
                 (while (and (cdr e) ($constantp (car e)))

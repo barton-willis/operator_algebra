@@ -67,6 +67,21 @@ F(x+y)+G(x+y)$
 operator_apply(a*F+b*G,x);
 a*F(x)+b*G(x)$
 
+operator_apply(a*(F-G),x);
+a*(F(x) - G(x))$
+
+(declare([F,G], linear),0);
+0$
+
+operator_apply(F.(F-G),x);
+F(F(x)) - F(G(x))$
+
+operator_apply(F.(F-a*G),x);
+F(F(x)) - a*F(G(x))$
+
+(remove([F,G], linear),0);
+0$
+
 errcatch(operator_apply(F*G,x));
 []$
 
