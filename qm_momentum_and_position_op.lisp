@@ -24,6 +24,7 @@
 (mfuncall '$put '$q  #'(lambda (s) (mul '$x s)) '$formula)
 (mfuncall '$put '$p  #'(lambda (s) (mul -1 '$%i '$ħ ($diff s '$x))) '$formula)
 
+ 
 (defvar *p* 0)
 (defun simp-momentum-op (e y z)
     (declare (ignore y))
@@ -33,6 +34,7 @@
       (cond 
           ((position-p e) ;P Q --> Q P  - %i*ħ 
             (add (take '($q) (take '($p) (cadr e))) (mul -1 '$%i '$ħ (cadr e))))
+            
           ((potential-p e) ; P U[n] --> -%i ħ U[n+1] + U[n] P
             (let ((n (car (subfunsubs e))) (fn (car (subfunargs e))))
                 (add
