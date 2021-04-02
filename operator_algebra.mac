@@ -92,3 +92,5 @@ operator_adjoint(e) :=
 
 operator_simp(e) := block([f : gensym()],
    subst(f=1, dot_form(expand(operator_apply(e,f)))));
+
+commutator(f,g) := operator_simp(f.g - g.f);
