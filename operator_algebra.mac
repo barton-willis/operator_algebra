@@ -8,9 +8,14 @@ Copyright (c) Barton Willis, 2021
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
-load(simplifying);
+/* Eliminate some warnings from the translator. */
+eval_when(translate,
+          declare_translated(operator_formula,dot_form,operator_apply,
+                             operator_express,operator_adjoint))$
 
-/*Tell Maxima that 'operator' is a feature.*/
+load("simplifying");
+
+/* Tell Maxima that 'operator' is a feature.*/
 declare(operator, feature);
 
 /* Utilities */
@@ -35,7 +40,7 @@ operator_formula(fn) :=
 /* Convert an expression e from a functional form to a "dot" form; for example,
    if F & G are operators, then
    dot_form(F(G(x)) --> F . G . x and dot_form(107*F(G(x)) --> 107*F^^2 . x */
-   
+
 dot_form(e) := block([inflag : true],
   if plusp(e) then map('dot_form, e)
   elseif timesp(e) and constantp(first(e)) then first(e)*dot_form(rest(e))
