@@ -42,7 +42,7 @@ operator_formula(fn) :=
    dot_form(F(G(x)) --> F . G . x and dot_form(107*F(G(x)) --> 107*F^^2 . x */
 
 dot_form(e) := block([inflag : true],
-  if plusp(e) then map('dot_form, e)
+  if plusp(e) or listp(e) then map('dot_form, e)
   elseif timesp(e) and constantp(first(e)) then first(e)*dot_form(rest(e))
   elseif not mapatom(e) and operatorp(inpart(e,0)) then inpart(e,0). dot_form(first(e))
   else e);
@@ -51,7 +51,10 @@ dot_form(e) := block([inflag : true],
    operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/ 
 operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
 
-  if constantp(e) then (
+  if listp(e) then (
+    map(lambda([s], operator_apply(s,ψ)),e))
+
+  elseif constantp(e) then (
     e*ψ)
 
   elseif operatorp(e) then (
