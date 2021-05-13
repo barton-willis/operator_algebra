@@ -10,7 +10,7 @@
 (mfuncall '$declare '|$u| '$operator)
 
 (defun reduced-planck-constant ()
-    (or (mget '$ħ '$numer) '$ħ))
+    (or ($get '$ħ $numer) '$ħ))
     
 ;;; True iff e has the form q(XXX).
 (defun position-p (e)
