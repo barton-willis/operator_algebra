@@ -58,7 +58,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
     e*ψ)
 
   elseif operatorp(e) then (
-    apply(e,[ψ]))
+    funmake(e,[ψ]))
 
   elseif plusp(e) then (
      map(lambda([q], operator_apply(q,ψ)), e))
