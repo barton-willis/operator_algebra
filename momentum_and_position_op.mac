@@ -20,9 +20,9 @@ declare([Q,P],operator);
 put(P, lambda([q], -%i*ħ*diff(q,x)), 'formula);
 put(Q, lambda([q], x*q), 'formula);
 
-/* Implement the rule P Q --> Q P  + %i*ħ */
+/* Implement the rule P Q --> Q P  - %i*ħ */
 simp_P(e) :=
-  if Q_p(e) then Q(P(first(e))) + %i*ħ*first(e)
+  if Q_p(e) then Q(P(first(e))) - %i*ħ*first(e)
   else simpfuncall('P,e);
 
 simplifying('P, 'simp_P);
