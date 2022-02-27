@@ -1,0 +1,97 @@
+/* Maxima code for working with pauli matrices
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+Copyright (c) Barton Willis, 2022
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+*/
+
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+declare(ħ,constant);
+assume(ħ > 0);
+
+/* The three-dimensional case: position operators */
+Qx_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qx);
+Qy_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qy);
+Qz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qz);
+
+/* momentum operators */
+Px_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Px);
+Py_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Py);
+Pz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Pz);
+
+declare([Qx,Qy,Qz,Px,Py,Pz],linear);
+declare([Qx,Qy,Qz,Px,Py,Pz],operator);
+
+put(Px, lambda([q], -%i*ħ*diff(q,x)), 'formula);
+put(Py, lambda([q], -%i*ħ*diff(q,y)), 'formula);
+put(Pz, lambda([q], -%i*ħ*diff(q,z)), 'formula);
+
+put(Qx, lambda([q], x*q), 'formula);
+put(Qy, lambda([q], y*q), 'formula);
+put(Qz, lambda([q], z*q), 'formula);
+
+/*Pauli matrices */
+declare([σx,σy,σz],linear, [σx,σy,σz], operator);
+put(σx, lambda([q], σx.q), 'formula);
+put(σy, lambda([q], σy.q), 'formula);
+put(σz, lambda([q], σz.q), 'formula);
+
+σx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σx);
+σy_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σy);
+σz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σz);
+
+/* angular momentum */
+Lx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lx);
+Ly_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Ly);
+Lz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lz);
+
+/*Tell Maxima that Lx, Ly, and Lz are linear. Also declare Lx,Ly, and
+  Lz to be operators.*/
+declare([Lx, Ly, Lz],linear);
+declare([Lx, Ly, Lz],operator);
+
+/* Implement the rules 
+    Px Qx --> Qx Px  - %i*ħ
+    Px Qy --> Qy Px
+    Px Qz --> Qz Px
+    Px σx --> σx Px
+    Px σy --> σy Px
+    Px σz --> σz Px */
+simp_Px(e) :=
+  if Qx_p(e) then Qx(Px(first(e))) - %i*ħ*first(e)
+  elseif Qy_p(e) or Qz_p(e) or σx_p(e) or σy_p(e) or σz_p(e) then (
+    
+  else simpfuncall('Px,e);
+
+simplifying('P, 'simp_P);
+
+
+
+/* Implement the rules 
+     σx^2 --> I, 
+     σx σy --> σy σx - 2 %i σz,
+     σx σz --> σz σx - 2 %i σy. */
+simp_σx(e) := block([inflag : true],
+  if σx_p(e) then first(e)
+  elseif σy_p(e) then σy(σx(first(e))) - 2*%i*σz(first(e))
+  else simpfuncall('σx,e));
+simplifying('σx, 'simp_σx);
+
+/* Implement the rules 
+   σy^2 --> I,
+   σy σz --> σz σy - 2*%i σx. */
+ simp_σy(e) := block([inflag : true],
+    if σy_p(e) then first(e)    
+    elseif σz_p(e) then σz(σy(first(e))) - 2*%i*σx(first(e))
+    else simpfuncall('σy,e));
+simplifying('σy, 'simp_σy);
+
+/* Implement the rule
+    σz σz --> 1 */
+ simp_σz(e) := block([inflag : true],
+    if σz_p(e) then first(e)    
+    else simpfuncall('σz,e));
+simplifying('σz, 'simp_σz);
