@@ -43,15 +43,24 @@ put(σz, lambda([q], σz.q), 'formula);
 σy_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σy);
 σz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σz);
 
+put(σx, lambda([q], matrix([0,1],[1,0]).q), formula);
+put(σy, lambda([q], matrix([0,-%i],[%i,0]).q), formula);
+put(σz, lambda([q], matrix([1,0],[0,-1]).q), formula);
+
 /* angular momentum */
+
+/*Tell Maxima that Lx, Ly, and Lz are linear operators.*/
+declare([Lx, Ly, Lz],linear);
+declare([Lx, Ly, Lz],operator);
+
 Lx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lx);
 Ly_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Ly);
 Lz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lz);
 
-/*Tell Maxima that Lx, Ly, and Lz are linear. Also declare Lx,Ly, and
-  Lz to be operators.*/
-declare([Lx, Ly, Lz],linear);
-declare([Lx, Ly, Lz],operator);
+/*Give Lx, Ly, and Lz formula */
+put(Lx, lambda([q], -%i*ħ*(y * diff(q,z) - z*diff(q,y))), 'formula);
+put(Ly, lambda([q], -%i*ħ*(z * diff(q,x) - x*diff(q,z))), 'formula);
+put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
 
 /* Implement the rules 
     Px Qx --> Qx Px  - %i*ħ
@@ -60,15 +69,6 @@ declare([Lx, Ly, Lz],operator);
     Px σx --> σx Px
     Px σy --> σy Px
     Px σz --> σz Px */
-simp_Px(e) :=
-  if Qx_p(e) then Qx(Px(first(e))) - %i*ħ*first(e)
-  elseif Qy_p(e) or Qz_p(e) or σx_p(e) or σy_p(e) or σz_p(e) then (
-    
-  else simpfuncall('Px,e);
-
-simplifying('P, 'simp_P);
-
-
 
 /* Implement the rules 
      σx^2 --> I, 
