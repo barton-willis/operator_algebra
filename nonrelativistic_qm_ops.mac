@@ -1,4 +1,4 @@
-/* Maxima code for working with pauli matrices
+/* Maxima code for working with quantum mechanical operators
 
    Barton Willis
    Professor of Mathematics
@@ -12,18 +12,20 @@ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 declare(ħ,constant);
 assume(ħ > 0);
 
-/* The three-dimensional case: position operators */
+/* Declare position and momentum operators. */
+declare([Qx,Qy,Qz,Px,Py,Pz],linear);
+declare([Qx,Qy,Qz,Px,Py,Pz],operator);
+
+/* Predicates for detecting these operators */
 Qx_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qx);
 Qy_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qy);
 Qz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qz);
 
-/* momentum operators */
 Px_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Px);
 Py_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Py);
 Pz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Pz);
 
-declare([Qx,Qy,Qz,Px,Py,Pz],linear);
-declare([Qx,Qy,Qz,Px,Py,Pz],operator);
+/* Give them formulas */
 
 put(Px, lambda([q], -%i*ħ*diff(q,x)), 'formula);
 put(Py, lambda([q], -%i*ħ*diff(q,y)), 'formula);
@@ -50,8 +52,7 @@ put(σz, lambda([q], matrix([1,0],[0,-1]).q), formula);
 /* angular momentum */
 
 /*Tell Maxima that Lx, Ly, and Lz are linear operators.*/
-declare([Lx, Ly, Lz],linear);
-declare([Lx, Ly, Lz],operator);
+declare([Lx, Ly, Lz],linear, [Lx, Ly, Lz],operator);
 
 Lx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lx);
 Ly_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Ly);
