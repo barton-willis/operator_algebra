@@ -1,0 +1,98 @@
+/* Maxima code for working with quantum mechanical operators
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+Copyright (c) Barton Willis, 2022
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+*/
+
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+declare(ħ,constant);
+assume(ħ > 0);
+
+/* Declare position and momentum operators. */
+declare([Qx,Qy,Qz,Px,Py,Pz],linear);
+declare([Qx,Qy,Qz,Px,Py,Pz],operator);
+
+/* Predicates for detecting these operators */
+Qx_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qx);
+Qy_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qy);
+Qz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Qz);
+
+Px_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Px);
+Py_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Py);
+Pz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Pz);
+
+/* Give them formulas */
+
+put(Px, lambda([q], -%i*ħ*diff(q,x)), 'formula);
+put(Py, lambda([q], -%i*ħ*diff(q,y)), 'formula);
+put(Pz, lambda([q], -%i*ħ*diff(q,z)), 'formula);
+
+put(Qx, lambda([q], x*q), 'formula);
+put(Qy, lambda([q], y*q), 'formula);
+put(Qz, lambda([q], z*q), 'formula);
+
+/*Pauli matrices */
+declare([σx,σy,σz],linear, [σx,σy,σz], operator);
+put(σx, lambda([q], σx.q), 'formula);
+put(σy, lambda([q], σy.q), 'formula);
+put(σz, lambda([q], σz.q), 'formula);
+
+σx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σx);
+σy_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σy);
+σz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σz);
+
+put(σx, lambda([q], matrix([0,1],[1,0]).q), formula);
+put(σy, lambda([q], matrix([0,-%i],[%i,0]).q), formula);
+put(σz, lambda([q], matrix([1,0],[0,-1]).q), formula);
+
+/* angular momentum */
+
+/*Tell Maxima that Lx, Ly, and Lz are linear operators.*/
+declare([Lx, Ly, Lz],linear, [Lx, Ly, Lz],operator);
+
+Lx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lx);
+Ly_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Ly);
+Lz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lz);
+
+/*Give Lx, Ly, and Lz formula */
+put(Lx, lambda([q], -%i*ħ*(y * diff(q,z) - z*diff(q,y))), 'formula);
+put(Ly, lambda([q], -%i*ħ*(z * diff(q,x) - x*diff(q,z))), 'formula);
+put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
+
+/* Implement the rules 
+    Px Qx --> Qx Px  - %i*ħ
+    Px Qy --> Qy Px
+    Px Qz --> Qz Px
+    Px σx --> σx Px
+    Px σy --> σy Px
+    Px σz --> σz Px */
+
+/* Implement the rules 
+     σx^2 --> I, 
+     σx σy --> σy σx - 2 %i σz,
+     σx σz --> σz σx - 2 %i σy. */
+simp_σx(e) := block([inflag : true],
+  if σx_p(e) then first(e)
+  elseif σy_p(e) then σy(σx(first(e))) - 2*%i*σz(first(e))
+  else simpfuncall('σx,e));
+simplifying('σx, 'simp_σx);
+
+/* Implement the rules 
+   σy^2 --> I,
+   σy σz --> σz σy - 2*%i σx. */
+ simp_σy(e) := block([inflag : true],
+    if σy_p(e) then first(e)    
+    elseif σz_p(e) then σz(σy(first(e))) - 2*%i*σx(first(e))
+    else simpfuncall('σy,e));
+simplifying('σy, 'simp_σy);
+
+/* Implement the rule
+    σz σz --> 1 */
+ simp_σz(e) := block([inflag : true],
+    if σz_p(e) then first(e)    
+    else simpfuncall('σz,e));
+simplifying('σz, 'simp_σz);
