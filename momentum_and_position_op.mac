@@ -7,8 +7,10 @@
 Copyright (c) Barton Willis, 2021
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
-/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for 
+   a linear operator. Also define it to be positive*/
 declare(ħ,constant);
+assume(ħ > 0);
 
 /* The one-dimensional case */
 Q_p(e) := not mapatom(e) and inpart(e,0) = 'Q;
