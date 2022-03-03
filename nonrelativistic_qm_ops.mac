@@ -78,6 +78,7 @@ put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
 simp_σx(e) := block([inflag : true],
   if σx_p(e) then first(e)
   elseif σy_p(e) then σy(σx(first(e))) - 2*%i*σz(first(e))
+  elseif σz_p(e) then σz(σx(first(e))) - 2*%i*σy(first(e))
   else simpfuncall('σx,e));
 simplifying('σx, 'simp_σx);
 
