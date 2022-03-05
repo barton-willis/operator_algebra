@@ -25,19 +25,31 @@ Px_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Px);
 Py_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Py);
 Pz_p(e) := block([inpart : true], not mapatom(e) and inpart(e,0) = 'Pz);
 
-/* Give them formulas */
+/* Give them formulas and adjoints*/
 
 put(Px, lambda([q], -%i*ħ*diff(q,x)), 'formula);
+put(Px, Px, 'operator_adjoint);
+
 put(Py, lambda([q], -%i*ħ*diff(q,y)), 'formula);
+put(Py, Py, 'operator_adjoint);
+
 put(Pz, lambda([q], -%i*ħ*diff(q,z)), 'formula);
+put(Pz, Pz, 'operator_adjoint);
 
 put(Qx, lambda([q], x*q), 'formula);
+put(Qx, Qx, 'operator_adjoint);
+
 put(Qy, lambda([q], y*q), 'formula);
+put(Qy, Qy, 'operator_adjoint);
+
 put(Qz, lambda([q], z*q), 'formula);
+put(Qz, Qz, 'operator_adjoint);
 
 /*Pauli matrices */
 declare([σx,σy,σz],linear, [σx,σy,σz], operator);
 put(σx, lambda([q], σx.q), 'formula);
+put(σx,σx,'operator_adjoint);
+
 put(σy, lambda([q], σy.q), 'formula);
 put(σz, lambda([q], σz.q), 'formula);
 
