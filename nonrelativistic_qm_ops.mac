@@ -8,6 +8,9 @@ Copyright (c) Barton Willis, 2022
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
+/* Make sure that "." is noncommutative */
+remove(".",commutative);
+
 /* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
 declare(ħ,constant);
 assume(ħ > 0);
