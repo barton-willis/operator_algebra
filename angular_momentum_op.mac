@@ -7,8 +7,10 @@
 Copyright (c) Barton Willis, 2021
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
-/* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
+/* Declare the reduced Planck constant to be constant. That makes ħ outative for a 
+linear operator. Also, assume that ħ is positive*/
 declare(ħ,constant);
+assume(ħ > 0);
 
 Lx_p(e) := not mapatom(e) and inpart(e,0) = 'Lx;
 Ly_p(e) := not mapatom(e) and inpart(e,0) = 'Ly;
@@ -19,9 +21,14 @@ Lz_p(e) := not mapatom(e) and inpart(e,0) = 'Lz;
 declare([Lx, Ly, Lz],linear);
 declare([Lx, Ly, Lz],operator);
 
+/* Give Lx, Ly, and Lz formulas and adjoints */
 put(Lx, lambda([q], -%i*ħ*(y * diff(q,z) - z*diff(q,y))), 'formula);
 put(Ly, lambda([q], -%i*ħ*(z * diff(q,x) - x*diff(q,z))), 'formula);
 put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
+
+put(Lx, Lx, 'operator_adjoint);
+put(Ly, Ly, 'operator_adjoint);
+put(Lz, Lz, 'operator_adjoint);
 
 /* Implement the rules Lz Ly --> Ly Lz -%i ħ Lx and Lz Lx --> Lx Lz + %i ħ Ly */
 simp_Lz(e) :=
