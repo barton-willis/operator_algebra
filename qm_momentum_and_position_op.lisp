@@ -82,7 +82,7 @@
         (setq e (cadr e))
 
        (cond ((position-p (first b)) ; Do U[n] q --> q U[n]
-                ;; The call to $expand xxx 0 0 is disapointing, but try
+                ;; The call to $expand xxx 0 0 is disappointing, but try
                 ;; operator_simplify(U[n] . q^^4) without the call to $expand.
                 (take '($q) ($expand (subfunmakes '|$u| a (cdar b)) 0 0)))
 
