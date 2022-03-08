@@ -101,7 +101,7 @@ operator_express(e) := block([opsubst : true,fn],
     else 
       map('operator_express, e)));
 
-operator_adjoint(e) := block([estar],
+operator_adjoint(e) := block([estar, inflag : true],
   if operatorp(e) then (
       estar : get(e,'operator_adjoint),
       if estar = false then error("Unable to find adjoint of ",e) else estar)
