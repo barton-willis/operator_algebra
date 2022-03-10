@@ -51,10 +51,12 @@ put(Qz, Qz, 'operator_adjoint);
 /*Pauli matrices */
 declare([σx,σy,σz],linear, [σx,σy,σz], operator);
 put(σx, lambda([q], σx.q), 'formula);
-put(σx,σx,'operator_adjoint);
-
 put(σy, lambda([q], σy.q), 'formula);
 put(σz, lambda([q], σz.q), 'formula);
+
+put(σx,σx,'operator_adjoint);
+put(σy,σy,'operator_adjoint);
+put(σz,σz,'operator_adjoint);
 
 σx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σx);
 σy_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'σy);
