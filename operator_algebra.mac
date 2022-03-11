@@ -118,7 +118,7 @@ operator_adjoint(e) := block([estar, inflag : true],
    through the simplifier, and finally, the result is converted by to a dot form.
 */   
 operator_simp(e) := block([f : gensym()],
-   subst(f=1, dot_form(expand(operator_apply(e,f)))));
+   subst(f=1, dot_form(rat(operator_apply(e,f)))));
 
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */
 commutator(f,g) := operator_simp(f.g - g.f);
