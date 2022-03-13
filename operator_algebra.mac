@@ -49,7 +49,7 @@ dot_form(e) := block([inflag : true],
 
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
    operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/ 
-operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
+operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
 
   if listp(e) then (
     map(lambda([s], operator_apply(s,ψ)),e))
@@ -69,6 +69,17 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true],
       operator_apply(first(e), operator_apply(rest(e),ψ)))
     else (     
       error("I don't know how to apply ", e, " to ", ψ)))
+
+  elseif ncexptp(e) and plusp(first(e)) then (
+     [e,n] : args(e),
+     if integerp(n) and n > 0 then (
+        if evenp(n) then (
+           ee : operator_simp(e^^(n/2)),
+           ee : operator_apply(ee, operator_apply(ee, ψ)))
+        else (
+            ee : operator_simp(e^^((n+1)/2)),
+            operator_apply(operator_simp(e^^((n-1)/2)),operator_apply(ee, ψ))))
+      else error("I don't know how to apply ", e^^n, " to ", ψ)) 
 
   elseif ncexptp(e) then (
     [e,n] : args(e),
@@ -118,7 +129,7 @@ operator_adjoint(e) := block([estar, inflag : true],
    through the simplifier, and finally, the result is converted by to a dot form.
 */   
 operator_simp(e) := block([f : gensym()],
-   subst(f=1, dot_form(rat(operator_apply(e,f)))));
+   subst(f=1, dot_form(expand(operator_apply(e,f)))));
 
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */
 commutator(f,g) := operator_simp(f.g - g.f);
