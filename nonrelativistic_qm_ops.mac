@@ -84,6 +84,8 @@ put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
     Px Qx --> Qx Px  - %i*ħ
     Px Qy --> Qy Px
     Px Qz --> Qz Px
+    Px Py --> Py Px
+    Px Pz --> Pz Px
     Px σx --> σx Px
     Px σy --> σy Px
     Px σz --> σz Px */
