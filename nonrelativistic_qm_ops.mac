@@ -11,6 +11,8 @@ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 /* Make sure that "." is noncommutative */
 remove(".",commutative);
 
+commutes_with[a,b]:= false; /*backstop for undefined */
+
 /* Declare the reduced Planck constant to be constant. That makes ħ outative for a linear operator.*/
 declare(ħ,constant);
 assume(ħ > 0);
@@ -48,6 +50,85 @@ put(Qy, Qy, 'operator_adjoint);
 put(Qz, lambda([q], z*q), 'formula);
 put(Qz, Qz, 'operator_adjoint);
 
+/* Implement the rules 
+   Qx Qy --> Qy Qx
+   Qx Qz --> Qz Qy
+   Qx σx --> σx Qx
+   Qx σy --> σy Qx
+   Qx σz --> σz Qx */
+commutes_with[Qx,Qy] : true;
+commutes_with[Qx,Qz] : true;
+commutes_with[Qx,σx] : true;
+commutes_with[Qx,σy] : true;
+commutes_with[Qx,σz] : true;
+
+simp_Qx(e) := block([inflag : true],
+   if mapatom(e) then simpfuncall('Qx,e)
+   elseif commutes_with[Qx,inpart(e,0)] then (
+      inpart(e,0)(apply('Qx, args(e))))
+   else simpfuncall(Qx,e));
+simplifying('Qx, 'simp_Qx); 
+
+/* Implement the rules 
+   Qy Qz --> Qz Qy
+   Qy σx --> σx Qy
+   Qy σy --> σy Qy
+   Qy σz --> σz Qy */
+commutes_with[Qy,Qz] : true;
+commutes_with[Qy,σx] : true;
+commutes_with[Qy,σy] : true;
+commutes_with[Qy,σz] : true;
+
+simp_Qy(e) := block([inflag : true],
+   if mapatom(e) then simpfuncall('Qy,e)
+   elseif commutes_with[Qy,inpart(e,0)] then (
+      inpart(e,0)(apply('Qy, args(e))))
+   else simpfuncall(Qy,e));
+simplifying('Qy, 'simp_Qy); 
+
+/* Implement the rules 
+   Qz σx --> σx Qz
+   Qz σy --> σy Qz
+   Qz σz --> σz Qz */
+commutes_with[Qz,σx] : true;
+commutes_with[Qz,σy] : true;
+commutes_with[Qz,σz] : true;
+
+simp_Qz(e) := block([inflag : true],
+   if mapatom(e) then simpfuncall('Qz,e)
+   elseif commutes_with[Qz,inpart(e,0)] then (
+      inpart(e,0)(apply('Qz, args(e))))
+   else simpfuncall(Qz,e));
+simplifying('Qz, 'simp_Qz);
+
+/* Implement the rules 
+    Px Qx --> Qx Px  - %i*ħ
+    Px Qy --> Qy Px
+    Px Qz --> Qz Px
+    Px Py --> Py Px
+    Px Pz --> Pz Px
+    Px σx --> σx Px
+    Px σy --> σy Px
+    Px σz --> σz Px */
+
+commutes_with[Px,Py] : true;
+commutes_with[Px,Pz] : true;
+commutes_with[Px,Qy] : true;
+commutes_with[Px,Qz] : true;
+commutes_with[Px,σx] : true;
+commutes_with[Px,σy] : true;
+commutes_with[Px,σz] : true;
+
+simp_Px(e) := block([inflag : true],
+    if mapatom(e) then simpfuncall('Px,e)
+    elseif Qx_p(e) then Qx(Px(first(e))) - %i*ħ*first(e)
+    elseif commutes_with[Px,inpart(e,0)] then (
+      inpart(e,0)(apply('Px, args(e))))
+  else simpfuncall('Px,e));
+simplifying('Px, 'simp_Px);
+
+
+
 /*Pauli matrices */
 declare([σx,σy,σz],linear, [σx,σy,σz], operator);
 put(σx, lambda([q], σx.q), 'formula);
@@ -75,20 +156,30 @@ Lx_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lx);
 Ly_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Ly);
 Lz_p(e) := block([inflag : true], not mapatom(e) and inpart(e,0) = 'Lz);
 
+/* Give Lx, Ly, and Lz adjoints. */
+put(Lx, Lx, 'operator_adjoint);
+put(Ly, Ly, 'operator_adjoint);
+put(Lz, Lz, 'operator_adjoint);
+
 /*Give Lx, Ly, and Lz formula */
 put(Lx, lambda([q], -%i*ħ*(y * diff(q,z) - z*diff(q,y))), 'formula);
 put(Ly, lambda([q], -%i*ħ*(z * diff(q,x) - x*diff(q,z))), 'formula);
 put(Lz, lambda([q], -%i*ħ*(x * diff(q,y) - y*diff(q,x))), 'formula);
 
-/* Implement the rules 
-    Px Qx --> Qx Px  - %i*ħ
-    Px Qy --> Qy Px
-    Px Qz --> Qz Px
-    Px Py --> Py Px
-    Px Pz --> Pz Px
-    Px σx --> σx Px
-    Px σy --> σy Px
-    Px σz --> σz Px */
+/* Implement the rules Lz Ly --> Ly Lz -%i ħ Lx and Lz Lx --> Lx Lz + %i ħ Ly */
+simp_Lz(e) :=
+  if Ly_p(e) then Ly(Lz(first(e))) - %i*ħ*Lx(first(e))
+  elseif Lx_p(e) then Lx(Lz(first(e))) + %i*ħ*Ly(first(e))
+  else simpfuncall('Lz,e);
+simplifying('Lz, 'simp_Lz);
+
+/* Implement the rule Ly Lx --> Lx Ly - %i ħ Lz */
+ simp_Ly(e) :=
+    if Lx_p(e) then Lx(Ly(first(e))) - %i*ħ*Lz(first(e))
+    else simpfuncall('Ly,e);
+simplifying('Ly, 'simp_Ly);
+
+
 
 /* Implement the rules 
      σx^2 --> I, 
