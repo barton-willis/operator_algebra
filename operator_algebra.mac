@@ -54,6 +54,9 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
   if listp(e) then (
     map(lambda([s], operator_apply(s,ψ)),e))
 
+   elseif subvarp(e) and not mapatom(e) and operatorp(inpart(e,0)) then (
+      simpfunmake(e,[ψ]))
+
   elseif constantp(e) then (
     e*ψ)
 

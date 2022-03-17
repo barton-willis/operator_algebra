@@ -1,0 +1,19 @@
+/* Maxima code for working with the derivative operator
+
+   Barton Willis
+   Professor of Mathematics
+   University of Nebraska at Kearney
+
+Copyright (c) Barton Willis, 2022
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+*/
+/* Don't declare D linear--that makes it linear in its subscript! */
+declare(D, operator);
+
+D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
+
+ simp_D(e) := block([],
+   print("e = ",e),
+   simpfuncall(D[99],e));
+
+simplifying('D, 'simp_D);
