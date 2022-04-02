@@ -198,6 +198,15 @@ xx : operator_apply(σ[x].σ[y] - σ[y].σ[x], X);
 dot_form(xx);
 σ[x].σ[y] . X  - σ[y].σ[x] . X$
 
+(declare(W, operator), declare(W, linear), 0);
+0$
+
+operator_apply([W, W.W, W^^4], 107);
+[W(107), W(W(107)), W(W(W(W(107))))]$
+
+operator_apply([W, W.W], a-b);
+[W(a)-W(b), W(W(a)) - W(W(b))]$
+
 (kill(all),0);
 0$
 
