@@ -207,6 +207,45 @@ operator_apply([W, W.W, W^^4], 107);
 operator_apply([W, W.W], a-b);
 [W(a)-W(b), W(W(a)) - W(W(b))]$
 
+(declare(Wc, operator), declare(Wc, linear),0);
+0$
+
+(put(W,Wc, 'operator_adjoint), put(Wc, W, 'operator_adjoint),0);
+0$
+
+operator_adjoint(%pi);
+%pi$
+
+operator_adjoint(%i);
+-%i$
+
+operator_adjoint(%i*%pi);
+-%i * %pi$
+
+operator_adjoint(W);
+Wc$
+
+operator_adjoint(Wc);
+W$
+
+operator_adjoint(W+Wc);
+W+Wc$
+
+operator_adjoint(W-Wc);
+Wc-W$
+
+operator_adjoint(W-Wc);
+Wc-W$
+
+operator_adjoint(W.Wc);
+W.Wc$
+
+operator_adjoint(W + %i*Wc);
+Wc - %i*W$
+
+operator_adjoint(5*W + 7*Wc);
+5*Wc + 7*W$
+
 (kill(all),0);
 0$
 
