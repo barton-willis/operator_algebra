@@ -1,3 +1,6 @@
+(load('operator_algebra),0);
+0$
+
 (declare([F,G,H], operator),0);
 0$
 

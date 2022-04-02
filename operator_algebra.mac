@@ -4,11 +4,12 @@
    Professor of Mathematics
    University of Nebraska at Kearney
 
-Copyright (c) Barton Willis, 2021
+Copyright (c) Barton Willis, 2021, 2022
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
-/* Eliminate some warnings from the translator. */
+/* There is no advantage to translating this code. But should a user translate this 
+file, the following eliminates some warnings from the translator. */
 eval_when(translate,
           declare_translated(operator_formula,dot_form,operator_apply,
                              operator_express,operator_adjoint))$
@@ -25,16 +26,20 @@ declare(operator, feature);
 
 operatorp(e) := (mapatom(e) and featurep(e,'operator)) or (subvarp(e) and featurep(inpart(e,0) ,'operator));
 
-plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
-timesp(e) :=  (not mapatom(e)) and inpart(e,0) = "*";
-nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
-ncexptp(e) :=  (not mapatom(e)) and inpart(e,0) = "^^";
+/* Predicates for detecting expressions whose operator is +,*,.,and ^^. 
+   The function inpart looks at the internal form of an expression, so these
+   predicates work the same regardless of the setting of inflag.*/
 
-operator_formula(fn) :=
-  if symbolp(fn) then (
+plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
+timesp(e) := (not mapatom(e)) and inpart(e,0) = "*";
+nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
+ncexptp(e) := (not mapatom(e)) and inpart(e,0) = "^^";
+
+/* Return the formula (a lambda form) for an operator fn. If no formula
+   has been declared or if fn isn't an operator, return false. */
+get_operator_formula(fn) :=
+  if symbolp(fn) and operatorp(fn) then (
     get(fn, 'formula))
-  elseif subvarp(fn) then (
-    apply(operator_formula(op(fn)), args(fn)))
   else false;
 
 /* Convert an expression e from a functional form to a "dot" form; for example,
@@ -55,13 +60,13 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
     map(lambda([s], operator_apply(s,ψ)),e))
 
    elseif subvarp(e) and not mapatom(e) and operatorp(inpart(e,0)) then (
-      simpfunmake(e,[ψ]))
+      funmake(e,[ψ]))
 
   elseif constantp(e) then (
     e*ψ)
 
   elseif operatorp(e) then (
-    simpfunmake(e,[ψ]))
+    funmake(e,[ψ]))
 
   elseif plusp(e) then (
      map(lambda([q], operator_apply(q,ψ)), e))
@@ -109,9 +114,9 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
 operator_express(e) := block([opsubst : true,fn],
    if mapatom(e) then e
    else (
-      fn : inpart(e,0),
-      if operatorp(fn) and get(fn,'formula) # false then (
-        get(fn, 'formula)(operator_express(first(e))))
+      fn : get_operator_formula(inpart(e,0)),
+      if fn # false then (
+        fn(operator_express(first(e))))
     else 
       map('operator_express, e)));
 
