@@ -32,6 +32,7 @@ operatorp(e) := (mapatom(e) and featurep(e,'operator)) or (subvarp(e) and featur
 
 plusp(e) := (not mapatom(e)) and inpart(e,0) = "+";
 timesp(e) := (not mapatom(e)) and inpart(e,0) = "*";
+exptp(e) := (not mapatom(e)) and inpart(e,0) = "^";
 nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
 ncexptp(e) := (not mapatom(e)) and inpart(e,0) = "^^";
 

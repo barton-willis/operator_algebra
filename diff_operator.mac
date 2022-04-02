@@ -7,13 +7,25 @@
 Copyright (c) Barton Willis, 2022
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
-/* Don't declare D linear--that makes it linear in its subscript! */
+
 declare(D, operator);
+declare(D, linear);
+put(D, lambda([q], block([g : gensym(), fn],
+    fn : diff(apply(q,[g]),g),
+    buildq([g,fn], lambda([g], fn)))), 'formula);
 
 D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
 
- simp_D(e) := block([],
-   print("e = ",e),
-   simpfuncall(D[99],e));
+ simp_D(e) := block([n,inflag : true],
+   /* constant rule */
+   if constantp(e) then 0 
+   /* product rule */
+   elseif timesp(e) then (
+      D(first(e)) * rest(e) + first(e) * D(rest(e)))
+   /* power rule */   
+   elseif exptp(e)  then (
+      n : second(e),
+      n * first(e)^(n-1) * D(first(e)))
+   else simpfuncall(D,e));
 
 simplifying('D, 'simp_D);
