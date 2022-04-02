@@ -246,6 +246,12 @@ Wc - %i*W$
 operator_adjoint(5*W + 7*Wc);
 5*Wc + 7*W$
 
+operator_adjoint(W^^4);
+Wc^^4$
+
+operator_adjoint(23*W^^4);
+23*Wc^^4$
+
 (kill(all),0);
 0$
 
