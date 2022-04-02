@@ -10,11 +10,15 @@ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 
 declare(D, operator);
 declare(D, linear);
+
+infix("◦"); 
+
 put(D, lambda([q], block([g : gensym(), fn],
     fn : diff(apply(q,[g]),g),
     buildq([g,fn], lambda([g], fn)))), 'formula);
 
 D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
+composition_p(e) := not mapatom(e) and inpart(e,0) = "◦";
 
  simp_D(e) := block([n,inflag : true],
    /* constant rule */
@@ -26,6 +30,9 @@ D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
    elseif exptp(e)  then (
       n : second(e),
       n * first(e)^(n-1) * D(first(e)))
+   /* chain rule */    
+   elseif composition_p(e) then (
+      D(second(e)) * D(first(e)) ◦ second(e)) 
    else simpfuncall(D,e));
 
 simplifying('D, 'simp_D);
