@@ -8,21 +8,45 @@ Copyright (c) Barton Willis, 2022
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
+/* Declare D to be an operator--it's the derivative operator. We'll declare it
+   to be linear. */
 declare(D, operator);
-declare(D, linear);
+/* declare(D, linear); */
 
-infix("◦"); 
+/* Define an infix operator for function composition. We could use ".", but let's 
+try using "◦" instead. I'm not sure about good values for lbp and rbp. Choosing
+rbp > lbp makes F ◦ G ◦ H parenthesize as (F ◦ G) ◦ H. */
+
+infix("◦",200,201,'expr,'expr, 'expr); 
+
+/* How can I extract this from the symbol property grad data? Oh, sure--I can do it.*/
+put('sin, 'cos, 'derivative);
+put('cos, -1*'sin, 'derivative);
+put('tan, 1/cos^2, 'derivative);
+put('log, 1/id, 'derivative);
+put('id, 1, 'derivative);
 
 put(D, lambda([q], block([g : gensym(), fn],
     fn : diff(apply(q,[g]),g),
     buildq([g,fn], lambda([g], fn)))), 'formula);
 
+/* Predicates for detecting expressions whose operator is D and ◦ .
+   The function inpart looks at the internal form of an expression, so these
+   predicates work the same regardless of the setting of inflag.*/
+
 D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
+
 composition_p(e) := not mapatom(e) and inpart(e,0) = "◦";
 
- simp_D(e) := block([n,inflag : true],
+/* Simplify a D expression. I might like to allow D to be subscripted, with
+   D[n] being the n-th derivative.*/
+ simp_D(e) := block([n,inflag : true,df],
    /* constant rule */
    if constantp(e) then 0 
+   /* derivative look up */
+   elseif mapatom(e) then (
+      df : get(e, 'derivative),
+      if df # false then df else simpfuncall(D,e))
    /* product rule */
    elseif timesp(e) then (
       D(first(e)) * rest(e) + first(e) * D(rest(e)))
