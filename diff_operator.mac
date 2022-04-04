@@ -35,8 +35,10 @@ put(D, lambda([q], block([g : gensym(), fn],
    predicates work the same regardless of the setting of inflag.*/
 
 D_p(e) := not mapatom(e) and inpart(e,0) = 'D;
-
 composition_p(e) := not mapatom(e) and inpart(e,0) = "◦";
+
+/* The adjoint of D is -D. */
+put(D, -D, operator_adjoint);
 
 /* Simplify a D expression. I might like to allow D to be subscripted, with
    D[n] being the n-th derivative.*/
@@ -60,3 +62,11 @@ composition_p(e) := not mapatom(e) and inpart(e,0) = "◦";
    else simpfuncall(D,e));
 
 simplifying('D, 'simp_D);
+
+function_apply(fn,x) := block([inflag : true],
+   if constantp(fn) then (
+     fn)  
+   elseif mapatom(fn) then (
+     funmake(fn,[x]))
+   else (
+      map(lambda([q], function_apply(q,x)), fn)));

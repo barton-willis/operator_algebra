@@ -94,8 +94,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
     [e,n] : args(e),
     if integerp(n) and n > 0 then (
       operator_apply(e, operator_apply(e^^(n-1), ψ)))
-    else (
-      error("I don't know how to apply ", e^^n, " to ", ψ)))
+    else ((e^^n)(ψ)))
 
   elseif nctimesp(e) then (
       operator_apply(first(e), operator_apply(rest(e), ψ)))
