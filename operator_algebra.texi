@@ -1,5 +1,5 @@
 \input texinfo
-@settitle Sample Manual 1.0
+@settitle Package operator_algebra
 
 @chapter Package operator_algebra
 
