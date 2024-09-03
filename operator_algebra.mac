@@ -35,6 +35,7 @@ timesp(e) := (not mapatom(e)) and inpart(e,0) = "*";
 exptp(e) := (not mapatom(e)) and inpart(e,0) = "^";
 nctimesp(e) := (not mapatom(e)) and inpart(e,0) = ".";
 ncexptp(e) := (not mapatom(e)) and inpart(e,0) = "^^";
+operator_adjointp(e) := (not mapatom(e)) and inpart(e,0) = 'operator_adjoint;
 
 /* Return the formula (a lambda form) for an operator fn. If no formula
    has been declared or if fn isn't an operator, return false. */
@@ -120,6 +121,7 @@ operator_express(e) := block([opsubst : true,fn],
     else 
       map('operator_express, e)));
 
+/* old code commented out for now--should delete after more testing!
 operator_adjoint(e) := block([estar, inflag : true],
   if operatorp(e) then (
       estar : get(e,'operator_adjoint),
@@ -130,7 +132,38 @@ operator_adjoint(e) := block([estar, inflag : true],
     conjugate(first(e)) * operator_adjoint(rest(e)))
   elseif nctimesp(e) then map('operator_adjoint, reverse(e))
   elseif ncexptp(e) then operator_adjoint(first(e))^^second(e)
-  else error("Unable to find adjoint of ",e));
+  else error("Unable to find adjoint of ",e)); */
+
+simp_op_adjoint(e) := block([estar],
+   /* e is an operator--look to see if it has a declared operator adjoint */
+  if operatorp(e) then (
+      estar : get(e,'operator_adjoint),
+      if estar = false then simpfuncall('operator_adjoint,e) else estar)
+   /* operator_adjoint(maptom) = conjugate(mapatom)*/
+   elseif mapatom(e) then (
+      conjugate(e))
+   /* for a matrix, map operator_adjoint onto the matrix & transpose */
+   elseif matrixp(e) then (
+       block(matrix_element_transpose : 'operator_adjoint, transpose(e)))
+   /* operator_adjoint is an involution */
+   elseif operator_adjointp(e) then (
+        first(e))
+    /* operator_adjointp is additive and multiplicative */
+   elseif plusp(e) or timesp(e) then (
+        map('operator_adjoint, e))
+    /* operator_adjointp(a.b) = operator_adjointp(b).operator_adjointp(a) */
+    elseif nctimesp(e) then (
+        apply(".", map('operator_adjoint, reverse(args(e)))))
+    /* operator_adjointp(a^b) = operator_adjointp(a)^b, where 'b' is a declared integer */
+    elseif exptp(e) and featurep(second(e), 'integer) then (
+        operator_adjoint(first(e))^second(e))
+     /* operator_adjoint(a^^b) = operator_adjoint(a)^^b, where 'b' is a declared integer */
+    elseif ncexptp(e) and featurep(second(e), 'integer) then (
+       operator_adjoint(first(e))^^second(e))    
+    /* what did I forget? Not sure--return a operator_adjointp nounform for all others */
+    else (simpfuncall('operator_adjoint, e)))$
+
+simplifying('operator_adjoint,'simp_op_adjoint)$
 
 /* For an operator in dot form, return a simplified version of e. The operator
    e is applied to a gensym, that is converted to a functional form and sent

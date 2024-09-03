@@ -112,11 +112,11 @@ F(G(F(x)))$
 operator_apply(F^^3,x);
 F(F(F(x)))$
 
-errcatch(operator_apply(F^^(3/2),x));
-[]$
+operator_apply(F^^(3/2),x);
+(F^^(3/2))(x)$
 
-errcatch(operator_apply(F^^a,x));
-[]$
+operator_apply(F^^a,x);
+(F^^(a))(x)$
 
 dot_form(F(x));
 F.x$
