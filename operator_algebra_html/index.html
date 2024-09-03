@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Sample Manual 1.0</title>
+
+<meta name="description" content="Sample Manual 1.0">
+<meta name="keywords" content="Sample Manual 1.0">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+
+<div class="chapter-level-extent" id="Package-operator_005falgebra">
+<h2 class="chapter"><span>1 Package operator_algebra<a class="copiable-link" href="#Package-operator_005falgebra"> &para;</a></span></h2>
+
+
+<ul class="mini-toc">
+<li><a href="#Introduction-to-package-operator_005falgebra" accesskey="1">Introduction to package operator_algebra</a></li>
+<li><a href="#Installation" accesskey="2">Installation</a></li>
+<li><a href="#Basic-usage" accesskey="3">Basic usage</a></li>
+<li><a href="#Functions-and-Variables-for-operator_005falgebra" accesskey="4">Functions and Variables for operator_algebra</a></li>
+</ul>
+<div class="section-level-extent" id="Introduction-to-package-operator_005falgebra">
+<h3 class="section"><span>1.1 Introduction to package operator_algebra<a class="copiable-link" href="#Introduction-to-package-operator_005falgebra"> &para;</a></span></h3>
+
+<p>xXX
+The operator_algebra package provides support for working with operators, especially 
+quantum mechanical operators. In the context of this package, an operator is a linear 
+function, but mathematical necessities, such as the specifying domains and codomains is
+not supported.
+</p>
+
+</div>
+<div class="section-level-extent" id="Installation">
+<h3 class="section"><span>1.2 Installation<a class="copiable-link" href="#Installation"> &para;</a></span></h3>
+
+<p>To install the operator_algebra package, copy the folder <code class="code">operator_algebra</code> to a place that Maxima
+can find. To use the package, you must manually load it. This is done with the command
+</p><div class="example">
+<pre class="example-preformatted">(%i1)  load(&quot;operator_algebra&quot;)$
+</pre></div>
+<p>To run the regression tests for the package, issue the command
+</p><div class="example">
+<pre class="example-preformatted">(%i2) batch(&quot;rtest_operator_algebra&quot;, 'test)$
+</pre></div>
+
+</div>
+<div class="section-level-extent" id="Basic-usage">
+<h3 class="section"><span>1.3 Basic usage<a class="copiable-link" href="#Basic-usage"> &para;</a></span></h3>
+
+<p>Function composition of operators is denoted by <code class="code">&quot;.&quot;</code>, Maxima&rsquo;s generic noncommutative 
+multiplication operator; and the composition of an operator with itself is denoted by <code class="code">&quot;^^&quot;</code>,
+Maxima&rsquo;s generic noncommutative exponentiation operator. As such, the settings of the option
+variables <code class="code">dot0nscsimp, dot1simp, dot0simp,  dot1simp,  dotassoc,  dotconstrules, dotdistrib,
+dotexptsimp,  dotident</code>, and <code class="code"> dotscrules</code> can alter the way Maxima simplifies compositions of 
+operators.
+</p>
+<p>To declare that <code class="code">f</code> and <code class="code">g</code> are operators, these symbols must be declared. The package
+defines <code class="code">operator</code> to be a feature, so we can declare <code class="code">f</code> and <code class="code">g</code> to be operators
+and <code class="code">α</code> and <code class="code">β</code> to be constant using
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	declare([f,g],operator)$
+(%i2)	declare([α,β], constant)$
+</pre></div>
+
+<p>Now we can compute some commutators:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i3)	commutator(α*f, β*g);
+(%o3)	α*β*(f . g)-α*β*(g . f)
+
+(%i4)	commutator(f, f);
+(%o4)	0
+
+(%i5)	commutator(f,f^^2);
+(%o5)	0
+
+(%i6)	commutator(f + g, g);
+(%o6)	-(g . (g+f))+g^^2+f . g
+
+(%i7)	expand(%);
+(%o7)	f . g - g . f
+</pre></div>
+<p>In the last example, we see that a user must sometimes manually use <code class="code">expand</code> to fully 
+simplify operators. As an alternative to manually expanding, a user can set the value
+of the option variable <code class="code">[dotdistrib</code> to true:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i8)	block([dotdistrib : true], commutator(f +g, g));
+(%o8)	f . g - g . f
+</pre></div>
+
+<p>We can give an operator a formula by using <code class="code">put</code>. For example to define an operator <code class="code">Dx</code>
+that differentiates with respect to <code class="code">x</code> and an operator <code class="code">X</code> that multiplies an expression
+by <code class="code">X</code>, we first need to declare <code class="code">Dx</code> and <code class="code">X</code> to be operators; after that we can
+define formulas for them using <code class="code">put</code>:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	declare(Dx, operator, X, operator)$
+
+(%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
+(%o2)	lambda([q],'diff(q,x,1))
+
+(%i3)	put(X, lambda([q],  x*q), 'formula);
+(%o3)	lambda([q],x*q)
+</pre></div>
+<p>The function <code class="code">operator_apply</code> applies a function to an argument:
+</p><div class="example">
+<pre class="example-preformatted">(%i4)	operator_apply(Dx, x^2);
+(%o4)	Dx(x^2)
+</pre></div>
+<p>To use the formula for <code class="code">Dx</code>, use the function <code class="code">operator_express</code>:
+</p><div class="example">
+<pre class="example-preformatted">(%i5)	operator_express(%);
+(%o5)	2*x
+</pre></div>
+<p>Finally, an example that uses both operators <code class="code">Dx</code> and <code class="code">X</code>:
+</p><div class="example">
+<pre class="example-preformatted">(%i6)	operator_apply(X.Dx.X, x^2);
+(%o6)	X(Dx(X(x^2)))
+
+(%i7)	operator_express(%);
+(%o7)	3*x^3
+</pre></div>
+
+
+
+</div>
+<div class="section-level-extent" id="Functions-and-Variables-for-operator_005falgebra">
+<h3 class="section"><span>1.4 Functions and Variables for operator_algebra<a class="copiable-link" href="#Functions-and-Variables-for-operator_005falgebra"> &para;</a></span></h3>
+
+<h4 class="subheading" id="Predicates"><span>Predicates<a class="copiable-link" href="#Predicates"> &para;</a></span></h4>
+<p>The <code class="code">operator_algebra</code> package defines a predicate <code class="code">operatorp</code> for detecting if a symbol is a declared operator as well
+as five general purpose predicates <code class="code">exptp, ncexptp, nctimesp, timesp</code>, and <code class="code">plusp</code> that return <code class="code">true</code> if and
+only if the main operator of a Maxima expression is <code class="code">^, ^^, .,</code> and <code class="code">+</code>, respectively.
+</p>
+<dl class="first-deffn">
+<dt class="deffn" id="index-exptp"><span class="category-def">Function: </span><span><strong class="def-name">exptp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-exptp"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">exptp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<em class="math">^</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	exptp(x);
+(%o1)	false
+
+(%i2)	exptp(x^2);
+(%o2)	true
+</pre></div>
+
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-ncexptp"><span class="category-def">Function: </span><span><strong class="def-name">ncexptp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-ncexptp"> &para;</a></span></dt>
+<dd>
+<p>The function call <em class="math">ncexptp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
+<em class="math">^^</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	ncexptp(x^2);
+(%o1)	false
+
+(%i2)	ncexptp(x^^2);
+(%o2)	true
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-nctimesp"><span class="category-def">Function: </span><span><strong class="def-name">nctimesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-nctimesp"> &para;</a></span></dt>
+<dd>
+<p>The function call <em class="math">nctimesp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
+<em class="math">.</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	nctimesp(x * y);
+(%o1)	false
+
+(%i2)	nctimesp(x . y);
+(%o2)	true
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-timesp"><span class="category-def">Function: </span><span><strong class="def-name">timesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-timesp"> &para;</a></span></dt>
+<dd>
+<p>The function call <em class="math">timesp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
+<em class="math">*</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	timesp(x * y);
+(%o1)	true
+
+(%i2)	timesp(x . y);
+(%o2)	false
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-plusp"><span class="category-def">Function: </span><span><strong class="def-name">plusp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-plusp"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">plusp(e)</code> returns true if the operator of the expression <em class="math">e</em> is 
+<code class="code">+</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p><div class="example">
+<pre class="example-preformatted">(%i1)	plusp(1);
+(%o1)	false
+
+(%i2)	plusp(1+x);
+(%o2)	true
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-operatorp"><span class="category-def">Function: </span><span><strong class="def-name">operatorp</strong> <var class="def-var-arguments">(e)</var><a class="copiable-link" href="#index-operatorp"> &para;</a></span></dt>
+<dd>
+<p>The function call <em class="math">operatorp (e)</em> returns true if the input 
+<em class="math">e</em> is a declared operator; otherwise it returns false.
+</p>
+</dd></dl>
+
+<p><strong class="strong">Examples</strong>
+</p><div class="example">
+<div class="group"><pre class="example-preformatted">(%i1)	operatorp(q);
+(%o1)	true
+
+(%i2)	declare(q,operator);
+(%o2)	done
+
+(%i3)	operatorp(q);
+(%o3)	true
+</pre></div><pre class="example-preformatted">
+The predicate <em class="math">operatorp</em> does <em class="emph">not</em> recognize linear combinations or composistions of operators to be an operator; for example
+
+</pre><div class="group"><pre class="example-preformatted">(%i4)	operatorp(5*q);
+(%o4)	false
+</pre></div></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-commutator"><span class="category-def">Function: </span><span><strong class="def-name">commutator</strong> <var class="def-var-arguments">(<code class="code">f,g</code>)</var><a class="copiable-link" href="#index-commutator"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">commutator(f,g)</code> returns <code class="code">operator_simp(f.g - g.f)</code>. 
+</p></dd></dl>
+
+
+
+</div>
+</div>
+
+
+
+</body>
+</html>

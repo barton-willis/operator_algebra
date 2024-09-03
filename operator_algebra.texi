@@ -1,0 +1,233 @@
+\input texinfo
+@settitle Sample Manual 1.0
+
+@chapter Package operator_algebra
+
+
+@section Introduction to package operator_algebra
+
+The operator_algebra package provides support for working with operators, especially 
+quantum mechanical operators. In the context of this package, an operator is a linear 
+function, but mathematical necessities, such as the specifying domains and codomains is
+not supported.
+
+
+@section Installation 
+
+To install the operator_algebra package, copy the folder @code{operator_algebra} to a place that Maxima
+can find. To use the package, you must manually load it. This is done with the command
+@example
+(%i1)  load("operator_algebra")$
+@end example
+To run the regression tests for the package, issue the command
+@example
+(%i2) batch("rtest_operator_algebra", 'test)$
+@end example
+
+@section Basic usage
+
+Function composition of operators is denoted by @code{"."}, Maxima's generic noncommutative 
+multiplication operator; and the composition of an operator with itself is denoted by @code{"^^"},
+Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
+variables @code{dot0nscsimp, dot1simp, dot0simp,  dot1simp,  dotassoc,  dotconstrules, dotdistrib,
+dotexptsimp,  dotident}, and @code{ dotscrules} can alter the way Maxima simplifies compositions of 
+operators.
+
+To declare that @code{f} and @code{g} are operators, these symbols must be declared. The package
+defines @code{operator} to be a feature, so we can declare @code{f} and @code{g} to be operators
+and @code{α} and @code{β} to be constant using
+
+@example
+(%i1)	declare([f,g],operator)$
+(%i2)	declare([α,β], constant)$
+@end example
+
+Now we can compute some commutators:
+
+@example
+(%i3)	commutator(α*f, β*g);
+(%o3)	α*β*(f . g)-α*β*(g . f)
+
+(%i4)	commutator(f, f);
+(%o4)	0
+
+(%i5)	commutator(f,f^^2);
+(%o5)	0
+
+(%i6)	commutator(f + g, g);
+(%o6)	-(g . (g+f))+g^^2+f . g
+
+(%i7)	expand(%);
+(%o7)	f . g - g . f
+@end example
+In the last example, we see that a user must sometimes manually use @code{expand} to fully 
+simplify operators. As an alternative to manually expanding, a user can set the value
+of the option variable @code{[dotdistrib} to true:
+
+@example
+(%i8)	block([dotdistrib : true], commutator(f +g, g));
+(%o8)	f . g - g . f
+@end example
+
+We can give an operator a formula by using @code{put}. For example to define an operator @code{Dx}
+that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression
+by @code{X}, we first need to declare @code{Dx} and @code{X} to be operators; after that we can
+define formulas for them using @code{put}:
+
+@example
+(%i1)	declare(Dx, operator, X, operator)$
+
+(%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
+(%o2)	lambda([q],'diff(q,x,1))
+
+(%i3)	put(X, lambda([q],  x*q), 'formula);
+(%o3)	lambda([q],x*q)
+@end example
+The function @code{operator_apply} applies a function to an argument:
+@example
+(%i4)	operator_apply(Dx, x^2);
+(%o4)	Dx(x^2)
+@end example
+To use the formula for @code{Dx}, use the function @code{operator_express}:
+@example
+(%i5)	operator_express(%);
+(%o5)	2*x
+@end example
+Finally, an example that uses both operators @code{Dx} and @code{X}:
+@example
+(%i6)	operator_apply(X.Dx.X, x^2);
+(%o6)	X(Dx(X(x^2)))
+
+(%i7)	operator_express(%);
+(%o7)	3*x^3
+@end example
+
+
+
+@section Functions and Variables for operator_algebra
+
+@subheading Predicates
+The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a declared operator as well
+as five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp}, and @code{plusp} that return @code{true} if and
+only if the main operator of a Maxima expression is @code{^, ^^, .,} and @code{+}, respectively.
+
+@deffn {Function} exptp (@code{e})
+
+The function call @code{exptp(e)} returns true if the operator of the expression @code{e} is 
+@math{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
+@end deffn
+
+@strong{Examples}
+
+@example
+(%i1)	exptp(x);
+(%o1)	false
+
+(%i2)	exptp(x^2);
+(%o2)	true
+@end example
+
+
+@deffn {Function} ncexptp (@code{e})
+
+The function call @math{ncexptp(e)} returns true if the operator of the expression @math{e} is 
+@math{^^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function @code{inpart}, not @code{part}.
+@end deffn
+
+@strong{Examples}
+
+@example
+(%i1)	ncexptp(x^2);
+(%o1)	false
+
+(%i2)	ncexptp(x^^2);
+(%o2)	true
+@end example
+
+@deffn {Function} nctimesp (@code{e})
+
+The function call @math{nctimesp(e)} returns true if the operator of the expression @math{e} is 
+@math{.}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function @code{inpart}, not @code{part}.
+@end deffn
+
+@strong{Examples}
+
+@example
+(%i1)	nctimesp(x * y);
+(%o1)	false
+
+(%i2)	nctimesp(x . y);
+(%o2)	true
+@end example
+
+@deffn {Function} timesp (@code{e})
+
+The function call @math{timesp(e)} returns true if the operator of the expression @math{e} is 
+@math{*}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function @code{inpart}, not @code{part}.
+@end deffn
+
+@strong{Examples}
+
+@example
+(%i1)	timesp(x * y);
+(%o1)	true
+
+(%i2)	timesp(x . y);
+(%o2)	false
+@end example
+
+@deffn {Function} plusp (@code{e})
+
+The function call @code{plusp(e)} returns true if the operator of the expression @math{e} is 
+@code{+}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
+@end deffn
+
+@strong{Examples}
+@example
+(%i1)	plusp(1);
+(%o1)	false
+
+(%i2)	plusp(1+x);
+(%o2)	true
+@end example
+
+@deffn {Function} operatorp (e)
+
+The function call @math{operatorp (e)} returns true if the input 
+@math{e} is a declared operator; otherwise it returns false.
+
+@end deffn
+
+@strong{Examples}
+@example
+@group
+(%i1)	operatorp(q);
+(%o1)	true
+
+(%i2)	declare(q,operator);
+(%o2)	done
+
+(%i3)	operatorp(q);
+(%o3)	true
+@end group
+
+The predicate @math{operatorp} does @emph{not} recognize linear combinations or composistions of operators to be an operator; for example
+
+@group
+(%i4)	operatorp(5*q);
+(%o4)	false
+@end group
+@end example
+
+@deffn {Function} commutator (@code{f,g})
+
+The function call @code{commutator(f,g)} returns @code{operator_simp(f.g - g.f)}. 
+@end deffn
+
+
+
+@bye
+
