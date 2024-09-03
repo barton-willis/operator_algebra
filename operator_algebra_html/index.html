@@ -99,7 +99,7 @@ and <code class="code">α</code> and <code class="code">β</code> to be constant
 </pre></div>
 <p>In the last example, we see that a user must sometimes manually use <code class="code">expand</code> to fully 
 simplify operators. As an alternative to manually expanding, a user can set the value
-of the option variable <code class="code">[dotdistrib</code> to true:
+of the option variable <code class="code">dotdistrib</code> to true:
 </p>
 <div class="example">
 <pre class="example-preformatted">(%i8)	block([dotdistrib : true], commutator(f +g, g));
@@ -154,7 +154,7 @@ only if the main operator of a Maxima expression is <code class="code">^, ^^, .,
 <dt class="deffn" id="index-exptp"><span class="category-def">Function: </span><span><strong class="def-name">exptp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-exptp"> &para;</a></span></dt>
 <dd>
 <p>The function call <code class="code">exptp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
-<em class="math">^</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
+<code class="code">^</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
 </p></dd></dl>
 
 <p><strong class="strong">Examples</strong>
@@ -171,8 +171,8 @@ only if the main operator of a Maxima expression is <code class="code">^, ^^, .,
 <dl class="first-deffn">
 <dt class="deffn" id="index-ncexptp"><span class="category-def">Function: </span><span><strong class="def-name">ncexptp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-ncexptp"> &para;</a></span></dt>
 <dd>
-<p>The function call <em class="math">ncexptp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
-<em class="math">^^</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+<p>The function call <code class="code">ncexptp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<code class="code">^^</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function <code class="code">inpart</code>, not <code class="code">part</code>.
 </p></dd></dl>
 
@@ -189,8 +189,8 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 <dl class="first-deffn">
 <dt class="deffn" id="index-nctimesp"><span class="category-def">Function: </span><span><strong class="def-name">nctimesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-nctimesp"> &para;</a></span></dt>
 <dd>
-<p>The function call <em class="math">nctimesp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
-<em class="math">.</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+<p>The function call <code class="code">nctimesp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<code class="code">.</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function <code class="code">inpart</code>, not <code class="code">part</code>.
 </p></dd></dl>
 
@@ -207,8 +207,8 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 <dl class="first-deffn">
 <dt class="deffn" id="index-timesp"><span class="category-def">Function: </span><span><strong class="def-name">timesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-timesp"> &para;</a></span></dt>
 <dd>
-<p>The function call <em class="math">timesp(e)</em> returns true if the operator of the expression <em class="math">e</em> is 
-<em class="math">*</em>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+<p>The function call <code class="code">timesp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<code class="code">*</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function <code class="code">inpart</code>, not <code class="code">part</code>.
 </p></dd></dl>
 
@@ -225,8 +225,9 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 <dl class="first-deffn">
 <dt class="deffn" id="index-plusp"><span class="category-def">Function: </span><span><strong class="def-name">plusp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-plusp"> &para;</a></span></dt>
 <dd>
-<p>The function call <code class="code">plusp(e)</code> returns true if the operator of the expression <em class="math">e</em> is 
-<code class="code">+</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
+<p>The function call <code class="code">plusp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<code class="code">+</code>; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code class="code">inpart</code>, not <code class="code">part</code>.
 </p></dd></dl>
 
 <p><strong class="strong">Examples</strong>
@@ -241,8 +242,8 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 <dl class="first-deffn">
 <dt class="deffn" id="index-operatorp"><span class="category-def">Function: </span><span><strong class="def-name">operatorp</strong> <var class="def-var-arguments">(e)</var><a class="copiable-link" href="#index-operatorp"> &para;</a></span></dt>
 <dd>
-<p>The function call <em class="math">operatorp (e)</em> returns true if the input 
-<em class="math">e</em> is a declared operator; otherwise it returns false.
+<p>The function call <code class="code">operatorp (e)</code> returns true if the input 
+<code class="code">e</code> is a declared operator; otherwise it returns false.
 </p>
 </dd></dl>
 
@@ -257,7 +258,8 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 (%i3)	operatorp(q);
 (%o3)	true
 </pre></div><pre class="example-preformatted">
-The predicate <em class="math">operatorp</em> does <em class="emph">not</em> recognize linear combinations or composistions of operators to be an operator; for example
+The predicate <code class="code">operatorp</code> does <em class="emph">not</em> recognize linear combinations or compositions of operators to 
+be an operator; for example
 
 </pre><div class="group"><pre class="example-preformatted">(%i4)	operatorp(5*q);
 (%o4)	false

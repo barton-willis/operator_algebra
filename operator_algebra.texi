@@ -14,7 +14,7 @@ not supported.
 
 @section Installation 
 
-To install the operator_algebra package, copy the folder @code{operator_algebra} to a place that Maxima
+To install the operator_algebra package, copy the folder @file{operator_algebra} to a place that Maxima
 can find. To use the package, you must manually load it. This is done with the command
 @example
 (%i1)  load("operator_algebra")$
@@ -62,7 +62,7 @@ Now we can compute some commutators:
 @end example
 In the last example, we see that a user must sometimes manually use @code{expand} to fully 
 simplify operators. As an alternative to manually expanding, a user can set the value
-of the option variable @code{[dotdistrib} to true:
+of the option variable @code{dotdistrib} to true:
 
 @example
 (%i8)	block([dotdistrib : true], commutator(f +g, g));
@@ -114,7 +114,7 @@ only if the main operator of a Maxima expression is @code{^, ^^, .,} and @code{+
 @deffn {Function} exptp (@code{e})
 
 The function call @code{exptp(e)} returns true if the operator of the expression @code{e} is 
-@math{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
+@code{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
 @end deffn
 
 @strong{Examples}
@@ -130,8 +130,8 @@ The function call @code{exptp(e)} returns true if the operator of the expression
 
 @deffn {Function} ncexptp (@code{e})
 
-The function call @math{ncexptp(e)} returns true if the operator of the expression @math{e} is 
-@math{^^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{ncexptp(e)} returns true if the operator of the expression @code{e} is 
+@code{^^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
@@ -147,8 +147,8 @@ function @code{inpart}, not @code{part}.
 
 @deffn {Function} nctimesp (@code{e})
 
-The function call @math{nctimesp(e)} returns true if the operator of the expression @math{e} is 
-@math{.}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{nctimesp(e)} returns true if the operator of the expression @code{e} is 
+@code{.}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
@@ -164,8 +164,8 @@ function @code{inpart}, not @code{part}.
 
 @deffn {Function} timesp (@code{e})
 
-The function call @math{timesp(e)} returns true if the operator of the expression @math{e} is 
-@math{*}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{timesp(e)} returns true if the operator of the expression @code{e} is 
+@code{*}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
@@ -181,8 +181,9 @@ function @code{inpart}, not @code{part}.
 
 @deffn {Function} plusp (@code{e})
 
-The function call @code{plusp(e)} returns true if the operator of the expression @math{e} is 
-@code{+}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
+The function call @code{plusp(e)} returns true if the operator of the expression @code{e} is 
+@code{+}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function @code{inpart}, not @code{part}.
 @end deffn
 
 @strong{Examples}
@@ -196,8 +197,8 @@ The function call @code{plusp(e)} returns true if the operator of the expression
 
 @deffn {Function} operatorp (e)
 
-The function call @math{operatorp (e)} returns true if the input 
-@math{e} is a declared operator; otherwise it returns false.
+The function call @code{operatorp (e)} returns true if the input 
+@code{e} is a declared operator; otherwise it returns false.
 
 @end deffn
 
@@ -214,7 +215,8 @@ The function call @math{operatorp (e)} returns true if the input
 (%o3)	true
 @end group
 
-The predicate @math{operatorp} does @emph{not} recognize linear combinations or composistions of operators to be an operator; for example
+The predicate @code{operatorp} does @emph{not} recognize linear combinations or compositions of operators to 
+be an operator; for example
 
 @group
 (%i4)	operatorp(5*q);
