@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Package operator_algebra</title>
+<title>Package operator_algebra: A Tool for Operator Manipulation in Maxima.</title>
 
-<meta name="description" content="Package operator_algebra">
-<meta name="keywords" content="Package operator_algebra">
+<meta name="description" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
+<meta name="keywords" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -39,18 +39,30 @@ strong.def-name {font-family: monospace; font-weight: bold; font-size: larger}
 <div class="section-level-extent" id="Introduction-to-package-operator_005falgebra">
 <h3 class="section"><span>1.1 Introduction to package operator_algebra<a class="copiable-link" href="#Introduction-to-package-operator_005falgebra"> &para;</a></span></h3>
 
-<p>The operator_algebra package provides support for working with operators, especially 
+<p>The operator_algebra package provides support for working with operators, particularly
 quantum mechanical operators. In the context of this package, an operator is a linear 
-function, but mathematical necessities, such as the specifying domains and codomains is
+function, but mathematical the necessities, such as the specifying domains and codomains, is
 not supported.
 </p>
-
+<p>As one application of this package, with a bit of programming, this package can do tasks such as 
+normally order quantum creation and annihilation operators.
+</p>
 </div>
 <div class="section-level-extent" id="Installation">
 <h3 class="section"><span>1.2 Installation<a class="copiable-link" href="#Installation"> &para;</a></span></h3>
 
-<p>To install the operator_algebra package, copy the folder <code class="code">operator_algebra</code> to a place that Maxima
-can find. To use the package, you must manually load it. This is done with the command
+<p>To install the C:/maxima/operator_algebra/*, copy the folder <samp class="file">operator_algebra</samp> to a location that Maxima
+can find. Alternatively, you can append the path to the folder <samp class="file">operator_algebra</samp> by pushing new 
+terms onto the lists <code class="code">file_search_maxima</code> and <code class="code">file_search_lisp</code>; for example, if you copy
+the operator_algebra package to the path &quot;C:/maxima/operator_algebra/*&quot;, put the commands
+</p><div class="example">
+<pre class="example-preformatted"> push(&quot;C:/maxima/operator_algebra/*.mac&quot;, file_search_maxima);
+ push(&quot;C:/maxima/operator_algebra/*.lisp&quot;, file_search_lisp);
+</pre></div>
+<p>into your Maxima initialization file. Doing so will allow Maxima to load the package operator_algebra.
+</p>
+<p>To use the package, you must manually load it, the package does not autoload. Loading the package is done 
+with the command
 </p><div class="example">
 <pre class="example-preformatted">(%i1)  load(&quot;operator_algebra&quot;)$
 </pre></div>
@@ -106,7 +118,7 @@ of the option variable <code class="code">dotdistrib</code> to true:
 (%o8)	f . g - g . f
 </pre></div>
 
-<p>We can give an operator a formula by using <code class="code">put</code>. For example to define an operator <code class="code">Dx</code>
+<p>We can give an operator a formula by using <code class="code">put</code>. For example, to define an operator <code class="code">Dx</code>
 that differentiates with respect to <code class="code">x</code> and an operator <code class="code">X</code> that multiplies an expression
 by <code class="code">X</code>, we first need to declare <code class="code">Dx</code> and <code class="code">X</code> to be operators; after that we can
 define formulas for them using <code class="code">put</code>:
@@ -139,13 +151,47 @@ define formulas for them using <code class="code">put</code>:
 (%o7)	3*x^3
 </pre></div>
 
+<p>In output %o6 above, we see that <code class="code">operator_apply</code> effectively changes the dotted notation
+for function composition (in this case <code class="code">X.Dx.X</code>) to traditional parenthesized function
+notation <code class="code">X(Dx(X(x^2)))</code>. The traditional notation allows us to use the <code class="code">simplifying</code>
+package to define an operator as a simplifying function. (The source code for the <code class="code">simplifying</code>
+package has some user documentation and some examples, but there is no other documentation for
+this package.)
+</p>
+<p>We start by loading the <code class="code">simplifying</code> and defining predicates that detect if the main operator
+of an expression is <code class="code">Dx</code> or <code class="code">X</code>. 
+</p><div class="example">
+<pre class="example-preformatted">(%i1)	load(simplifying)$
+(%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+(%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+</pre></div>
+<p>After that, we can define a simplification function for <code class="code">Dx</code> that applies the rule 
+<code class="code"> Dx . X = Dx + X.Dx</code> that moves all the derivative operators to the right of all 
+multiplication operators <code class="code">X</code>; our code is
+</p><div class="example">
+<pre class="example-preformatted">(%i4)	simp_Dx (e) := block([],
+	    /* Dx . X = Dx + X.Dx */
+	    if X_p(e) then (
+	        Dx(first(e)) + X(Dx(first(e))))
+	   else simpfuncall(Dx,e))$
+	    
+(%i5)	simplifying('Dx, 'simp_Dx)$
 
+</pre></div>
+<p>Some simple examples
+</p><div class="example">
+<pre class="example-preformatted">(%i6)	operator_simp(Dx .X);
+(%o6)	X . Dx+Dx
+
+(%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
+(%o7)	2*(X . Dx)+Dx
+</pre></div>
 
 </div>
 <div class="section-level-extent" id="Functions-and-Variables-for-operator_005falgebra">
 <h3 class="section"><span>1.4 Functions and Variables for operator_algebra<a class="copiable-link" href="#Functions-and-Variables-for-operator_005falgebra"> &para;</a></span></h3>
 
-<h4 class="subheading" id="Predicates"><span>Predicates<a class="copiable-link" href="#Predicates"> &para;</a></span></h4>
+<h3 class="heading" id="Predicates"><span>Predicates<a class="copiable-link" href="#Predicates"> &para;</a></span></h3>
 <p>The <code class="code">operator_algebra</code> package defines a predicate <code class="code">operatorp</code> for detecting if a symbol is a declared operator as well
 as five general purpose predicates <code class="code">exptp, ncexptp, nctimesp, timesp</code>, and <code class="code">plusp</code> that return <code class="code">true</code> if and
 only if the main operator of a Maxima expression is <code class="code">^, ^^, .,</code> and <code class="code">+</code>, respectively.
@@ -237,6 +283,79 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 
 (%i2)	plusp(1+x);
 (%o2)	true
+</pre></div>
+
+<h3 class="heading" id="Functions"><span>Functions<a class="copiable-link" href="#Functions"> &para;</a></span></h3>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-operator_005fadjoint"><span class="category-def">Function: </span><span><strong class="def-name">operator_adjoint</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-operator_005fadjoint"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">operator_adjoint (e)</code> returns the operator algebra adjoint of <code class="code">e</code>. In Quantum 
+Mechanics, the adjoint is generally known as the <em class="emph">hermitian conjugate</em>.
+</p>
+</dd></dl>
+
+<p>The operator adjoint of an operator returns an <code class="code">operator_adjoint</code> nounform:
+</p><div class="example">
+<pre class="example-preformatted">(%i1)	declare(F,operator,G, operator)$
+
+(%i2)	operator_adjoint(F);
+(%o2)	operator_adjoint(F)
+</pre></div>
+
+<p>The operator adjoint is and involution, that is the operator adjoint is its own inverse:
+</p><div class="example">
+<pre class="example-preformatted">(%i3)	operator_adjoint(%);
+(%o3)	F
+</pre></div>
+
+
+<p>To tell Maxima, that the adjoint of <code class="code">F</code> is <code class="code">G</code>, use a <code class="code">put</code> statement:
+</p><div class="example">
+<pre class="example-preformatted">(%i4)	(put(F,G, operator_adjoint),put(G,F, operator_adjoint))$
+</pre></div>
+
+<p>The adjoint is additive
+</p><div class="example">
+<pre class="example-preformatted">(%i5)	operator_adjoint(2*F - 5*G);
+(%o5)	2*G-5*F
+
+(%i6)	operator_adjoint(P .Q);
+(%o6)	Q . P
+
+(%i7)	operator_adjoint(F^^2);
+(%o7)	G^^2
+</pre></div>
+
+<p>The adjoint of a complex number is the complex conjugate of the number; for a matrix, 
+it is the transpose of the element-wise adjoint of the matrix:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i8)	operator_adjoint(2+%i);
+(%o8)	2-%i
+(%i11)	operator_adjoint(matrix([1,%i, 3],[4,5,6]));
+(%o11)	matrix([1, 4], [-%i, 5], [3, 6])
+
+(%i12)	operator_adjoint(matrix([0,F],[G,0]));
+(%o12)	matrix([0, F], [G, 0])
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-dot_005fform"><span class="category-def">Function: </span><span><strong class="def-name">dot_form</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-dot_005fform"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">dot_form(e)</code> converts an expression <code class="code">e</code> from a parenthesized functional form to 
+a &ldquo;dot form.&rdquo;
+</p></dd></dl>
+
+<p><em class="emph">Examples</em>
+Assuming <code class="code">F</code> and <code class="code">G</code> are declared operators, we have 
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	dot_form(F(G(x)));
+(%o1)	F . G . x
+
+(%i2)	dot_form(F(F(x)) - F(G(x)));
+(%o2)	F^^2 . x-F . G . x
 </pre></div>
 
 <dl class="first-deffn">

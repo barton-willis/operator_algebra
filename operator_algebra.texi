@@ -1,21 +1,33 @@
 \input texinfo
-@settitle Package operator_algebra
+@settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
 
 @chapter Package operator_algebra
 
 
 @section Introduction to package operator_algebra
 
-The operator_algebra package provides support for working with operators, especially 
+The operator_algebra package provides support for working with operators, particularly
 quantum mechanical operators. In the context of this package, an operator is a linear 
-function, but mathematical necessities, such as the specifying domains and codomains is
+function, but mathematical the necessities, such as the specifying domains and codomains, is
 not supported.
 
+As one application of this package, with a bit of programming, this package can do tasks such as 
+normally order quantum creation and annihilation operators.
 
 @section Installation 
 
-To install the operator_algebra package, copy the folder @file{operator_algebra} to a place that Maxima
-can find. To use the package, you must manually load it. This is done with the command
+To install the C:/maxima/operator_algebra/*, copy the folder @file{operator_algebra} to a location that Maxima
+can find. Alternatively, you can append the path to the folder @file{operator_algebra} by pushing new 
+terms onto the lists @code{file_search_maxima} and @code{file_search_lisp}; for example, if you copy
+the operator_algebra package to the path "C:/maxima/operator_algebra/*", put the commands
+@example
+ push("C:/maxima/operator_algebra/*.mac", file_search_maxima);
+ push("C:/maxima/operator_algebra/*.lisp", file_search_lisp);
+@end example
+into your Maxima initialization file. Doing so will allow Maxima to load the package operator_algebra.
+
+To use the package, you must manually load it, the package does not autoload. Loading the package is done 
+with the command
 @example
 (%i1)  load("operator_algebra")$
 @end example
@@ -69,7 +81,7 @@ of the option variable @code{dotdistrib} to true:
 (%o8)	f . g - g . f
 @end example
 
-We can give an operator a formula by using @code{put}. For example to define an operator @code{Dx}
+We can give an operator a formula by using @code{put}. For example, to define an operator @code{Dx}
 that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression
 by @code{X}, we first need to declare @code{Dx} and @code{X} to be operators; after that we can
 define formulas for them using @code{put}:
@@ -102,11 +114,45 @@ Finally, an example that uses both operators @code{Dx} and @code{X}:
 (%o7)	3*x^3
 @end example
 
+In output %o6 above, we see that @code{operator_apply} effectively changes the dotted notation
+for function composition (in this case @code{X.Dx.X}) to traditional parenthesized function
+notation @code{X(Dx(X(x^2)))}. The traditional notation allows us to use the @code{simplifying}
+package to define an operator as a simplifying function. (The source code for the @code{simplifying}
+package has some user documentation and some examples, but there is no other documentation for
+this package.)
 
+We start by loading the @code{simplifying} and defining predicates that detect if the main operator
+of an expression is @code{Dx} or @code{X}. 
+@example
+(%i1)	load(simplifying)$
+(%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+(%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+@end example
+After that, we can define a simplification function for @code{Dx} that applies the rule 
+@code{ Dx . X = Dx + X.Dx} that moves all the derivative operators to the right of all 
+multiplication operators @code{X}; our code is
+@example
+(%i4)	simp_Dx (e) := block([],
+	    /* Dx . X = Dx + X.Dx */
+	    if X_p(e) then (
+	        Dx(first(e)) + X(Dx(first(e))))
+	   else simpfuncall(Dx,e))$
+	    
+(%i5)	simplifying('Dx, 'simp_Dx)$
+
+@end example
+Some simple examples
+@example
+(%i6)	operator_simp(Dx .X);
+(%o6)	X . Dx+Dx
+
+(%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
+(%o7)	2*(X . Dx)+Dx
+@end example
 
 @section Functions and Variables for operator_algebra
 
-@subheading Predicates
+@heading Predicates
 The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a declared operator as well
 as five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp}, and @code{plusp} that return @code{true} if and
 only if the main operator of a Maxima expression is @code{^, ^^, .,} and @code{+}, respectively.
@@ -193,6 +239,77 @@ function @code{inpart}, not @code{part}.
 
 (%i2)	plusp(1+x);
 (%o2)	true
+@end example
+
+@heading Functions
+
+@deffn {Function} operator_adjoint (@code{e})
+
+The function call @code{operator_adjoint (e)} returns the operator algebra adjoint of @code{e}. In Quantum 
+Mechanics, the adjoint is generally known as the @emph{hermitian conjugate}.
+
+@end deffn
+
+The operator adjoint of an operator returns an @code{operator_adjoint} nounform:
+@example
+(%i1)	declare(F,operator,G, operator)$
+
+(%i2)	operator_adjoint(F);
+(%o2)	operator_adjoint(F)
+@end example
+
+The operator adjoint is and involution, that is the operator adjoint is its own inverse:
+@example
+(%i3)	operator_adjoint(%);
+(%o3)	F
+@end example
+
+
+To tell Maxima, that the adjoint of @code{F} is @code{G}, use a @code{put} statement:
+@example
+(%i4)	(put(F,G, operator_adjoint),put(G,F, operator_adjoint))$
+@end example
+
+The adjoint is additive
+@example
+(%i5)	operator_adjoint(2*F - 5*G);
+(%o5)	2*G-5*F
+
+(%i6)	operator_adjoint(P .Q);
+(%o6)	Q . P
+
+(%i7)	operator_adjoint(F^^2);
+(%o7)	G^^2
+@end example
+
+The adjoint of a complex number is the complex conjugate of the number; for a matrix, 
+it is the transpose of the element-wise adjoint of the matrix:
+
+@example
+(%i8)	operator_adjoint(2+%i);
+(%o8)	2-%i
+(%i11)	operator_adjoint(matrix([1,%i, 3],[4,5,6]));
+(%o11)	matrix([1, 4], [-%i, 5], [3, 6])
+
+(%i12)	operator_adjoint(matrix([0,F],[G,0]));
+(%o12)	matrix([0, F], [G, 0])
+@end example
+
+@deffn {Function} dot_form (@code{e})
+
+The function call @code{dot_form(e)} converts an expression @code{e} from a parenthesized functional form to 
+a ``dot form.''
+@end deffn
+
+@emph{Examples}
+Assuming @code{F} and @code{G} are declared operators, we have 
+
+@example
+(%i1)	dot_form(F(G(x)));
+(%o1)	F . G . x
+
+(%i2)	dot_form(F(F(x)) - F(G(x)));
+(%o2)	F^^2 . x-F . G . x
 @end example
 
 @deffn {Function} operatorp (e)
