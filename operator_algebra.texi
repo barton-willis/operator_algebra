@@ -296,7 +296,7 @@ it is the transpose of the element-wise adjoint of the matrix:
 (%o12)	matrix([0, F], [G, 0])
 @end example
 
-@deffn operator_simp (@code(e))
+@deffn operator_simp (@code{e})
 
 For an operator @code{e} in dot form, the function call @code{operator_simp(e)} returns a simplified version
 the operator @code{e}. Unless a user has defined simplification rules for the constitute parts of the

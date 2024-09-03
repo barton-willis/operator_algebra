@@ -295,7 +295,8 @@ Mechanics, the adjoint is generally known as the <em class="emph">hermitian conj
 </p>
 </dd></dl>
 
-<p>The operator adjoint of an operator returns an <code class="code">operator_adjoint</code> nounform:
+<p>The operator adjoint is a <em class="emph">simplifying function</em>. The operator adjoint of and operator returns 
+an <code class="code">operator_adjoint</code> nounform; for example
 </p><div class="example">
 <pre class="example-preformatted">(%i1)	declare(F,operator,G, operator)$
 
@@ -303,7 +304,7 @@ Mechanics, the adjoint is generally known as the <em class="emph">hermitian conj
 (%o2)	operator_adjoint(F)
 </pre></div>
 
-<p>The operator adjoint is and involution, that is the operator adjoint is its own inverse:
+<p>The operator adjoint is an involution, that is the operator adjoint is its own inverse:
 </p><div class="example">
 <pre class="example-preformatted">(%i3)	operator_adjoint(%);
 (%o3)	F
@@ -339,6 +340,43 @@ it is the transpose of the element-wise adjoint of the matrix:
 (%i12)	operator_adjoint(matrix([0,F],[G,0]));
 (%o12)	matrix([0, F], [G, 0])
 </pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-_0028e_0029"><span class="category-def">operator_simp: </span><span><strong class="def-name">(<code class="code">e</code>)</strong><a class="copiable-link" href="#index-_0028e_0029"> &para;</a></span></dt>
+<dd>
+<p>For an operator <code class="code">e</code> in dot form, the function call <code class="code">operator_simp(e)</code> returns a simplified version
+the operator <code class="code">e</code>. Unless a user has defined simplification rules for the constitute parts of the
+operator <code class="code">e</code>, no simplification will occur.
+</p></dd></dl>
+
+<p><em class="emph">Examples</em>
+</p>
+<p>In this example we&rsquo;ll define Quantum position and momentum operators <code class="code">Q</code> and <code class="code">P</code>, respectively.
+And we&rsquo;ll define a simplification rule that orders the position operators to be before the momentum operators.
+We start by declaring <code class="code">P</code> and <code class="code">Q</code> to be operators. The Planck constant divided by <code class="code">2 π</code>, denoted
+as <code class="code">ħ</code> needs to be declared to be a constant.
+</p><div class="example">
+<pre class="example-preformatted">(%i1) declare([P,Q],operator)$
+
+(%i2) declare(ħ,constant)$
+
+</pre></div>
+<p>Now we define <code class="code">P</code> to be a simplifying function and we implement the rule <code class="code">P Q --&gt; Q P  - %i*ħ</code>
+</p><div class="example">
+<pre class="example-preformatted">(%i3) /* Implement the rule P Q --&gt; Q P  - %i*ħ */
+simp_P(e) :=
+  if Q_p(e) then Q(P(first(e))) - %i*ħ*first(e)
+  else simpfuncall('P,e)$
+
+(%i4) simplifying('P, 'simp_P)$
+</pre></div>
+<p>We end with a simple test:
+</p><div class="example">
+<pre class="example-preformatted">(%i5) operator_simp(Q^^4 . P^^2 - P^^2 . Q^^4);
+(%o5) 8*%i*ħ*Q^^3 . P+12*ħ^2*Q^^2
+</pre></div>
+
+
 
 <dl class="first-deffn">
 <dt class="deffn" id="index-dot_005fform"><span class="category-def">Function: </span><span><strong class="def-name">dot_form</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-dot_005fform"> &para;</a></span></dt>
