@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Installation (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)</title>
+
+<meta name="description" content="Installation (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)">
+<meta name="keywords" content="Installation (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Function-and-Variable-Index.html" rel="index" title="Function and Variable Index">
+<link href="index.html" rel="up" title="Top">
+<link href="Basic-usage.html" rel="next" title="Basic usage">
+<link href="Introduction-to-the-package-operator_005falgebra.html" rel="prev" title="Introduction to the package operator_algebra">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Installation">
+<div class="nav-panel">
+<p>
+Next: <a href="Basic-usage.html" accesskey="n" rel="next">Basic usage</a>, Previous: <a href="Introduction-to-the-package-operator_005falgebra.html" accesskey="p" rel="prev">Introduction to the package operator_algebra</a> &nbsp; [<a href="Function-and-Variable-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Installation-1"><span>1.2 Installation<a class="copiable-link" href="#Installation-1"> &para;</a></span></h3>
+
+<p>To install the operator_algebra package, copy the folder <samp class="file">operator_algebra</samp> to a location that Maxima
+can find. Alternatively, push new members to the lists <code class="code">file_search_maxima</code> and <code class="code">file_search_lisp</code>
+that will allow Maxima to find the package; for example, if you copy the operator_algebra package to the 
+path &quot;C:/maxima/operator_algebra/*&quot;, put the commands
+</p><div class="example">
+<pre class="example-preformatted"> push(&quot;C:/maxima/operator_algebra/*.mac&quot;, file_search_maxima);
+ push(&quot;C:/maxima/operator_algebra/*.lisp&quot;, file_search_lisp);
+</pre></div>
+<p>into your Maxima initialization file. Doing so will allow Maxima to load the package operator_algebra.
+</p>
+<p>To use the package, you must manually load it, the package does not autoload. Loading the package is done 
+with the command
+</p><div class="example">
+<pre class="example-preformatted">(%i1)  load(&quot;operator_algebra&quot;)$
+</pre></div>
+<p>To run the regression tests for the package, issue the command
+</p><div class="example">
+<pre class="example-preformatted">(%i2) batch(&quot;rtest_operator_algebra&quot;, 'test)$
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

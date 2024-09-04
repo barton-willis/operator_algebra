@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Basic usage (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)</title>
+
+<meta name="description" content="Basic usage (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)">
+<meta name="keywords" content="Basic usage (Package operator_algebra: A Tool for Operator Manipulation in Maxima.)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Function-and-Variable-Index.html" rel="index" title="Function and Variable Index">
+<link href="index.html" rel="up" title="Top">
+<link href="Functions-and-Variables-for-operator_005falgebra.html" rel="next" title="Functions and Variables for operator_algebra">
+<link href="Installation.html" rel="prev" title="Installation">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Basic-usage">
+<div class="nav-panel">
+<p>
+Next: <a href="Functions-and-Variables-for-operator_005falgebra.html" accesskey="n" rel="next">Functions and Variables for operator_algebra</a>, Previous: <a href="Installation.html" accesskey="p" rel="prev">Installation</a> &nbsp; [<a href="Function-and-Variable-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Basic-usage-1"><span>1.3 Basic usage<a class="copiable-link" href="#Basic-usage-1"> &para;</a></span></h3>
+
+<p>Function composition of operators is denoted by <code class="code">&quot;.&quot;</code>, Maxima&rsquo;s generic noncommutative 
+multiplication operator; and the composition of an operator with itself is denoted by <code class="code">&quot;^^&quot;</code>,
+Maxima&rsquo;s generic noncommutative exponentiation operator. As such, the settings of the option
+variables <code class="code">dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
+dotexptsimp, dotident</code>, and <code class="code">dotscrules</code> can alter the way Maxima simplifies compositions of 
+operators.
+</p>
+<p>The package defines <code class="code">operator</code> to be a feature. To tell Maxima that a symbol is an operator, 
+it must be declared to be an operator; for example, to declare <code class="code">f</code> and <code class="code">g</code> to be operators
+and <code class="code">α</code> and <code class="code">β</code> to be constant issue the commands
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	declare([f,g],operator)$
+(%i2)	declare([α,β], constant)$
+</pre></div>
+
+<p>Now we can compute some commutators:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i3)	commutator(α*f, β*g);
+(%o3)	α*β*(f . g)-α*β*(g . f)
+
+(%i4)	commutator(f, f);
+(%o4)	0
+
+(%i5)	commutator(f,f^^2);
+(%o5)	0
+
+(%i6)	commutator(f + g, g);
+(%o6)	-(g . (g+f))+g^^2+f . g
+
+(%i7)	expand(%);
+(%o7)	f . g - g . f
+</pre></div>
+<p>In the last example, we see that a user must sometimes manually use <code class="code">expand</code> to fully 
+simplify operators. As an alternative to manually expanding, a user can set the value
+of the option variable <code class="code">dotdistrib</code> to true:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i8)	block([dotdistrib : true], commutator(f +g, g));
+(%o8)	f . g - g . f
+</pre></div>
+
+<p>We can give an operator a formula by using <code class="code">put</code>. For example, to define an operator <code class="code">Dx</code>
+that differentiates with respect to <code class="code">x</code> and an operator <code class="code">X</code> that multiplies an expression
+by <code class="code">X</code>, we first need to declare <code class="code">Dx</code> and <code class="code">X</code> to be operators; after that we can
+define formulas for them using <code class="code">put</code>:
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1)	declare(Dx, operator, X, operator)$
+
+(%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
+(%o2)	lambda([q],'diff(q,x,1))
+
+(%i3)	put(X, lambda([q],  x*q), 'formula);
+(%o3)	lambda([q],x*q)
+</pre></div>
+<p>The function <code class="code">operator_apply</code> applies a function to an argument:
+</p><div class="example">
+<pre class="example-preformatted">(%i4)	operator_apply(Dx, x^2);
+(%o4)	Dx(x^2)
+</pre></div>
+<p>To use the formula for <code class="code">Dx</code>, use the function <code class="code">operator_express</code>:
+</p><div class="example">
+<pre class="example-preformatted">(%i5)	operator_express(%);
+(%o5)	2*x
+</pre></div>
+<p>Finally, an example that uses both operators <code class="code">Dx</code> and <code class="code">X</code>:
+</p><div class="example">
+<pre class="example-preformatted">(%i6)	operator_apply(X.Dx.X, x^2);
+(%o6)	X(Dx(X(x^2)))
+
+(%i7)	operator_express(%);
+(%o7)	3*x^3
+</pre></div>
+
+<p>In output %o6 above, we see that <code class="code">operator_apply</code> effectively changes the dotted notation
+for function composition (in this case <code class="code">X.Dx.X</code>) to traditional parenthesized function
+notation <code class="code">X(Dx(X(x^2)))</code>. The traditional notation allows us to use the <code class="code">simplifying</code>
+package to define an operator as a simplifying function. (The source code for the <code class="code">simplifying</code>
+package has some user documentation and some examples, but there is no other documentation for
+this package.)
+</p>
+<p>To define our operators <code class="code">Dx</code> and <code class="code">X</code> to be simplifying operators, we start by loading the 
+<code class="code">simplifying</code> and defining predicates that detect if the main operator
+of an expression is <code class="code">Dx</code> or <code class="code">X</code>. 
+</p><div class="example">
+<pre class="example-preformatted">(%i1)	load(simplifying)$
+(%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+(%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+</pre></div>
+<p>After that, we can define a simplification function for <code class="code">Dx</code> that applies the rule 
+<code class="code"> Dx . X = Dx + X.Dx</code> that moves all the derivative operators to the right of all 
+multiplication operators <code class="code">X</code>; our code is
+</p><div class="example">
+<pre class="example-preformatted">(%i4)	simp_Dx (e) := block([],
+	    /* Dx . X = Dx + X.Dx */
+	    if X_p(e) then (
+	        Dx(first(e)) + X(Dx(first(e))))
+	   else simpfuncall(Dx,e))$
+	    
+(%i5)	simplifying('Dx, 'simp_Dx)$
+
+</pre></div>
+<p>Some simple examples
+</p><div class="example">
+<pre class="example-preformatted">(%i6)	operator_simp(Dx . X);
+(%o6)	X . Dx+Dx
+
+(%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
+(%o7)	2*(X . Dx)+Dx
+</pre></div>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Functions-and-Variables-for-operator_005falgebra.html">Functions and Variables for operator_algebra</a>, Previous: <a href="Installation.html">Installation</a> &nbsp; [<a href="Function-and-Variable-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

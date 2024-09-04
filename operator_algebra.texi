@@ -1,10 +1,44 @@
-\input texinfo
+ \input texinfo  @c -*-texinfo-*-
+
+@c makeinfo -v --html C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\operator_algebra.texi
+
 @settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
 
+@ifinfo
+@macro var {expr}
+<\expr\>
+@end macro
+@end ifinfo
+
+@dircategory Mathematics/Maxima
+@direntry
+* Package operator_algebra: A Maxima package for operator algebras
+@end direntry
+
+@menu
+* Introduction to the package operator_algebra::
+* Installation::
+* Basic usage::
+* Functions and Variables for operator_algebra::
+@end menu
+@node Top, Introduction to the package operator_algebra, (dir), (dir)
+@top
+
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+* Introduction to the package operator_algebra::
+* Installation::
+* Basic usage::
+* Functions and Variables for operator_algebra::
+@end detailmenu
+
+
+SP
 @chapter Package operator_algebra
-
-
-@section Introduction to package operator_algebra
+@node Introduction to the package operator_algebra, Installation, Top, Top
+@section Introduction to the package operator_algebra
 
 The operator_algebra package provides support for working with operators, particularly
 quantum mechanical operators. In the context of this package, an operator is a linear 
@@ -14,15 +48,16 @@ not supported.
 As one application of this package, with a bit of programming, this package can do tasks such as 
 normally order quantum creation and annihilation operators.
 
-Barton Willis, Professor Emeriti of the University of Nebraska at Kearney wrote and maintains the
-operator algebra package. The package was first made public in spring 2021.
+Barton Willis (Professor of Mathematics Emeriti of the University of Nebraska at Kearney) wrote and maintains 
+the operator algebra package. The package was first made public in spring 2021.
 
+@node Installation, Basic usage, Introduction to the package operator_algebra, Top
 @section Installation 
 
-To install the C:/maxima/operator_algebra/*, copy the folder @file{operator_algebra} to a location that Maxima
-can find. Alternatively, you can append the path to the folder @file{operator_algebra} by pushing new 
-terms onto the lists @code{file_search_maxima} and @code{file_search_lisp}; for example, if you copy
-the operator_algebra package to the path "C:/maxima/operator_algebra/*", put the commands
+To install the operator_algebra package, copy the folder @file{operator_algebra} to a location that Maxima
+can find. Alternatively, push new members to the lists @code{file_search_maxima} and @code{file_search_lisp}
+that will allow Maxima to find the package; for example, if you copy the operator_algebra package to the 
+path "C:/maxima/operator_algebra/*", put the commands
 @example
  push("C:/maxima/operator_algebra/*.mac", file_search_maxima);
  push("C:/maxima/operator_algebra/*.lisp", file_search_lisp);
@@ -39,18 +74,19 @@ To run the regression tests for the package, issue the command
 (%i2) batch("rtest_operator_algebra", 'test)$
 @end example
 
+@node Basic usage, Functions and Variables for operator_algebra, Installation, Top
 @section Basic usage
 
 Function composition of operators is denoted by @code{"."}, Maxima's generic noncommutative 
 multiplication operator; and the composition of an operator with itself is denoted by @code{"^^"},
 Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
-variables @code{dot0nscsimp, dot1simp, dot0simp,  dot1simp,  dotassoc,  dotconstrules, dotdistrib,
-dotexptsimp,  dotident}, and @code{ dotscrules} can alter the way Maxima simplifies compositions of 
+variables @code{dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
+dotexptsimp, dotident}, and @code{dotscrules} can alter the way Maxima simplifies compositions of 
 operators.
 
-To declare that @code{f} and @code{g} are operators, these symbols must be declared. The package
-defines @code{operator} to be a feature, so we can declare @code{f} and @code{g} to be operators
-and @code{α} and @code{β} to be constant using
+The package defines @code{operator} to be a feature. To tell Maxima that a symbol is an operator, 
+it must be declared to be an operator; for example, to declare @code{f} and @code{g} to be operators
+and @code{α} and @code{β} to be constant issue the commands
 
 @example
 (%i1)	declare([f,g],operator)$
@@ -124,7 +160,8 @@ package to define an operator as a simplifying function. (The source code for th
 package has some user documentation and some examples, but there is no other documentation for
 this package.)
 
-We start by loading the @code{simplifying} and defining predicates that detect if the main operator
+To define our operators @code{Dx} and @code{X} to be simplifying operators, we start by loading the 
+@code{simplifying} and defining predicates that detect if the main operator
 of an expression is @code{Dx} or @code{X}. 
 @example
 (%i1)	load(simplifying)$
@@ -146,27 +183,30 @@ multiplication operators @code{X}; our code is
 @end example
 Some simple examples
 @example
-(%i6)	operator_simp(Dx .X);
+(%i6)	operator_simp(Dx . X);
 (%o6)	X . Dx+Dx
 
 (%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
 (%o7)	2*(X . Dx)+Dx
 @end example
 
+@node Functions and Variables for operator_algebra, , Basic usage, Top
 @section Functions and Variables for operator_algebra
 
 @heading Predicates
-The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a declared operator as well
-as five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp}, and @code{plusp} that return @code{true} if and
-only if the main operator of a Maxima expression is @code{^, ^^, .,} and @code{+}, respectively.
+The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a 
+declared operator as well as five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp},
+and @code{plusp} that return @code{true} if and only if the main operator of a Maxima expression is 
+@code{^, ^^, .,} and @code{+}, respectively.
 
 @deffn {Function} exptp (@code{e})
 
 The function call @code{exptp(e)} returns true if the operator of the expression @code{e} is 
-@code{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima function @code{inpart}, not @code{part}.
+@code{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function @code{inpart}, not @code{part}.
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 
 @example
 (%i1)	exptp(x);
@@ -184,7 +224,7 @@ The function call @code{ncexptp(e)} returns true if the operator of the expressi
 function @code{inpart}, not @code{part}.
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 
 @example
 (%i1)	ncexptp(x^2);
@@ -201,7 +241,7 @@ The function call @code{nctimesp(e)} returns true if the operator of the express
 function @code{inpart}, not @code{part}.
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 
 @example
 (%i1)	nctimesp(x * y);
@@ -218,7 +258,7 @@ The function call @code{timesp(e)} returns true if the operator of the expressio
 function @code{inpart}, not @code{part}.
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 
 @example
 (%i1)	timesp(x * y);
@@ -235,7 +275,7 @@ The function call @code{plusp(e)} returns true if the operator of the expression
 function @code{inpart}, not @code{part}.
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 @example
 (%i1)	plusp(1);
 (%o1)	false
@@ -248,7 +288,7 @@ function @code{inpart}, not @code{part}.
 
 @deffn {Function} operator_adjoint (@code{e})
 
-The function call @code{operator_adjoint (e)} returns the operator algebra adjoint of @code{e}. In Quantum 
+The function call @code{operator_adjoint (e)} returns the operator adjoint of @code{e}. In Quantum 
 Mechanics, the adjoint is generally known as the @emph{hermitian conjugate}.
 
 @end deffn
@@ -333,8 +373,6 @@ We end with a simple test:
 (%o5) 8*%i*ħ*Q^^3 . P+12*ħ^2*Q^^2
 @end example
 
-
-
 @deffn {Function} dot_form (@code{e})
 
 The function call @code{dot_form(e)} converts an expression @code{e} from a parenthesized functional form to 
@@ -359,7 +397,7 @@ The function call @code{operatorp (e)} returns true if the input
 
 @end deffn
 
-@strong{Examples}
+@emph{Examples}
 @example
 @group
 (%i1)	operatorp(q);
@@ -386,7 +424,10 @@ be an operator; for example
 The function call @code{commutator(f,g)} returns @code{operator_simp(f.g - g.f)}. 
 @end deffn
 
-
+@node Function and Variable Index, , Top, Top
+@appendix Function and Variable index
+@printindex fn
+@printindex vr
 
 @bye
 
