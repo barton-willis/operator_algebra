@@ -39,7 +39,8 @@ Previous: <a href="Basic-usage.html" accesskey="p" rel="prev">Basic usage</a> &n
 
 <h3 class="heading" id="Predicates"><span>Predicates<a class="copiable-link" href="#Predicates"> &para;</a></span></h3>
 <p>The <code class="code">operator_algebra</code> package defines a predicate <code class="code">operatorp</code> for detecting if a symbol is a 
-declared operator as well as five general purpose predicates <code class="code">exptp, ncexptp, nctimesp, timesp</code>,
+declared operator; a predicate <code class="code">operator_adjointp</code> for detecting if and expression is an
+operator adjoint nounform; and five general purpose predicates <code class="code">exptp, ncexptp, nctimesp, timesp</code>,
 and <code class="code">plusp</code> that return <code class="code">true</code> if and only if the main operator of a Maxima expression is 
 <code class="code">^, ^^, .,</code> and <code class="code">+</code>, respectively.
 </p>
@@ -121,6 +122,7 @@ Maxima function <code class="code">inpart</code>, not <code class="code">part</c
 (%o4) false
 </pre></div>
 
+
 <dl class="first-deffn">
 <dt class="deffn" id="index-timesp"><span class="category-def">Function: </span><span><strong class="def-name">timesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-timesp"> &para;</a></span></dt>
 <dd>
@@ -138,6 +140,7 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 (%i2)	timesp(x . y);
 (%o2)	false
 </pre></div>
+
 
 <dl class="first-deffn">
 <dt class="deffn" id="index-plusp"><span class="category-def">Function: </span><span><strong class="def-name">plusp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-plusp"> &para;</a></span></dt>
@@ -157,6 +160,77 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 </pre></div>
 
 <h3 class="heading" id="Functions"><span>Functions<a class="copiable-link" href="#Functions"> &para;</a></span></h3>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-get_005foperator_005fformula"><span class="category-def">Function: </span><span><strong class="def-name">get_operator_formula</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-get_005foperator_005fformula"> &para;</a></span></dt>
+<dd>
+<p>When <code class="code">e</code> is a declared to be an operator with a function  that is defined by <code class="code">put</code>, the function 
+call <code class="code"> get_operator_formula (e)</code> returns the function; otherwise,  <code class="code">get_operator_formula(e)</code>
+returns false.
+</p>
+</dd></dl>
+<p><em class="emph">Examples</em>
+</p><div class="example">
+<pre class="example-preformatted">(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 5*q), formula)$
+
+(%i3) get_operator_formula(f);
+(%o3) lambda([q], 5 q)
+
+(%i4) get_operator_formula(g);
+(%o4) false
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-operator_005fapply_0028e_002cps_0029"><span class="category-def">Function: </span><span><strong class="def-name">operator_apply(<code class="code">e</code>,<code class="code">ψ</code>)</strong><a class="copiable-link" href="#index-operator_005fapply_0028e_002cps_0029"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">operator_apply(<code class="code">e</code>,<code class="code">ψ</code>)</code> applies an operator or a dotted form operator to
+an argument <code class="code">ψ</code>. If the first argument is not an operator or a a dotted form operator, the result
+is an error.
+</p></dd></dl>
+
+<p><em class="emph">Example</em>
+</p>
+<div class="example">
+<pre class="example-preformatted">
+(%i1) declare([f,g], operator)$
+
+(%i2) operator_apply(f, ψ);
+(%o2) f(ψ)
+
+(%i3) operator_apply(f.g, ψ);
+(%o3) f(g(ψ))
+
+(%i4) operator_apply(h, ψ);
+I don't know how to apply  h  to  ψ
+</pre></div>
+
+<dl class="first-deffn">
+<dt class="deffn" id="index-operator_005fexpress"><span class="category-def">Function: </span><span><strong class="def-name">operator_express</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-operator_005fexpress"> &para;</a></span></dt>
+<dd>
+<p>For each operator in the input <code class="code">e</code>, the function call <code class="code">operator_express (e)</code> looks up 
+the formula (if any) for the operator and applies it to the input.
+</p>
+</dd></dl>
+
+<p><em class="emph">Example</em>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 42*q), 'formula)$
+
+(%i3) operator_apply(f,ψ);
+(%o3)                                f(ψ)
+(%i4) operator_express(%);
+(%o4)                                42 ψ
+(%i5) operator_apply(f^^3,ψ);
+(%o5)                             f(f(f(ψ)))
+(%i6) operator_express(%);
+(%o6)                               74088 ψ
+(%i7)
+</pre></div>
 
 <dl class="first-deffn">
 <dt class="deffn" id="index-operator_005fadjoint"><span class="category-def">Function: </span><span><strong class="def-name">operator_adjoint</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-operator_005fadjoint"> &para;</a></span></dt>

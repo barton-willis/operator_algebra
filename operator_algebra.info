@@ -1,0 +1,456 @@
+This is
+C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,
+produced by makeinfo version 7.1 from
+C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.texi.
+
+INFO-DIR-SECTION Mathematics/Maxima
+START-INFO-DIR-ENTRY
+* Package operator_algebra: A Maxima package for operator algebras
+END-INFO-DIR-ENTRY
+
+* Menu:
+
+* Introduction to the package operator_algebra::
+* Installation::
+* Basic usage::
+* Functions and Variables for operator_algebra::
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Top,  Next: Introduction to the package operator_algebra,  Prev: (dir),  Up: (dir)
+
+Package operator_algebra: A Tool for Operator Manipulation in Maxima.
+*********************************************************************
+
+ -- The Detailed Node Listing --
+
+* Introduction to the package operator_algebra::
+* Installation::
+* Basic usage::
+* Functions and Variables for operator_algebra::
+
+SP
+
+1 Package operator_algebra
+**************************
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Introduction to the package operator_algebra,  Next: Installation,  Prev: Top,  Up: Top
+
+1.1 Introduction to the package operator_algebra
+================================================
+
+The operator_algebra package provides support for working with
+operators, particularlyquantum mechanical operators.  In the context of
+this package, an operator is a linear function, but mathematical the
+necessities, such as the specifying domains and codomains, isnot
+supported.
+
+   As one application of this package, with a bit of programming, this
+package can do tasks such as normally order quantum creation and
+annihilation operators.
+
+   Barton Willis (Professor of Mathematics Emeriti of the University of
+Nebraska at Kearney) wrote and maintains the operator algebra package.
+The package was first made public in spring 2021.
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Installation,  Next: Basic usage,  Prev: Introduction to the package operator_algebra,  Up: Top
+
+1.2 Installation
+================
+
+To install the operator_algebra package, copy the folder
+‘operator_algebra’ to a location that Maximacan find.  Alternatively,
+push new members to the lists ‘file_search_maxima’ and
+‘file_search_lisp’that will allow Maxima to find the package; for
+example, if you copy the operator_algebra package to the path
+"C:/maxima/operator_algebra/*", put the commands
+      push("C:/maxima/operator_algebra/*.mac", file_search_maxima);
+      push("C:/maxima/operator_algebra/*.lisp", file_search_lisp);
+   into your Maxima initialization file.  Doing so will allow Maxima to
+load the package operator_algebra.
+
+   To use the package, you must manually load it, the package does not
+autoload.  Loading the package is done with the command
+     (%i1)  load("operator_algebra")$
+   To run the regression tests for the package, issue the command
+     (%i2) batch("rtest_operator_algebra", 'test)$
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Basic usage,  Next: Functions and Variables for operator_algebra,  Prev: Installation,  Up: Top
+
+1.3 Basic usage
+===============
+
+Function composition of operators is denoted by ‘"."’, Maxima's generic
+noncommutative multiplication operator; and the composition of an
+operator with itself is denoted by ‘"^^"’,Maxima's generic
+noncommutative exponentiation operator.  As such, the settings of the
+optionvariables ‘dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc,
+dotconstrules, dotdistrib,dotexptsimp, dotident’, and ‘dotscrules’ can
+alter the way Maxima simplifies compositions of operators.
+
+   The package defines ‘operator’ to be a feature.  To tell Maxima that
+a symbol is an operator, it must be declared to be an operator; for
+example, to declare ‘f’ and ‘g’ to be operatorsand ‘α’ and ‘β’ to be
+constant issue the commands
+
+     (%i1)	declare([f,g],operator)$
+     (%i2)	declare([α,β], constant)$
+
+   Now we can compute some commutators:
+
+     (%i3)	commutator(α*f, β*g);
+     (%o3)	α*β*(f . g)-α*β*(g . f)
+
+     (%i4)	commutator(f, f);
+     (%o4)	0
+
+     (%i5)	commutator(f,f^^2);
+     (%o5)	0
+
+     (%i6)	commutator(f + g, g);
+     (%o6)	-(g . (g+f))+g^^2+f . g
+
+     (%i7)	expand(%);
+     (%o7)	f . g - g . f
+   In the last example, we see that a user must sometimes manually use
+‘expand’ to fully simplify operators.  As an alternative to manually
+expanding, a user can set the valueof the option variable ‘dotdistrib’
+to true:
+
+     (%i8)	block([dotdistrib : true], commutator(f +g, g));
+     (%o8)	f . g - g . f
+
+   We can give an operator a formula by using ‘put’.  For example, to
+define an operator ‘Dx’that differentiates with respect to ‘x’ and an
+operator ‘X’ that multiplies an expressionby ‘X’, we first need to
+declare ‘Dx’ and ‘X’ to be operators; after that we candefine formulas
+for them using ‘put’:
+
+     (%i1)	declare(Dx, operator, X, operator)$
+
+     (%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
+     (%o2)	lambda([q],'diff(q,x,1))
+
+     (%i3)	put(X, lambda([q],  x*q), 'formula);
+     (%o3)	lambda([q],x*q)
+   The function ‘operator_apply’ applies a function to an argument:
+     (%i4)	operator_apply(Dx, x^2);
+     (%o4)	Dx(x^2)
+   To use the formula for ‘Dx’, use the function ‘operator_express’:
+     (%i5)	operator_express(%);
+     (%o5)	2*x
+   Finally, an example that uses both operators ‘Dx’ and ‘X’:
+     (%i6)	operator_apply(X.Dx.X, x^2);
+     (%o6)	X(Dx(X(x^2)))
+
+     (%i7)	operator_express(%);
+     (%o7)	3*x^3
+
+   In output %o6 above, we see that ‘operator_apply’ effectively changes
+the dotted notationfor function composition (in this case ‘X.Dx.X’) to
+traditional parenthesized functionnotation ‘X(Dx(X(x^2)))’.  The
+traditional notation allows us to use the ‘simplifying’package to
+define an operator as a simplifying function.  (The source code for the
+‘simplifying’package has some user documentation and some examples, but
+there is no other documentation forthis package.)
+
+   To define our operators ‘Dx’ and ‘X’ to be simplifying operators, we
+start by loading the ‘simplifying’ and defining predicates that detect
+if the main operatorof an expression is ‘Dx’ or ‘X’.
+     (%i1)	load(simplifying)$
+     (%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+     (%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+   After that, we can define a simplification function for ‘Dx’ that
+applies the rule ‘ Dx . X = Dx + X.Dx’ that moves all the derivative
+operators to the right of all multiplication operators ‘X’; our code is
+     (%i4)	simp_Dx (e) := block([],
+     	    /* Dx . X = Dx + X.Dx */
+     	    if X_p(e) then (
+     	        Dx(first(e)) + X(Dx(first(e))))
+     	   else simpfuncall(Dx,e))$
+
+     (%i5)	simplifying('Dx, 'simp_Dx)$
+
+   Some simple examples
+     (%i6)	operator_simp(Dx . X);
+     (%o6)	X . Dx+Dx
+
+     (%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
+     (%o7)	2*(X . Dx)+Dx
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Functions and Variables for operator_algebra,  Prev: Basic usage,  Up: Top
+
+1.4 Functions and Variables for operator_algebra
+================================================
+
+Predicates
+==========
+
+The ‘operator_algebra’ package defines a predicate ‘operatorp’ for
+detecting if a symbol is a declared operator as well as five general
+purpose predicates ‘exptp, ncexptp, nctimesp, timesp’,and ‘plusp’ that
+return ‘true’ if and only if the main operator of a Maxima expression is
+‘^, ^^, .,’ and ‘+’, respectively.
+
+ -- Function: exptp (e)
+
+     The function call ‘exptp(e)’ returns true if the operator of the
+     expression ‘e’ is ‘^’; otherwise it returns false.  The main
+     operator of an expression is determined by the Maxima function
+     ‘inpart’, not ‘part’.
+
+   _Examples_
+
+     (%i1)	exptp(x);
+     (%o1)	false
+
+     (%i2)	exptp(x^2);
+     (%o2)	true
+
+ -- Function: ncexptp (e)
+
+     The function call ‘ncexptp(e)’ returns true if the operator of the
+     expression ‘e’ is ‘^^’; otherwise it returns false.  The main
+     operator of an expression is determined by the Maxima function
+     ‘inpart’, not ‘part’.
+
+   _Examples_
+
+     (%i1)	ncexptp(x^2);
+     (%o1)	false
+
+     (%i2)	ncexptp(x^^2);
+     (%o2)	true
+
+ -- Function: nctimesp (e)
+
+     The function call ‘nctimesp(e)’ returns true if the operator of the
+     expression ‘e’ is ‘.’; otherwise it returns false.  The main
+     operator of an expression is determined by the Maxima function
+     ‘inpart’, not ‘part’.
+
+   _Examples_
+
+     (%i1)	nctimesp(x * y);
+     (%o1)	false
+
+     (%i2)	nctimesp(x . y);
+     (%o2)	true
+
+ -- Function: operator_adjointp (e)
+
+     The function call ‘operator_adjointp(e)’ returns true if the
+     operator of the expression ‘e’ is ‘operator_adjoint’; otherwise it
+     returns false.  The main operator of an expression is determined by
+     the Maxima function ‘inpart’, not ‘part’.
+
+   _Examples_
+
+     (%i1) declare(f,operator)$
+
+     (%i2) operator_adjoint(f);
+     (%o2) operator_adjoint(f)
+
+     (%i3) operator_adjointp(%);
+     (%o3) true
+
+     (%i4) operator_adjointp(a+b);
+     (%o4) false
+
+ -- Function: timesp (e)
+
+     The function call ‘timesp(e)’ returns true if the operator of the
+     expression ‘e’ is ‘*’; otherwise it returns false.  The main
+     operator of an expression is determined by the Maxima function
+     ‘inpart’, not ‘part’.
+
+   _Examples_
+
+     (%i1)	timesp(x * y);
+     (%o1)	true
+
+     (%i2)	timesp(x . y);
+     (%o2)	false
+
+ -- Function: plusp (e)
+
+     The function call ‘plusp(e)’ returns true if the operator of the
+     expression ‘e’ is ‘+’; otherwise it returns false.  The main
+     operator of an expression is determined by the Maxima function
+     ‘inpart’, not ‘part’.
+
+   _Examples_
+     (%i1)	plusp(1);
+     (%o1)	false
+
+     (%i2)	plusp(1+x);
+     (%o2)	true
+
+Functions
+=========
+
+ -- Function: operator_adjoint (e)
+
+     The function call ‘operator_adjoint (e)’ returns the operator
+     adjoint of ‘e’.  In Quantum Mechanics, the adjoint is generally
+     known as the _hermitian conjugate_.
+
+   The operator adjoint is a _simplifying function_.  The operator
+adjoint of and operator returns an ‘operator_adjoint’ nounform; for
+example
+     (%i1)	declare(F,operator,G, operator)$
+
+     (%i2)	operator_adjoint(F);
+     (%o2)	operator_adjoint(F)
+
+   The operator adjoint is an involution, that is the operator adjoint
+is its own inverse:
+     (%i3)	operator_adjoint(%);
+     (%o3)	F
+
+   To tell Maxima, that the adjoint of ‘F’ is ‘G’, use a ‘put’
+statement:
+     (%i4)	(put(F,G, operator_adjoint),put(G,F, operator_adjoint))$
+
+   The adjoint is additive
+     (%i5)	operator_adjoint(2*F - 5*G);
+     (%o5)	2*G-5*F
+
+     (%i6)	operator_adjoint(P .Q);
+     (%o6)	Q . P
+
+     (%i7)	operator_adjoint(F^^2);
+     (%o7)	G^^2
+
+   The adjoint of a complex number is the complex conjugate of the
+number; for a matrix, it is the transpose of the element-wise adjoint of
+the matrix:
+
+     (%i8)	operator_adjoint(2+%i);
+     (%o8)	2-%i
+     (%i11)	operator_adjoint(matrix([1,%i, 3],[4,5,6]));
+     (%o11)	matrix([1, 4], [-%i, 5], [3, 6])
+
+     (%i12)	operator_adjoint(matrix([0,F],[G,0]));
+     (%o12)	matrix([0, F], [G, 0])
+
+ -- operator_simp: (e)
+
+     For an operator ‘e’ in dot form, the function call
+     ‘operator_simp(e)’ returns a simplified versionthe operator ‘e’.
+     Unless a user has defined simplification rules for the constitute
+     parts of theoperator ‘e’, no simplification will occur.
+
+   _Examples_
+
+   In this example we'll define Quantum position and momentum operators
+‘Q’ and ‘P’, respectively.  And we'll define a simplification rule that
+orders the position operators to be before the momentum operators.  We
+start by declaring ‘P’ and ‘Q’ to be operators.  The Planck constant
+divided by ‘2 π’, denotedas ‘ħ’ needs to be declared to be a constant.
+     (%i1) declare([P,Q],operator)$
+
+     (%i2) declare(ħ,constant)$
+
+   Now we define ‘P’ to be a simplifying function and we implement the
+rule ‘P Q --> Q P - %i*ħ’
+     (%i3) /* Implement the rule P Q --> Q P  - %i*ħ */
+     simp_P(e) :=
+       if Q_p(e) then Q(P(first(e))) - %i*ħ*first(e)
+       else simpfuncall('P,e)$
+
+     (%i4) simplifying('P, 'simp_P)$
+   We end with a simple test:
+     (%i5) operator_simp(Q^^4 . P^^2 - P^^2 . Q^^4);
+     (%o5) 8*%i*ħ*Q^^3 . P+12*ħ^2*Q^^2
+
+ -- Function: dot_form (e)
+
+     The function call ‘dot_form(e)’ converts an expression ‘e’ from a
+     parenthesized functional form to a "dot form."
+
+   _Examples_Assuming ‘F’ and ‘G’ are declared operators, we have
+
+     (%i1)	dot_form(F(G(x)));
+     (%o1)	F . G . x
+
+     (%i2)	dot_form(F(F(x)) - F(G(x)));
+     (%o2)	F^^2 . x-F . G . x
+
+ -- Function: operatorp (e)
+
+     The function call ‘operatorp (e)’ returns true if the input ‘e’ is
+     a declared operator; otherwise it returns false.
+
+   _Examples_
+     (%i1)	operatorp(q);
+     (%o1)	true
+
+     (%i2)	declare(q,operator);
+     (%o2)	done
+
+     (%i3)	operatorp(q);
+     (%o3)	true
+
+     The predicate operatorp does _not_ recognize linear combinations or compositions of operators to
+     be an operator; for example
+
+     (%i4)	operatorp(5*q);
+     (%o4)	false
+
+ -- Function: commutator (f,g)
+
+     The function call ‘commutator(f,g)’ returns ‘operator_simp(f.g -
+     g.f)’.
+
+
+File: C:\Users\barto\OneDrive\Documents\GitHub\operator_algebra\operator_algebra.info,  Node: Function and Variable Index,  Prev: Top,  Up: Top
+
+Appendix A Function and Variable index
+**************************************
+
+ [index ]
+* Menu:
+
+* (e):                                   Functions and Variables for operator_algebra.
+                                                              (line 157)
+* commutator:                            Functions and Variables for operator_algebra.
+                                                              (line 221)
+* dot_form:                              Functions and Variables for operator_algebra.
+                                                              (line 187)
+* exptp:                                 Functions and Variables for operator_algebra.
+                                                              (line  15)
+* ncexptp:                               Functions and Variables for operator_algebra.
+                                                              (line  30)
+* nctimesp:                              Functions and Variables for operator_algebra.
+                                                              (line  45)
+* operator_adjoint:                      Functions and Variables for operator_algebra.
+                                                              (line 112)
+* operator_adjointp:                     Functions and Variables for operator_algebra.
+                                                              (line  60)
+* operatorp:                             Functions and Variables for operator_algebra.
+                                                              (line 200)
+* plusp:                                 Functions and Variables for operator_algebra.
+                                                              (line  95)
+* timesp:                                Functions and Variables for operator_algebra.
+                                                              (line  80)
+
+
+
+Tag Table:
+Node: Top494
+Node: Introduction to the package operator_algebra1040
+Node: Installation1962
+Node: Basic usage3089
+Node: Functions and Variables for operator_algebra7246
+Node: Function and Variable Index13859
+
+End Tag Table
+
+
+Local Variables:
+coding: utf-8
+End:

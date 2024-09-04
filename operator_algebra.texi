@@ -1,5 +1,5 @@
  \input texinfo  @c -*-texinfo-*-
-
+@c @setfilename operator_algebra.html
 @c makeinfo -v --html C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\operator_algebra.texi
 
 @settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
@@ -75,7 +75,7 @@ To run the regression tests for the package, issue the command
 @node Basic usage, Functions and Variables for operator_algebra, Installation, Top
 @section Basic usage
 
-Function composition of operators is denoted by @code{"."}, Maxima's generic noncommutative 
+Composition of operators is denoted by @code{"."}, Maxima's generic noncommutative 
 multiplication operator; and the composition of an operator with itself is denoted by @code{"^^"},
 Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
 variables @code{dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
@@ -272,6 +272,7 @@ Maxima function @code{inpart}, not @code{part}.
 (%o4) false
 @end example
 
+
 @deffn {Function} timesp (@code{e})
 
 The function call @code{timesp(e)} returns true if the operator of the expression @code{e} is 
@@ -288,6 +289,7 @@ function @code{inpart}, not @code{part}.
 (%i2)	timesp(x . y);
 (%o2)	false
 @end example
+
 
 @deffn {Function} plusp (@code{e})
 
@@ -315,6 +317,7 @@ returns false.
 
 @end deffn 
 @emph{Examples}
+@example
 (%i1) declare(f,operator)$
 
 (%i2) put(f, lambda([q], 5*q), formula)$
@@ -324,6 +327,54 @@ returns false.
 
 (%i4) get_operator_formula(g);
 (%o4) false
+@end example
+
+@deffn {Function} operator_apply(@code{e},@code{ψ})
+
+The function call @code{operator_apply(@code{e},@code{ψ})} applies an operator or a dotted form operator to
+an argument @code{ψ}. If the first argument is not an operator or a a dotted form operator, the result
+is an error.
+@end deffn
+
+@emph{Example}
+
+@example
+
+(%i1) declare([f,g], operator)$
+
+(%i2) operator_apply(f, ψ);
+(%o2) f(ψ)
+
+(%i3) operator_apply(f.g, ψ);
+(%o3) f(g(ψ))
+
+(%i4) operator_apply(h, ψ);
+I don't know how to apply  h  to  ψ
+@end example
+
+@deffn {Function} operator_express (@code{e})
+
+For each operator in the input @code{e}, the function call @code{operator_express (e)} looks up 
+the formula (if any) for the operator and applies it to the input.
+
+@end deffn
+
+@emph{Example}
+
+@example
+(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 42*q), 'formula)$
+
+(%i3) operator_apply(f,ψ);
+(%o3)                                f(ψ)
+(%i4) operator_express(%);
+(%o4)                                42 ψ
+(%i5) operator_apply(f^^3,ψ);
+(%o5)                             f(f(f(ψ)))
+(%i6) operator_express(%);
+(%o6)                               74088 ψ
+(%i7)
 @end example
 
 @deffn {Function} operator_adjoint (@code{e})
