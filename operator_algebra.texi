@@ -14,6 +14,9 @@ not supported.
 As one application of this package, with a bit of programming, this package can do tasks such as 
 normally order quantum creation and annihilation operators.
 
+Barton Willis, Professor Emeriti of the University of Nebraska at Kearney wrote and maintains the
+operator algebra package. The package was first made public in spring 2021.
+
 @section Installation 
 
 To install the C:/maxima/operator_algebra/*, copy the folder @file{operator_algebra} to a location that Maxima
