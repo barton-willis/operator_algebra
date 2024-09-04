@@ -34,8 +34,6 @@
 * Functions and Variables for operator_algebra::
 @end detailmenu
 
-
-SP
 @chapter Package operator_algebra
 @node Introduction to the package operator_algebra, Installation, Top, Top
 @section Introduction to the package operator_algebra
@@ -195,7 +193,8 @@ Some simple examples
 
 @heading Predicates
 The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a 
-declared operator as well as five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp},
+declared operator; a predicate @code{operator_adjointp} for detecting if and expression is an
+operator adjoint nounform; and five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp},
 and @code{plusp} that return @code{true} if and only if the main operator of a Maxima expression is 
 @code{^, ^^, .,} and @code{+}, respectively.
 
@@ -251,6 +250,28 @@ function @code{inpart}, not @code{part}.
 (%o2)	true
 @end example
 
+@deffn {Function} operator_adjointp (@code{e})
+
+The function call @code{operator_adjointp(e)} returns true if the operator of the expression @code{e} is 
+@code{operator_adjoint}; otherwise it returns false. The main operator of an expression is determined by the 
+Maxima function @code{inpart}, not @code{part}.
+@end deffn
+
+@emph{Examples}
+
+@example
+(%i1) declare(f,operator)$
+
+(%i2) operator_adjoint(f);
+(%o2) operator_adjoint(f)
+
+(%i3) operator_adjointp(%);
+(%o3) true
+
+(%i4) operator_adjointp(a+b);
+(%o4) false
+@end example
+
 @deffn {Function} timesp (@code{e})
 
 The function call @code{timesp(e)} returns true if the operator of the expression @code{e} is 
@@ -285,6 +306,25 @@ function @code{inpart}, not @code{part}.
 @end example
 
 @heading Functions
+
+@deffn {Function} get_operator_formula (@code{e})
+
+When @code{e} is a declared to be an operator with a function  that is defined by @code{put}, the function 
+call @code{ get_operator_formula (e)} returns the function; otherwise,  @code{get_operator_formula(e)}
+returns false.
+
+@end deffn 
+@emph{Examples}
+(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 5*q), formula)$
+
+(%i3) get_operator_formula(f);
+(%o3) lambda([q], 5 q)
+
+(%i4) get_operator_formula(g);
+(%o4) false
+@end example
 
 @deffn {Function} operator_adjoint (@code{e})
 
