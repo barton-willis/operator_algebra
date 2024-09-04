@@ -99,6 +99,29 @@ function <code class="code">inpart</code>, not <code class="code">part</code>.
 </pre></div>
 
 <dl class="first-deffn">
+<dt class="deffn" id="index-operator_005fadjointp"><span class="category-def">Function: </span><span><strong class="def-name">operator_adjointp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-operator_005fadjointp"> &para;</a></span></dt>
+<dd>
+<p>The function call <code class="code">operator_adjointp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
+<code class="code">operator_adjoint</code>; otherwise it returns false. The main operator of an expression is determined by the 
+Maxima function <code class="code">inpart</code>, not <code class="code">part</code>.
+</p></dd></dl>
+
+<p><em class="emph">Examples</em>
+</p>
+<div class="example">
+<pre class="example-preformatted">(%i1) declare(f,operator)$
+
+(%i2) operator_adjoint(f);
+(%o2) operator_adjoint(f)
+
+(%i3) operator_adjointp(%);
+(%o3) true
+
+(%i4) operator_adjointp(a+b);
+(%o4) false
+</pre></div>
+
+<dl class="first-deffn">
 <dt class="deffn" id="index-timesp"><span class="category-def">Function: </span><span><strong class="def-name">timesp</strong> <var class="def-var-arguments">(<code class="code">e</code>)</var><a class="copiable-link" href="#index-timesp"> &para;</a></span></dt>
 <dd>
 <p>The function call <code class="code">timesp(e)</code> returns true if the operator of the expression <code class="code">e</code> is 
