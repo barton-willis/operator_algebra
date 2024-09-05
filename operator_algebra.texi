@@ -1,6 +1,7 @@
- \input texinfo  @c -*-texinfo-*-
+\input texinfo  @c -*-texinfo-*-
 @c @setfilename operator_algebra.html
-@c makeinfo -v --html C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\operator_algebra.texi
+
+@c  texi2html --output=C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\doc\\operator_algebra.html C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\operator_algebra.texi
 
 @settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
 
@@ -19,11 +20,8 @@
 * Introduction to the package operator_algebra::
 * Installation::
 * Basic usage::
+* Error messages::
 * Functions and Variables for operator_algebra::
-@end menu
-@node Top, Introduction to the package operator_algebra, (dir), (dir)
-@top
-
 
 @detailmenu
  --- The Detailed Node Listing ---
@@ -31,71 +29,75 @@
 * Introduction to the package operator_algebra::
 * Installation::
 * Basic usage::
+* Error messages::
 * Functions and Variables for operator_algebra::
 @end detailmenu
+@end menu
 
 @chapter Package operator_algebra
 @node Introduction to the package operator_algebra, Installation, Top, Top
 @section Introduction to the package operator_algebra
 
-The operator_algebra package provides support for working with operators, particularly
-quantum mechanical operators. In the context of this package, an operator is a linear 
-function, but mathematical the necessities, such as the specifying domains and codomains, is
-not supported.
+The operator_algebra package provides support for working with operators (that is, linear functions), 
+particularly quantum mechanical operators. The package focuses on computations and does not support 
+specifying domains and codomains, even though these are mathematical necessities. A common use of this 
+package is reordering quantum creation and annihilation operators so that all creation operators appear 
+to the left in the product, a process known as @emph{normal order}.
 
-As one application of this package, with a bit of programming, this package can do tasks such as 
-normally order quantum creation and annihilation operators.
+The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
+Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
+the spring of 2021.
 
-Barton Willis (Professor of Mathematics Emeriti of the University of Nebraska at Kearney) wrote and maintains 
-the operator algebra package. The package was first made public in spring 2021.
+A related Maxima package, but specialized to Clifford algebras, can be found at 
+@url{https://github.com/dprodanov/clifford}.
 
 @node Installation, Basic usage, Introduction to the package operator_algebra, Top
 @section Installation 
 
 To install the operator_algebra package, copy the folder @file{operator_algebra} to a location that Maxima
-can find. Alternatively, push new members to the lists @code{file_search_maxima} and @code{file_search_lisp}
-that will allow Maxima to find the package; for example, if you copy the operator_algebra package to the 
-path "C:/maxima/operator_algebra/*", put the commands
-@example
- push("C:/maxima/operator_algebra/*.mac", file_search_maxima);
- push("C:/maxima/operator_algebra/*.lisp", file_search_lisp);
-@end example
-into your Maxima initialization file. Doing so will allow Maxima to load the package operator_algebra.
+can find. If needed, append new members to the lists @code{file_search_maxima} and @code{file_search_lisp} 
+to allow Maxima to find the package.
 
-To use the package, you must manually load it, the package does not autoload. Loading the package is done 
-with the command
+The package does not autoload, so you must manually load it. Load the package with the following command:
 @example
+@group
 (%i1)  load("operator_algebra")$
+@end group
 @end example
 To run the regression tests for the package, issue the command
 @example
+@group
 (%i2) batch("rtest_operator_algebra", 'test)$
+@end group
 @end example
 
 @node Basic usage, Functions and Variables for operator_algebra, Installation, Top
 @section Basic usage
 
-Composition of operators is denoted by @code{"."}, Maxima's generic noncommutative 
-multiplication operator; and the composition of an operator with itself is denoted by @code{"^^"},
-Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
+Operator composition is denoted by `@code{.}', which is Maxima's generic noncommutative 
+multiplication operator, and the composition of an operator with itself is denoted by `@code{^^}', which
+is  Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
 variables @code{dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
 dotexptsimp, dotident}, and @code{dotscrules} can alter the way Maxima simplifies compositions of 
 operators.
 
 The package defines @code{operator} to be a feature. To tell Maxima that a symbol is an operator, 
-it must be declared to be an operator; for example, to declare @code{f} and @code{g} to be operators
-and @code{α} and @code{β} to be constant issue the commands
+it must be declared using Maxima's @code{declare} function. For example, to declare @code{f} and @code{g} 
+as operators and @code{α} and @code{β} as constants, issue the commands
 
 @example
+@group
 (%i1)	declare([f,g],operator)$
 (%i2)	declare([α,β], constant)$
+@end group
 @end example
 
 Now we can compute some commutators:
 
 @example
+@group
 (%i3)	commutator(α*f, β*g);
-(%o3)	α*β*(f . g)-α*β*(g . f)
+(%o3)	α*β*(f . g) - α*β*(g . f)
 
 (%i4)	commutator(f, f);
 (%o4)	0
@@ -104,26 +106,27 @@ Now we can compute some commutators:
 (%o5)	0
 
 (%i6)	commutator(f + g, g);
-(%o6)	-(g . (g+f))+g^^2+f . g
+(%o6)	-(g . (g + f)) + g^^2 + f . g
 
 (%i7)	expand(%);
 (%o7)	f . g - g . f
+@end group
 @end example
-In the last example, we see that a user must sometimes manually use @code{expand} to fully 
-simplify operators. As an alternative to manually expanding, a user can set the value
-of the option variable @code{dotdistrib} to true:
-
+In the last example, the user must manually use @code{expand} to fully simplify the result.
+In this case, as an alternative to manually expanding, the user can set the value of the option 
+variable @code{dotdistrib} to @code{true}:
 @example
-(%i8)	block([dotdistrib : true], commutator(f +g, g));
+@group
+(%i8)	block([dotdistrib : true], commutator(f + g, g));
 (%o8)	f . g - g . f
+@end group
 @end example
-
-We can give an operator a formula by using @code{put}. For example, to define an operator @code{Dx}
-that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression
-by @code{X}, we first need to declare @code{Dx} and @code{X} to be operators; after that we can
-define formulas for them using @code{put}:
-
+Assign a formula to an operator using @code{put}. For example, to define an operator @code{Dx} 
+that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression 
+by @code{x}, we first need to declare @code{Dx} and @code{X} as operators. After that, we can define 
+formulas for them using @code{put}:
 @example
+@group 
 (%i1)	declare(Dx, operator, X, operator)$
 
 (%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
@@ -131,45 +134,56 @@ define formulas for them using @code{put}:
 
 (%i3)	put(X, lambda([q],  x*q), 'formula);
 (%o3)	lambda([q],x*q)
+@end group
 @end example
 The function @code{operator_apply} applies a function to an argument:
 @example
+@group 
 (%i4)	operator_apply(Dx, x^2);
 (%o4)	Dx(x^2)
+@end group 
 @end example
-To use the formula for @code{Dx}, use the function @code{operator_express}:
+To use the formula for @code{Dx}, apply the function @code{operator_express}:
 @example
+@group 
 (%i5)	operator_express(%);
 (%o5)	2*x
+@end group 
 @end example
-Finally, an example that uses both operators @code{Dx} and @code{X}:
+Here is an example that uses both operators @code{Dx} and @code{X}:
 @example
+@group 
 (%i6)	operator_apply(X.Dx.X, x^2);
 (%o6)	X(Dx(X(x^2)))
 
 (%i7)	operator_express(%);
 (%o7)	3*x^3
+@end group
 @end example
 
 In output %o6 above, we see that @code{operator_apply} effectively changes the dotted notation
 for function composition (in this case @code{X.Dx.X}) to traditional parenthesized function
-notation @code{X(Dx(X(x^2)))}. The traditional notation allows us to use the @code{simplifying}
-package to define an operator as a simplifying function. (The source code for the @code{simplifying}
+notation @code{X(Dx(X(x^2)))}. The traditional notation allows the use of the @code{simplifying} 
+package to define operators as simplifying functions. (The source code for the @code{simplifying}
 package has some user documentation and some examples, but there is no other documentation for
 this package.)
 
-To define our operators @code{Dx} and @code{X} to be simplifying operators, we start by loading the 
-@code{simplifying} and defining predicates that detect if the main operator
+We will start by loading the simplifying package and defining predicates that detect if the main operator
 of an expression is @code{Dx} or @code{X}. 
-@example
+Fd@example
+@group 
 (%i1)	load(simplifying)$
+
 (%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+
 (%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+@end group
 @end example
 After that, we can define a simplification function for @code{Dx} that applies the rule 
 @code{ Dx . X = Dx + X.Dx} that moves all the derivative operators to the right of all 
 multiplication operators @code{X}; our code is
 @example
+@group
 (%i4)	simp_Dx (e) := block([],
 	    /* Dx . X = Dx + X.Dx */
 	    if X_p(e) then (
@@ -177,82 +191,132 @@ multiplication operators @code{X}; our code is
 	   else simpfuncall(Dx,e))$
 	    
 (%i5)	simplifying('Dx, 'simp_Dx)$
-
+@end group
 @end example
 Some simple examples
 @example
+@group 
 (%i6)	operator_simp(Dx . X);
-(%o6)	X . Dx+Dx
+(%o6)	X . Dx + Dx
 
 (%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
-(%o7)	2*(X . Dx)+Dx
+(%o7)	2*(X . Dx) + Dx
+@end group 
 @end example
+
+@node Error messages,  Functions and Variables for operator_algebra, Basic usage, Top
+@section Error messages
+
+Attempting to apply an expression that isn't an operator to an argument results in the 
+error message "I don't know how to apply @code{X} to @code{Y}." Here are some examples:
+
+@example
+@group
+(%i1) operator_apply(f, x);
+
+I don't know how to apply f  to x
+@end group
+@end example
+To  fix this, declare @code{f} to be an operator:
+@example
+@group
+(%i2) declare(f,operator)$
+
+(%i3) operator_apply(f, x);
+(%o3) f(x)
+@end group
+@end example
+Another common cause of this error is that certain variables may need to be declared as constants; for
+example
+
+@example
+@group
+(%i4) operator_apply(a*f, x);
+
+I don't know how to apply  a f  to  x
+
+(%i5) declare(a,constant)$
+
+(%i6) operator_apply(a*f, x);
+(%o6) a f(x)
+@end group
+@end example
+For cases such as applying @code{cos(f)}, where @code{f} is a declared operator, there is no easy
+workaround.
+
 
 @node Functions and Variables for operator_algebra, , Basic usage, Top
 @section Functions and Variables for operator_algebra
 
 @heading Predicates
-The @code{operator_algebra} package defines a predicate @code{operatorp} for detecting if a symbol is a 
-declared operator; a predicate @code{operator_adjointp} for detecting if and expression is an
-operator adjoint nounform; and five general purpose predicates @code{exptp, ncexptp, nctimesp, timesp},
-and @code{plusp} that return @code{true} if and only if the main operator of a Maxima expression is 
-@code{^, ^^, .,} and @code{+}, respectively.
+
+The @code{operator_algebra} package defines the predicate @code{operatorp}, which checks 
+if a symbol is a declared operator, and @code{operator_adjointp}, which detects whether an 
+expression is an operator adjoint nounform; and it defines five general purpose predicates 
+@code{exptp, ncexptp, nctimesp, timesp},and @code{plusp} that return @code{true} if and only 
+if the main operator of a Maxima expression is @code{^, ^^, ., *} and @code{+}, respectively.
 
 @deffn {Function} exptp (@code{e})
 
-The function call @code{exptp(e)} returns true if the operator of the expression @code{e} is 
-@code{^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{exptp(e)} returns true if the main operator of the expression @code{e} is 
+`@code{^}'; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
 @emph{Examples}
 
 @example
+@group 
 (%i1)	exptp(x);
 (%o1)	false
 
 (%i2)	exptp(x^2);
 (%o2)	true
+@end group 
 @end example
 
 
 @deffn {Function} ncexptp (@code{e})
 
-The function call @code{ncexptp(e)} returns true if the operator of the expression @code{e} is 
-@code{^^}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{ncexptp(e)} returns true if the main operator of the expression @code{e} is 
+`@code{^^}'; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
 @emph{Examples}
 
 @example
+@group 
 (%i1)	ncexptp(x^2);
 (%o1)	false
 
 (%i2)	ncexptp(x^^2);
 (%o2)	true
+@end group
 @end example
 
 @deffn {Function} nctimesp (@code{e})
 
-The function call @code{nctimesp(e)} returns true if the operator of the expression @code{e} is 
-@code{.}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{nctimesp(e)} returns true if the main operator of the expression @code{e} is 
+`@code{.}'; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
 @emph{Examples}
 
 @example
+@group 
 (%i1)	nctimesp(x * y);
 (%o1)	false
 
 (%i2)	nctimesp(x . y);
 (%o2)	true
+@end group
 @end example
 
 @deffn {Function} operator_adjointp (@code{e})
 
-The function call @code{operator_adjointp(e)} returns true if the operator of the expression @code{e} is 
+The function call @code{operator_adjointp(e)} returns true if the main operator of the expression @code{e} is 
 @code{operator_adjoint}; otherwise it returns false. The main operator of an expression is determined by the 
 Maxima function @code{inpart}, not @code{part}.
 @end deffn
@@ -260,6 +324,7 @@ Maxima function @code{inpart}, not @code{part}.
 @emph{Examples}
 
 @example
+@group 
 (%i1) declare(f,operator)$
 
 (%i2) operator_adjoint(f);
@@ -270,54 +335,61 @@ Maxima function @code{inpart}, not @code{part}.
 
 (%i4) operator_adjointp(a+b);
 (%o4) false
+@end group
 @end example
 
 
 @deffn {Function} timesp (@code{e})
 
-The function call @code{timesp(e)} returns true if the operator of the expression @code{e} is 
-@code{*}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{timesp(e)} returns true if the main operator of the expression @code{e} is 
+`@code{*}'; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
 @emph{Examples}
 
 @example
+@group 
 (%i1)	timesp(x * y);
 (%o1)	true
 
 (%i2)	timesp(x . y);
 (%o2)	false
+@end group
 @end example
 
 
 @deffn {Function} plusp (@code{e})
 
-The function call @code{plusp(e)} returns true if the operator of the expression @code{e} is 
-@code{+}; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+The function call @code{plusp(e)} returns true if the main operator of the expression @code{e} is 
+`@code{+}'; otherwise it returns false. The main operator of an expression is determined by the Maxima 
 function @code{inpart}, not @code{part}.
 @end deffn
 
 @emph{Examples}
 @example
+@group 
 (%i1)	plusp(1);
 (%o1)	false
 
 (%i2)	plusp(1+x);
 (%o2)	true
+@end group
 @end example
 
 @heading Functions
 
 @deffn {Function} get_operator_formula (@code{e})
 
-When @code{e} is a declared to be an operator with a function  that is defined by @code{put}, the function 
-call @code{ get_operator_formula (e)} returns the function; otherwise,  @code{get_operator_formula(e)}
+When @code{e} is declared to be an operator with a function that is defined by @code{put}, the function 
+call @code{get_operator_formula (e)} uses @code{get} to look up the function associated with @code{e}; 
+otherwise, @code{get_operator_formula(e)}
 returns false.
 
 @end deffn 
 @emph{Examples}
 @example
+@group
 (%i1) declare(f,operator)$
 
 (%i2) put(f, lambda([q], 5*q), formula)$
@@ -327,29 +399,58 @@ returns false.
 
 (%i4) get_operator_formula(g);
 (%o4) false
+@end group
 @end example
 
 @deffn {Function} operator_apply(@code{e},@code{ψ})
 
 The function call @code{operator_apply(@code{e},@code{ψ})} applies an operator or a dotted form operator to
-an argument @code{ψ}. If the first argument is not an operator or a a dotted form operator, the result
+an argument @code{ψ}. If the first argument is not an operator or a dotted form operator, the result
 is an error.
+
 @end deffn
 
 @emph{Example}
 
+To apply an operator @code{f} to an input @code{ψ}, we can either enter it by hand using 
 @example
+@group 
+(%i1) declare(f,operator)$
 
+(%i2) f(ψ);
+(%o2) f(ψ)
+@end group
+@end example 
+or we can use the function @code{operator_apply}
+@example
+@group
 (%i1) declare([f,g], operator)$
 
 (%i2) operator_apply(f, ψ);
 (%o2) f(ψ)
 
+@end group
+@end example
+For applying compositions and sums of operators, using @code{operator_apply} is easier than entering 
+the expression by hand; for example
+@example
+@group 
 (%i3) operator_apply(f.g, ψ);
 (%o3) f(g(ψ))
 
-(%i4) operator_apply(h, ψ);
+(%i4) operator_apply(f.g + g, ψ);
+(%o4) f(g(ψ)) + g(ψ)
+
+@end group 
+@end example
+When the input isn't an operator, Maxima throws an error:
+
+@example 
+@group
+(%i5) operator_apply(h, ψ);
 I don't know how to apply  h  to  ψ
+
+@end group
 @end example
 
 @deffn {Function} operator_express (@code{e})
@@ -362,51 +463,63 @@ the formula (if any) for the operator and applies it to the input.
 @emph{Example}
 
 @example
+@group 
 (%i1) declare(f,operator)$
 
 (%i2) put(f, lambda([q], 42*q), 'formula)$
 
 (%i3) operator_apply(f,ψ);
-(%o3)                                f(ψ)
+(%o3) f(ψ)
+
 (%i4) operator_express(%);
-(%o4)                                42 ψ
+(%o4) 42 ψ
+
 (%i5) operator_apply(f^^3,ψ);
-(%o5)                             f(f(f(ψ)))
+(%o5) f(f(f(ψ)))
+
 (%i6) operator_express(%);
-(%o6)                               74088 ψ
-(%i7)
+(%o6) 74088 ψ
+
+@end group
 @end example
 
 @deffn {Function} operator_adjoint (@code{e})
 
-The function call @code{operator_adjoint (e)} returns the operator adjoint of @code{e}. In Quantum 
-Mechanics, the adjoint is generally known as the @emph{hermitian conjugate}.
+The function call @code{operator_adjoint (e)} returns the operator adjoint of @code{e}. In quantum 
+mechanics, the adjoint is generally known as the @emph{hermitian conjugate}.
 
 @end deffn
 
-The operator adjoint is a @emph{simplifying function}. The operator adjoint of and operator returns 
-an @code{operator_adjoint} nounform; for example
+The operator adjoint is a @emph{simplifying function}. Thus, unless an operator has a declared adjoint,
+the operator adjoint of an operator returns an @code{operator_adjoint} nounform; for example
 @example
+@group 
 (%i1)	declare(F,operator,G, operator)$
 
 (%i2)	operator_adjoint(F);
 (%o2)	operator_adjoint(F)
+
+@end group
 @end example
 
-The operator adjoint is an involution, that is the operator adjoint is its own inverse:
+The operator adjoint is an @emph{involution}, meaning that the operator adjoint is its own inverse:
 @example
+@group 
 (%i3)	operator_adjoint(%);
 (%o3)	F
+@end group
 @end example
-
 
 To tell Maxima, that the adjoint of @code{F} is @code{G}, use a @code{put} statement:
 @example
+@group
 (%i4)	(put(F,G, operator_adjoint),put(G,F, operator_adjoint))$
+@end group 
 @end example
 
 The adjoint is additive
 @example
+@group 
 (%i5)	operator_adjoint(2*F - 5*G);
 (%o5)	2*G-5*F
 
@@ -415,53 +528,69 @@ The adjoint is additive
 
 (%i7)	operator_adjoint(F^^2);
 (%o7)	G^^2
+@end group
 @end example
 
 The adjoint of a complex number is the complex conjugate of the number; for a matrix, 
 it is the transpose of the element-wise adjoint of the matrix:
 
 @example
+@group
 (%i8)	operator_adjoint(2+%i);
 (%o8)	2-%i
+
 (%i11)	operator_adjoint(matrix([1,%i, 3],[4,5,6]));
 (%o11)	matrix([1, 4], [-%i, 5], [3, 6])
 
 (%i12)	operator_adjoint(matrix([0,F],[G,0]));
 (%o12)	matrix([0, F], [G, 0])
+
+@end group
 @end example
 
-@deffn operator_simp (@code{e})
+@deffn {Function} operator_simp (@code{e})
 
-For an operator @code{e} in dot form, the function call @code{operator_simp(e)} returns a simplified version
-the operator @code{e}. Unless a user has defined simplification rules for the constitute parts of the
-operator @code{e}, no simplification will occur.
+For an operator @code{e} in dot form, the function call @code{operator_simp(e)} returns a 
+simplified version of the operator @code{e}. Unless a user has defined simplification rules 
+for the constituent parts of the operator @code{e}, no simplification will occur.
+
 @end deffn 
 
 @emph{Examples}
 
-In this example we'll define Quantum position and momentum operators @code{Q} and @code{P}, respectively.
+In this example we'll define quantum position and momentum operators @code{Q} and @code{P}, respectively.
 And we'll define a simplification rule that orders the position operators to be before the momentum operators.
-We start by declaring @code{P} and @code{Q} to be operators. The Planck constant divided by @code{2 π}, denoted
-as @code{ħ} needs to be declared to be a constant.
+We start by declaring @code{P} and @code{Q} to be operators. The Planck constant divided by @code{2 π}, 
+denoted as @code{ħ}, needs to be declared to be a constant.
 @example
+@group 
 (%i1) declare([P,Q],operator)$
 
 (%i2) declare(ħ,constant)$
 
+@end group
 @end example
-Now we define @code{P} to be a simplifying function and we implement the rule @code{P Q --> Q P  - %i*ħ}
+Now we define @code{P} to be a simplifying function and we implement the rule that replaces @code{P Q}
+by @code{Q P  - %i*ħ}
 @example
-(%i3) /* Implement the rule P Q --> Q P  - %i*ħ */
+@group 
+(%i3) /* Implement the rule P Q replaced by Q P  - %i*ħ */
 simp_P(e) :=
   if Q_p(e) then Q(P(first(e))) - %i*ħ*first(e)
   else simpfuncall('P,e)$
 
 (%i4) simplifying('P, 'simp_P)$
+
+@end group
 @end example
-We end with a simple test:
+
+Let's conclude with a simple test:
+
 @example
+@group 
 (%i5) operator_simp(Q^^4 . P^^2 - P^^2 . Q^^4);
 (%o5) 8*%i*ħ*Q^^3 . P+12*ħ^2*Q^^2
+@end group
 @end example
 
 @deffn {Function} dot_form (@code{e})
@@ -474,36 +603,42 @@ a ``dot form.''
 Assuming @code{F} and @code{G} are declared operators, we have 
 
 @example
+@group 
 (%i1)	dot_form(F(G(x)));
 (%o1)	F . G . x
 
 (%i2)	dot_form(F(F(x)) - F(G(x)));
 (%o2)	F^^2 . x-F . G . x
+@end group
 @end example
 
-@deffn {Function} operatorp (e)
+@deffn {Function} operatorp (@code{e})
 
 The function call @code{operatorp (e)} returns true if the input 
-@code{e} is a declared operator; otherwise it returns false.
-
+@code{e} is a declared operator; otherwise it returns false. A subscripted
+mapatom of the form @code{f[X]} is an operator if the symbol @code{f} is
+a declared operator.
 @end deffn
 
 @emph{Examples}
 @example
 @group
 (%i1)	operatorp(q);
-(%o1)	true
+(%o1)	false
 
 (%i2)	declare(q,operator);
 (%o2)	done
 
 (%i3)	operatorp(q);
 (%o3)	true
-@end group
 
+(%i4)  operatorp(q[2]);
+(%o4)  true
+@end group
+@end example 
 The predicate @code{operatorp} does @emph{not} recognize linear combinations or compositions of operators to 
 be an operator; for example
-
+@example 
 @group
 (%i4)	operatorp(5*q);
 (%o4)	false
@@ -515,10 +650,33 @@ be an operator; for example
 The function call @code{commutator(f,g)} returns @code{operator_simp(f.g - g.f)}. 
 @end deffn
 
+@emph{Examples}
+
+To allow for more simplification, we'll set @code{ dotdistrib} to true:
+@example
+@group 
+(%i1) dotdistrib : true$
+
+(%i2) declare([f,g,h],operator)$
+
+(%i3) commutator(f,f);
+(%o3) 0
+
+(%i4) commutator(f,f^^3);
+(%o4) 0
+
+(%i5) commutator(f,f + g);
+(%o5) f . g - g . f
+
+(%i6) commutator(f, commutator(g,h)) + commutator(h,commutator(f,g)) + commutator(g, commutator(h,f));
+(%o6) 0
+
+@end group
+@end example
+
 @node Function and Variable Index, , Top, Top
 @appendix Function and Variable index
 @printindex fn
 @printindex vr
-
 @bye
 

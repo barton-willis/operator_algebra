@@ -1,0 +1,1015 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on September 5, 2024 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Package operator_algebra: A Tool for Operator Manipulation in Maxima.</title>
+
+<meta name="description" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
+<meta name="keywords" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Introduction-to-the-package-operator_005falgebra">1.1 Introduction to the package operator_algebra</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Installation">1.2 Installation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Basic-usage">1.3 Basic usage</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Error-messages">1.4 Error messages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Functions-and-Variables-for-operator_005falgebra">1.5 Functions and Variables for operator_algebra</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment"> &mdash; The Detailed Node Listing &mdash;
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="#Introduction-to-the-package-operator_005falgebra">1.1 Introduction to the package operator_algebra</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Installation">1.2 Installation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Basic-usage">1.3 Basic usage</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Error-messages">1.4 Error messages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Functions-and-Variables-for-operator_005falgebra">1.5 Functions and Variables for operator_algebra</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+</pre></th></tr></table>
+
+
+<a name="Package-operator_005falgebra"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[ &lt; ]</td>
+<td valign="middle" align="left">[<a href="#Introduction-to-the-package-operator_005falgebra" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[ &lt;&lt; ]</td>
+<td valign="middle" align="left">[ Up ]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">1. Package operator_algebra</h1>
+<hr size="6">
+<a name="Introduction-to-the-package-operator_005falgebra"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Installation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Introduction-to-the-package-operator_005falgebra-1"></a>
+<h2 class="section">1.1 Introduction to the package operator_algebra</h2>
+
+<p>The operator_algebra package provides support for working with operators (that is, linear functions), 
+particularly quantum mechanical operators. The package focuses on computations and does not support 
+specifying domains and codomains, even though these are mathematical necessities. A common use of this 
+package is reordering quantum creation and annihilation operators so that all creation operators appear 
+to the left in the product, a process known as <em>normal order</em>.
+</p>
+<p>The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
+Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
+the spring of 2021.
+</p>
+<p>A related Maxima package, but specialized to Clifford algebras, can be found at 
+<a href="https://github.com/dprodanov/clifford">https://github.com/dprodanov/clifford</a>.
+</p>
+<hr size="6">
+<a name="Installation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction-to-the-package-operator_005falgebra" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Basic-usage" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Installation-1"></a>
+<h2 class="section">1.2 Installation</h2>
+
+<p>To install the operator_algebra package, copy the folder &lsquo;<tt>operator_algebra</tt>&rsquo; to a location that Maxima
+can find. If needed, append new members to the lists <code>file_search_maxima</code> and <code>file_search_lisp</code> 
+to allow Maxima to find the package.
+</p>
+<p>The package does not autoload, so you must manually load it. Load the package with the following command:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)  load(&quot;operator_algebra&quot;)$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>To run the regression tests for the package, issue the command
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i2) batch(&quot;rtest_operator_algebra&quot;, 'test)$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<hr size="6">
+<a name="Basic-usage"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Installation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Error-messages" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Basic-usage-1"></a>
+<h2 class="section">1.3 Basic usage</h2>
+
+<p>Operator composition is denoted by &lsquo;<code>.</code>&rsquo;, which is Maxima&rsquo;s generic noncommutative 
+multiplication operator, and the composition of an operator with itself is denoted by &lsquo;<code>^^</code>&rsquo;, which
+is  Maxima&rsquo;s generic noncommutative exponentiation operator. As such, the settings of the option
+variables <code>dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
+dotexptsimp, dotident</code>, and <code>dotscrules</code> can alter the way Maxima simplifies compositions of 
+operators.
+</p>
+<p>The package defines <code>operator</code> to be a feature. To tell Maxima that a symbol is an operator, 
+it must be declared using Maxima&rsquo;s <code>declare</code> function. For example, to declare <code>f</code> and <code>g</code> 
+as operators and <code>α</code> and <code>β</code> as constants, issue the commands
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	declare([f,g],operator)$
+(%i2)	declare([α,β], constant)$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>Now we can compute some commutators:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i3)	commutator(α*f, β*g);
+(%o3)	α*β*(f . g) - α*β*(g . f)
+
+(%i4)	commutator(f, f);
+(%o4)	0
+
+(%i5)	commutator(f,f^^2);
+(%o5)	0
+
+(%i6)	commutator(f + g, g);
+(%o6)	-(g . (g + f)) + g^^2 + f . g
+
+(%i7)	expand(%);
+(%o7)	f . g - g . f
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>In the last example, the user must manually use <code>expand</code> to fully simplify the result.
+In this case, as an alternative to manually expanding, the user can set the value of the option 
+variable <code>dotdistrib</code> to <code>true</code>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i8)	block([dotdistrib : true], commutator(f + g, g));
+(%o8)	f . g - g . f
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>Assign a formula to an operator using <code>put</code>. For example, to define an operator <code>Dx</code> 
+that differentiates with respect to <code>x</code> and an operator <code>X</code> that multiplies an expression 
+by <code>x</code>, we first need to declare <code>Dx</code> and <code>X</code> as operators. After that, we can define 
+formulas for them using <code>put</code>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	declare(Dx, operator, X, operator)$
+
+(%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
+(%o2)	lambda([q],'diff(q,x,1))
+
+(%i3)	put(X, lambda([q],  x*q), 'formula);
+(%o3)	lambda([q],x*q)
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>The function <code>operator_apply</code> applies a function to an argument:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i4)	operator_apply(Dx, x^2);
+(%o4)	Dx(x^2)
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>To use the formula for <code>Dx</code>, apply the function <code>operator_express</code>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i5)	operator_express(%);
+(%o5)	2*x
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>Here is an example that uses both operators <code>Dx</code> and <code>X</code>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i6)	operator_apply(X.Dx.X, x^2);
+(%o6)	X(Dx(X(x^2)))
+
+(%i7)	operator_express(%);
+(%o7)	3*x^3
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>In output %o6 above, we see that <code>operator_apply</code> effectively changes the dotted notation
+for function composition (in this case <code>X.Dx.X</code>) to traditional parenthesized function
+notation <code>X(Dx(X(x^2)))</code>. The traditional notation allows the use of the <code>simplifying</code> 
+package to define operators as simplifying functions. (The source code for the <code>simplifying</code>
+package has some user documentation and some examples, but there is no other documentation for
+this package.)
+</p>
+<p>We will start by loading the simplifying package and defining predicates that detect if the main operator
+of an expression is <code>Dx</code> or <code>X</code>. 
+Fd</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	load(simplifying)$
+
+(%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
+
+(%i3)	X_p(e) := not mapatom(e) and inpart(e,0) = 'X$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>After that, we can define a simplification function for <code>Dx</code> that applies the rule 
+<code> Dx . X = Dx + X.Dx</code> that moves all the derivative operators to the right of all 
+multiplication operators <code>X</code>; our code is
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i4)	simp_Dx (e) := block([],
+	    /* Dx . X = Dx + X.Dx */
+	    if X_p(e) then (
+	        Dx(first(e)) + X(Dx(first(e))))
+	   else simpfuncall(Dx,e))$
+	    
+(%i5)	simplifying('Dx, 'simp_Dx)$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>Some simple examples
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i6)	operator_simp(Dx . X);
+(%o6)	X . Dx + Dx
+
+(%i7)	block([dotdistrib : true], operator_simp(Dx . X^^2 - X^^2 . Dx));
+(%o7)	2*(X . Dx) + Dx
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<hr size="6">
+<a name="Error-messages"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Basic-usage" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Functions-and-Variables-for-operator_005falgebra" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Error-messages-1"></a>
+<h2 class="section">1.4 Error messages</h2>
+
+<p>Attempting to apply an expression that isn&rsquo;t an operator to an argument results in the 
+error message &quot;I don&rsquo;t know how to apply <code>X</code> to <code>Y</code>.&quot; Here are some examples:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1) operator_apply(f, x);
+
+I don't know how to apply f  to x
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>To  fix this, declare <code>f</code> to be an operator:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i2) declare(f,operator)$
+
+(%i3) operator_apply(f, x);
+(%o3) f(x)
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>Another common cause of this error is that certain variables may need to be declared as constants; for
+example
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i4) operator_apply(a*f, x);
+
+I don't know how to apply  a f  to  x
+
+(%i5) declare(a,constant)$
+
+(%i6) operator_apply(a*f, x);
+(%o6) a f(x)
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>For cases such as applying <code>cos(f)</code>, where <code>f</code> is a declared operator, there is no easy
+workaround.
+</p>
+
+<hr size="6">
+<a name="Functions-and-Variables-for-operator_005falgebra"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Error-messages" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Functions-and-Variables-for-operator_005falgebra-1"></a>
+<h2 class="section">1.5 Functions and Variables for operator_algebra</h2>
+
+<a name="Predicates"></a>
+<h2 class="heading">Predicates</h2>
+
+<p>The <code>operator_algebra</code> package defines the predicate <code>operatorp</code>, which checks 
+if a symbol is a declared operator, and <code>operator_adjointp</code>, which detects whether an 
+expression is an operator adjoint nounform; and it defines five general purpose predicates 
+<code>exptp, ncexptp, nctimesp, timesp</code>,and <code>plusp</code> that return <code>true</code> if and only 
+if the main operator of a Maxima expression is <code>^, ^^, ., *</code> and <code>+</code>, respectively.
+</p>
+<dl>
+<dt><a name="index-exptp"></a><u>Function:</u> <b>exptp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>exptp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+&lsquo;<code>^</code>&rsquo;; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	exptp(x);
+(%o1)	false
+
+(%i2)	exptp(x^2);
+(%o2)	true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+
+<dl>
+<dt><a name="index-ncexptp"></a><u>Function:</u> <b>ncexptp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>ncexptp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+&lsquo;<code>^^</code>&rsquo;; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	ncexptp(x^2);
+(%o1)	false
+
+(%i2)	ncexptp(x^^2);
+(%o2)	true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-nctimesp"></a><u>Function:</u> <b>nctimesp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>nctimesp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+&lsquo;<code>.</code>&rsquo;; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	nctimesp(x * y);
+(%o1)	false
+
+(%i2)	nctimesp(x . y);
+(%o2)	true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operator_005fadjointp"></a><u>Function:</u> <b>operator_adjointp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>operator_adjointp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+<code>operator_adjoint</code>; otherwise it returns false. The main operator of an expression is determined by the 
+Maxima function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator)$
+
+(%i2) operator_adjoint(f);
+(%o2) operator_adjoint(f)
+
+(%i3) operator_adjointp(%);
+(%o3) true
+
+(%i4) operator_adjointp(a+b);
+(%o4) false
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+
+<dl>
+<dt><a name="index-timesp"></a><u>Function:</u> <b>timesp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>timesp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+&lsquo;<code>*</code>&rsquo;; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	timesp(x * y);
+(%o1)	true
+
+(%i2)	timesp(x . y);
+(%o2)	false
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+
+<dl>
+<dt><a name="index-plusp"></a><u>Function:</u> <b>plusp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>plusp(e)</code> returns true if the main operator of the expression <code>e</code> is 
+&lsquo;<code>+</code>&rsquo;; otherwise it returns false. The main operator of an expression is determined by the Maxima 
+function <code>inpart</code>, not <code>part</code>.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	plusp(1);
+(%o1)	false
+
+(%i2)	plusp(1+x);
+(%o2)	true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<a name="Functions"></a>
+<h2 class="heading">Functions</h2>
+
+<dl>
+<dt><a name="index-get_005foperator_005fformula"></a><u>Function:</u> <b>get_operator_formula</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>When <code>e</code> is declared to be an operator with a function that is defined by <code>put</code>, the function 
+call <code>get_operator_formula (e)</code> uses <code>get</code> to look up the function associated with <code>e</code>; 
+otherwise, <code>get_operator_formula(e)</code>
+returns false.
+</p>
+</dd></dl>
+
+<p><em>Examples</em>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 5*q), formula)$
+
+(%i3) get_operator_formula(f);
+(%o3) lambda([q], 5 q)
+
+(%i4) get_operator_formula(g);
+(%o4) false
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operator_005fapply"></a><u>Function:</u> <b>operator_apply</b><i>(<code>e</code>,<code>ψ</code>)</i></dt>
+<dd>
+<p>The function call <code>operator_apply(<code>e</code>,<code>ψ</code>)</code> applies an operator or a dotted form operator to
+an argument <code>ψ</code>. If the first argument is not an operator or a dotted form operator, the result
+is an error.
+</p>
+</dd></dl>
+
+
+<p><em>Example</em>
+</p>
+<p>To apply an operator <code>f</code> to an input <code>ψ</code>, we can either enter it by hand using 
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator)$
+
+(%i2) f(ψ);
+(%o2) f(ψ)
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>or we can use the function <code>operator_apply</code>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare([f,g], operator)$
+
+(%i2) operator_apply(f, ψ);
+(%o2) f(ψ)
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>For applying compositions and sums of operators, using <code>operator_apply</code> is easier than entering 
+the expression by hand; for example
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i3) operator_apply(f.g, ψ);
+(%o3) f(g(ψ))
+
+(%i4) operator_apply(f.g + g, ψ);
+(%o4) f(g(ψ)) + g(ψ)
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>When the input isn&rsquo;t an operator, Maxima throws an error:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i5) operator_apply(h, ψ);
+I don't know how to apply  h  to  ψ
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operator_005fexpress"></a><u>Function:</u> <b>operator_express</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>For each operator in the input <code>e</code>, the function call <code>operator_express (e)</code> looks up 
+the formula (if any) for the operator and applies it to the input.
+</p>
+</dd></dl>
+
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator)$
+
+(%i2) put(f, lambda([q], 42*q), 'formula)$
+
+(%i3) operator_apply(f,ψ);
+(%o3) f(ψ)
+
+(%i4) operator_express(%);
+(%o4) 42 ψ
+
+(%i5) operator_apply(f^^3,ψ);
+(%o5) f(f(f(ψ)))
+
+(%i6) operator_express(%);
+(%o6) 74088 ψ
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operator_005fadjoint"></a><u>Function:</u> <b>operator_adjoint</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>operator_adjoint (e)</code> returns the operator adjoint of <code>e</code>. In quantum 
+mechanics, the adjoint is generally known as the <em>hermitian conjugate</em>.
+</p>
+</dd></dl>
+
+
+<p>The operator adjoint is a <em>simplifying function</em>. Thus, unless an operator has a declared adjoint,
+the operator adjoint of an operator returns an <code>operator_adjoint</code> nounform; for example
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	declare(F,operator,G, operator)$
+
+(%i2)	operator_adjoint(F);
+(%o2)	operator_adjoint(F)
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>The operator adjoint is an <em>involution</em>, meaning that the operator adjoint is its own inverse:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i3)	operator_adjoint(%);
+(%o3)	F
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>To tell Maxima, that the adjoint of <code>F</code> is <code>G</code>, use a <code>put</code> statement:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i4)	(put(F,G, operator_adjoint),put(G,F, operator_adjoint))$
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>The adjoint is additive
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i5)	operator_adjoint(2*F - 5*G);
+(%o5)	2*G-5*F
+
+(%i6)	operator_adjoint(P .Q);
+(%o6)	Q . P
+
+(%i7)	operator_adjoint(F^^2);
+(%o7)	G^^2
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>The adjoint of a complex number is the complex conjugate of the number; for a matrix, 
+it is the transpose of the element-wise adjoint of the matrix:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i8)	operator_adjoint(2+%i);
+(%o8)	2-%i
+
+(%i11)	operator_adjoint(matrix([1,%i, 3],[4,5,6]));
+(%o11)	matrix([1, 4], [-%i, 5], [3, 6])
+
+(%i12)	operator_adjoint(matrix([0,F],[G,0]));
+(%o12)	matrix([0, F], [G, 0])
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operator_005fsimp"></a><u>Function:</u> <b>operator_simp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>For an operator <code>e</code> in dot form, the function call <code>operator_simp(e)</code> returns a 
+simplified version of the operator <code>e</code>. Unless a user has defined simplification rules 
+for the constituent parts of the operator <code>e</code>, no simplification will occur.
+</p>
+</dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<p>In this example we&rsquo;ll define quantum position and momentum operators <code>Q</code> and <code>P</code>, respectively.
+And we&rsquo;ll define a simplification rule that orders the position operators to be before the momentum operators.
+We start by declaring <code>P</code> and <code>Q</code> to be operators. The Planck constant divided by <code>2 π</code>, 
+denoted as <code>ħ</code>, needs to be declared to be a constant.
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare([P,Q],operator)$
+
+(%i2) declare(ħ,constant)$
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>Now we define <code>P</code> to be a simplifying function and we implement the rule that replaces <code>P Q</code>
+by <code>Q P  - %i*ħ</code>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i3) /* Implement the rule P Q replaced by Q P  - %i*ħ */
+simp_P(e) :=
+  if Q_p(e) then Q(P(first(e))) - %i*ħ*first(e)
+  else simpfuncall('P,e)$
+
+(%i4) simplifying('P, 'simp_P)$
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<p>Let&rsquo;s conclude with a simple test:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i5) operator_simp(Q^^4 . P^^2 - P^^2 . Q^^4);
+(%o5) 8*%i*ħ*Q^^3 . P+12*ħ^2*Q^^2
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-dot_005fform"></a><u>Function:</u> <b>dot_form</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>dot_form(e)</code> converts an expression <code>e</code> from a parenthesized functional form to 
+a &ldquo;dot form.&rdquo;
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+Assuming <code>F</code> and <code>G</code> are declared operators, we have 
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	dot_form(F(G(x)));
+(%o1)	F . G . x
+
+(%i2)	dot_form(F(F(x)) - F(G(x)));
+(%o2)	F^^2 . x-F . G . x
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-operatorp"></a><u>Function:</u> <b>operatorp</b><i> (<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>operatorp (e)</code> returns true if the input 
+<code>e</code> is a declared operator; otherwise it returns false. A subscripted
+mapatom of the form <code>f[X]</code> is an operator if the symbol <code>f</code> is
+a declared operator.
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	operatorp(q);
+(%o1)	false
+
+(%i2)	declare(q,operator);
+(%o2)	done
+
+(%i3)	operatorp(q);
+(%o3)	true
+
+(%i4)  operatorp(q[2]);
+(%o4)  true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+<p>The predicate <code>operatorp</code> does <em>not</em> recognize linear combinations or compositions of operators to 
+be an operator; for example
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i4)	operatorp(5*q);
+(%o4)	false
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-commutator"></a><u>Function:</u> <b>commutator</b><i> (<code>f,g</code>)</i></dt>
+<dd>
+<p>The function call <code>commutator(f,g)</code> returns <code>operator_simp(f.g - g.f)</code>. 
+</p></dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<p>To allow for more simplification, we&rsquo;ll set <code> dotdistrib</code> to true:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) dotdistrib : true$
+
+(%i2) declare([f,g,h],operator)$
+
+(%i3) commutator(f,f);
+(%o3) 0
+
+(%i4) commutator(f,f^^3);
+(%o4) 0
+
+(%i5) commutator(f,f + g);
+(%o5) f . g - g . f
+
+(%i6) commutator(f, commutator(g,h)) + commutator(h,commutator(f,g)) + commutator(g, commutator(h,f));
+(%o6) 0
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<hr size="6">
+<a name="Function-and-Variable-Index"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Functions-and-Variables-for-operator_005falgebra" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Function-and-Variable-index"></a>
+<h1 class="appendix">A. Function and Variable index</h1>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-E" class="summary-letter"><b>E</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-N" class="summary-letter"><b>N</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-O" class="summary-letter"><b>O</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-P" class="summary-letter"><b>P</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+</td></tr></table>
+<table border="0" class="index-fn">
+<tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-C">C</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-commutator"><code>commutator</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-D">D</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-dot_005fform"><code>dot_form</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-E">E</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-exptp"><code>exptp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-G">G</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-get_005foperator_005fformula"><code>get_operator_formula</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-N">N</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ncexptp"><code>ncexptp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-nctimesp"><code>nctimesp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-O">O</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operatorp"><code>operatorp</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operator_005fadjoint"><code>operator_adjoint</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operator_005fadjointp"><code>operator_adjointp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operator_005fapply"><code>operator_apply</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operator_005fexpress"><code>operator_express</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-operator_005fsimp"><code>operator_simp</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-P">P</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-plusp"><code>plusp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-T">T</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-timesp"><code>timesp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+</table>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-D" class="summary-letter"><b>D</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-E" class="summary-letter"><b>E</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-G" class="summary-letter"><b>G</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-N" class="summary-letter"><b>N</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-O" class="summary-letter"><b>O</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-P" class="summary-letter"><b>P</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-T" class="summary-letter"><b>T</b></a>
+ &nbsp; 
+</td></tr></table>
+<hr size="6">
+<a name="SEC_About"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Package-operator_005falgebra" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="#Function-and-Variable-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>About This Document</h1>
+<p>
+  This document was generated by <em>U-LARRY\barto</em> on <em>September 5, 2024</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+</p>
+<p>
+  The buttons in the navigation panels have the following meaning:
+</p>
+<table border="1">
+  <tr>
+    <th> Button </th>
+    <th> Name </th>
+    <th> Go to </th>
+    <th> From 1.2.3 go to</th>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt; ] </td>
+    <td align="center">Back</td>
+    <td>Previous section in reading order</td>
+    <td>1.2.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt; ] </td>
+    <td align="center">Forward</td>
+    <td>Next section in reading order</td>
+    <td>1.2.4</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt;&lt; ] </td>
+    <td align="center">FastBack</td>
+    <td>Beginning of this chapter or previous chapter</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td align="center"> [ Up ] </td>
+    <td align="center">Up</td>
+    <td>Up section</td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt;&gt; ] </td>
+    <td align="center">FastForward</td>
+    <td>Next chapter</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td align="center"> [Top] </td>
+    <td align="center">Top</td>
+    <td>Cover (top) of document</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Contents] </td>
+    <td align="center">Contents</td>
+    <td>Table of contents</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Index] </td>
+    <td align="center">Index</td>
+    <td>Index</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [ ? ] </td>
+    <td align="center">About</td>
+    <td>About (help)</td>
+    <td> &nbsp; </td>
+  </tr>
+</table>
+
+<p>
+  where the <strong> Example </strong> assumes that the current position is at <strong> Subsubsection One-Two-Three </strong> of a document of the following structure:
+</p>
+
+<ul>
+  <li> 1. Section One
+    <ul>
+      <li>1.1 Subsection One-One
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.2 Subsection One-Two
+        <ul>
+          <li>1.2.1 Subsubsection One-Two-One</li>
+          <li>1.2.2 Subsubsection One-Two-Two</li>
+          <li>1.2.3 Subsubsection One-Two-Three &nbsp; &nbsp;
+            <strong>&lt;== Current Position </strong></li>
+          <li>1.2.4 Subsubsection One-Two-Four</li>
+        </ul>
+      </li>
+      <li>1.3 Subsection One-Three
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.4 Subsection One-Four</li>
+    </ul>
+  </li>
+</ul>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  This document was generated by <em>U-LARRY\barto</em> on <em>September 5, 2024</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
