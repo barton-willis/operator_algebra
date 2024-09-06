@@ -214,6 +214,16 @@ Some simple examples
 @end group 
 @end example
 
+For more examples, run the demo file @file{demo_qm_operators}. To run this demo, if needed,
+append the path to the @code{operator_algebra} package to @code{file_search_demo}. Now you 
+should be able to run the demo using the commands:
+@example
+@group
+(%i1) load(operator_algebra)$
+(%i2) batch(demo_qm_operators,'demo);
+@end group
+@end example
+
 @node Error messages,  Functions and Variables for operator_algebra, Basic usage, Top
 @section Error messages
 
