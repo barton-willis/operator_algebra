@@ -10,10 +10,10 @@ Maintained by: Many creative people.
 Send bugs and suggestions to <texi2html-bug@nongnu.org>
 -->
 <head>
-<title>Package operator_algebra: A Tool for Operator Manipulation in Maxima.</title>
+<title>An operator_algebra Package: A Tool for Operator Manipulation in Maxima.</title>
 
-<meta name="description" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
-<meta name="keywords" content="Package operator_algebra: A Tool for Operator Manipulation in Maxima.">
+<meta name="description" content="An operator_algebra Package: A Tool for Operator Manipulation in Maxima.">
+<meta name="keywords" content="An operator_algebra Package: A Tool for Operator Manipulation in Maxima.">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.82">
@@ -107,11 +107,11 @@ ul.toc {list-style: none}
 <a name="Introduction-to-the-package-operator_005falgebra-1"></a>
 <h2 class="section">1.1 Introduction to the package operator_algebra</h2>
 
-<p>The operator_algebra package provides support for working with operators (that is, linear functions), 
+<p>The operator_algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
 specifying domains and codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
-to the left in the product, a process known as <em>normal order</em>.
+to the left in the product, a form known as <em>normal order</em>.
 </p>
 <p>The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
@@ -145,12 +145,15 @@ the spring of 2021.
 can find. If needed, append new members to the lists <code>file_search_maxima</code> and <code>file_search_lisp</code> 
 to allow Maxima to find the package.
 </p>
-<p>The package does not autoload, so you must manually load it. Load the package with the following command:
+<p>This package does not autoload; therefore, it must be manually loaded. Load the package with the following command:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)  load(&quot;operator_algebra&quot;)$
 </pre><pre class="example">
 </pre></td></tr></table>
 
-<p>To run the regression tests for the package, issue the command
+<p>The examples in this document assume that the package <code>operator_algebra</code> has been loaded, but
+the load command has been suppressed.
+</p>
+<p>You can run the package&rsquo;s regression tests using the following command:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i2) batch(&quot;rtest_operator_algebra&quot;, 'test)$
 </pre><pre class="example">
 </pre></td></tr></table>
@@ -179,7 +182,7 @@ to allow Maxima to find the package.
 
 <p>Operator composition is denoted by &lsquo;<code>.</code>&rsquo;, which is Maxima&rsquo;s generic noncommutative 
 multiplication operator, and the composition of an operator with itself is denoted by &lsquo;<code>^^</code>&rsquo;, which
-is  Maxima&rsquo;s generic noncommutative exponentiation operator. As such, the settings of the option
+is  Maxima&rsquo;s generic noncommutative exponentiation operator. Thus, the settings of the option
 variables <code>dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
 dotexptsimp, dotident</code>, and <code>dotscrules</code> can alter the way Maxima simplifies compositions of 
 operators.
@@ -193,10 +196,8 @@ as operators and <code>α</code> and <code>β</code> as constants, issue the com
 </pre><pre class="example">
 </pre></td></tr></table>
 
-
 <p>Now we can compute some commutators:
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">(%i3)	commutator(α*f, β*g);
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i3)	commutator(α*f, β*g);
 (%o3)	α*β*(f . g) - α*β*(g . f)
 
 (%i4)	commutator(f, f);
@@ -221,10 +222,19 @@ variable <code>dotdistrib</code> to <code>true</code>:
 </pre><pre class="example">
 </pre></td></tr></table>
 
+<p>In these examples, it is crucial to declare <code>α</code> and <code>β</code> to be constants and <code>f</code>
+and <code>g</code> to be operators. Without these declarations, Maxima will throw an error; for example,
+starting from a fresh Maxima session, we have
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) commutator(α*f, β*g);
+I don't know how to apply  g β  to  g173
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
 <p>Assign a formula to an operator using <code>put</code>. For example, to define an operator <code>Dx</code> 
 that differentiates with respect to <code>x</code> and an operator <code>X</code> that multiplies an expression 
-by <code>x</code>, we first need to declare <code>Dx</code> and <code>X</code> as operators. After that, we can define 
-formulas for them using <code>put</code>:
+by <code>x</code>, we first need to declare <code>Dx</code> and <code>X</code> as operators. Next, define  
+simplification functions using <code>put</code>:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	declare(Dx, operator, X, operator)$
 
 (%i2)	put(Dx, lambda([q], diff(q,x)), 'formula);
@@ -318,7 +328,7 @@ multiplication operators <code>X</code>; our code is
 <a name="Error-messages-1"></a>
 <h2 class="section">1.4 Error messages</h2>
 
-<p>Attempting to apply an expression that isn&rsquo;t an operator to an argument results in the 
+<p>Attempting to apply a non-operator expression to an argument results in the 
 error message &quot;I don&rsquo;t know how to apply <code>X</code> to <code>Y</code>.&quot; Here are some examples:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(%i1) operator_apply(f, x);

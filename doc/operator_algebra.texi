@@ -1,8 +1,8 @@
 \input texinfo  @c -*-texinfo-*-
 @c @setfilename operator_algebra.html
 
-@c texi2html --output=doc/operator_algebra.html operator_algebra.texi
-@settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
+@c texi2html --output=operator_algebra.html operator_algebra.texi
+@settitle An operator_algebra Package: A Tool for Operator Manipulation in Maxima.
 
 @ifinfo
 @macro var {expr}
@@ -37,11 +37,11 @@
 @node Introduction to the package operator_algebra, Installation, Top, Top
 @section Introduction to the package operator_algebra
 
-The operator_algebra package provides support for working with operators (that is, linear functions), 
+The operator_algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
 specifying domains and codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
-to the left in the product, a process known as @emph{normal order}.
+to the left in the product, a form known as @emph{normal order}.
 
 The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
@@ -57,13 +57,16 @@ To install the operator_algebra package, copy the folder @file{operator_algebra}
 can find. If needed, append new members to the lists @code{file_search_maxima} and @code{file_search_lisp} 
 to allow Maxima to find the package.
 
-The package does not autoload, so you must manually load it. Load the package with the following command:
+This package does not autoload; therefore, it must be manually loaded. Load the package with the following command:
 @example
 @group
 (%i1)  load("operator_algebra")$
 @end group
 @end example
-To run the regression tests for the package, issue the command
+The examples in this document assume that the package @code{operator_algebra} has been loaded, but
+the load command has been suppressed.
+
+You can run the package's regression tests using the following command:
 @example
 @group
 (%i2) batch("rtest_operator_algebra", 'test)$
@@ -75,7 +78,7 @@ To run the regression tests for the package, issue the command
 
 Operator composition is denoted by `@code{.}', which is Maxima's generic noncommutative 
 multiplication operator, and the composition of an operator with itself is denoted by `@code{^^}', which
-is  Maxima's generic noncommutative exponentiation operator. As such, the settings of the option
+is  Maxima's generic noncommutative exponentiation operator. Thus, the settings of the option
 variables @code{dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
 dotexptsimp, dotident}, and @code{dotscrules} can alter the way Maxima simplifies compositions of 
 operators.
@@ -90,9 +93,7 @@ as operators and @code{α} and @code{β} as constants, issue the commands
 (%i2)	declare([α,β], constant)$
 @end group
 @end example
-
 Now we can compute some commutators:
-
 @example
 @group
 (%i3)	commutator(α*f, β*g);
@@ -120,10 +121,20 @@ variable @code{dotdistrib} to @code{true}:
 (%o8)	f . g - g . f
 @end group
 @end example
+In these examples, it is crucial to declare @code{α} and @code{β} to be constants and @code{f}
+and @code{g} to be operators. Without these declarations, Maxima will throw an error; for example,
+starting from a fresh Maxima session, we have
+@example
+@group
+(%i1) commutator(α*f, β*g);
+I don't know how to apply  g β  to  g173
+@end group
+@end example
+
 Assign a formula to an operator using @code{put}. For example, to define an operator @code{Dx} 
 that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression 
-by @code{x}, we first need to declare @code{Dx} and @code{X} as operators. After that, we can define 
-formulas for them using @code{put}:
+by @code{x}, we first need to declare @code{Dx} and @code{X} as operators. Next, define  
+simplification functions using @code{put}:
 @example
 @group 
 (%i1)	declare(Dx, operator, X, operator)$
@@ -206,7 +217,7 @@ Some simple examples
 @node Error messages,  Functions and Variables for operator_algebra, Basic usage, Top
 @section Error messages
 
-Attempting to apply an expression that isn't an operator to an argument results in the 
+Attempting to apply a non-operator expression to an argument results in the 
 error message "I don't know how to apply @code{X} to @code{Y}." Here are some examples:
 
 @example
