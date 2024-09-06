@@ -1,8 +1,7 @@
 \input texinfo  @c -*-texinfo-*-
 @c @setfilename operator_algebra.html
 
-@c  texi2html --output=C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\doc\\operator_algebra.html C:\\Users\\barto\\OneDrive\\Documents\\GitHub\\operator_algebra\\operator_algebra.texi
-
+@c texi2html --output=doc/operator_algebra.html operator_algebra.texi
 @settitle Package operator_algebra: A Tool for Operator Manipulation in Maxima.
 
 @ifinfo
@@ -112,7 +111,7 @@ Now we can compute some commutators:
 (%o7)	f . g - g . f
 @end group
 @end example
-In the last example, the user must manually use @code{expand} to fully simplify the result.
+In the last example, the user must manually apply @code{expand} to fully simplify the result.
 In this case, as an alternative to manually expanding, the user can set the value of the option 
 variable @code{dotdistrib} to @code{true}:
 @example
@@ -217,7 +216,7 @@ error message "I don't know how to apply @code{X} to @code{Y}." Here are some ex
 I don't know how to apply f  to x
 @end group
 @end example
-To  fix this, declare @code{f} to be an operator:
+To fix this, declare @code{f} as an operator:
 @example
 @group
 (%i2) declare(f,operator)$
