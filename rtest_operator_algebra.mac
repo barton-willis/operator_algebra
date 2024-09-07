@@ -267,6 +267,14 @@ matrix([0,operator_adjoint(G)],[operator_adjoint(F),0])$
 operator_adjoint(M);
 matrix([0,F],[G,0])$
 
+/*  operator_adjoint of some constant multiples of operators #1  */
+
+(declare(f,operator), operator_adjoint(f/sqrt(2)));
+operator_adjoint(f)/sqrt(2)$
+
+(forget(f,operator),0);
+0$
+
 (remvalue(M),0);
 0$
 

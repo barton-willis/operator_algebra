@@ -126,7 +126,7 @@ simp_op_adjoint(e) := block([estar],
       estar : get(e,'operator_adjoint),
       if estar = false then simpfuncall('operator_adjoint,e) else estar)
    /* operator_adjoint(maptom) = conjugate(mapatom)*/
-   elseif mapatom(e) then (
+   elseif mapatom(e) or constantp(e) then (
       conjugate(e))
    /* for a matrix, map operator_adjoint onto the matrix & transpose */
    elseif matrixp(e) then (
