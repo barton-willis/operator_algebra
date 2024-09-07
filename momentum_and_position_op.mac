@@ -16,6 +16,9 @@ assume(ħ > 0);
 Q_p(e) := not mapatom(e) and inpart(e,0) = 'Q;
 P_p(e) := not mapatom(e) and inpart(e,0) = 'P;
 
+put(Q,Q,'operator_adjoint);
+put(P,P,'operator_adjoint);
+
 declare([Q,P],linear);
 declare([Q,P],operator);
 
