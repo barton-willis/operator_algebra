@@ -169,3 +169,25 @@ operator_simp(e) := block([f : gensym(), dotdistrib : true],
 
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */
 commutator(f,g) := operator_simp(f.g - g.f);
+
+bch(x,y,n) := block([ans : 0],
+
+  if n <= 0 or n >= 5 then (
+     error("Only able to compute the order five or lower BCH formula; requested order ",n)),
+
+  if n >= 1 then (
+      ans : ans + x + y),
+  
+   if n >= 2 then (
+      ans : ans + commutator(x,y)/2),
+
+   if n >= 3 then (
+      ans : ans + (commutator(x,commutator(x,y)) + commutator(y, commutator(y,x)))/12),
+
+   if n >= 4 then (
+      ans : ans - commutator(y, commutator(x, commutator(x,y)))/24),
+
+   ans);
+
+
+  
