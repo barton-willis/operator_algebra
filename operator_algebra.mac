@@ -187,10 +187,10 @@ extended_operatorp(e) := block([infix : true],
 
 bch(x,y,n) := block([ans : 0],
 
-  if not extended_operatorp(x)  then (
+  if not extended_operatorp(x) then (
      error("The first argument to 'bch' must be an operator; found ",x)),
 
-  if not extended_operatorp(y)  then (
+  if not extended_operatorp(y) then (
      error("The second argument to 'bch' must be an operator; found ",y)),
 
   if n <= 0 or n >= 5 then (
