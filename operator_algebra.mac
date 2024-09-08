@@ -170,23 +170,39 @@ operator_simp(e) := block([f : gensym(), dotdistrib : true],
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */
 commutator(f,g) := operator_simp(f.g - g.f);
 
+extended_operatorp(e) := block([infix : true],
+  operatorp(e) or
+  constantp(e) or
+  (plusp(e) or nctimesp(e)) and every('extended_operatorp, args(e)) or
+  ncexptp(e) and operatorp(first(e)) and featurep(second(e), 'integer) or
+  timesp(e) and ((constantp(first(e)) and extended_operatorp(rest(e))) or
+                 (operatorp(first(e)) and  constantp(rest(args(e))))));
+
+
+/* Return the n-th order (n < 5) Baker-Campbell-Hausdorf expansion; thus, find the first few
+   terms of a series expansion for 'z', where 'z' is a solution for exp(x)exp(y) = exp(z).
+   I haven't attempted to extend this to n >= 5, but it's possible. 
+   
+   The first and second arguments to 'bch' must be operators. */
+
 bch(x,y,n) := block([ans : 0],
+
+  if not extended_operatorp(x)  then (
+     error("The first argument to 'bch' must be an operator; found ",x)),
+
+  if not extended_operatorp(y)  then (
+     error("The second argument to 'bch' must be an operator; found ",y)),
 
   if n <= 0 or n >= 5 then (
      error("Only able to compute the order five or lower BCH formula; requested order ",n)),
-
   if n >= 1 then (
-      ans : ans + x + y),
-  
+      ans : ans + x + y),  
    if n >= 2 then (
       ans : ans + commutator(x,y)/2),
-
    if n >= 3 then (
       ans : ans + (commutator(x,commutator(x,y)) + commutator(y, commutator(y,x)))/12),
-
    if n >= 4 then (
       ans : ans - commutator(y, commutator(x, commutator(x,y)))/24),
-
    ans);
 
 
