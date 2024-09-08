@@ -53,6 +53,12 @@ dot_form(e) := block([inflag : true],
   elseif not mapatom(e) and operatorp(inpart(e,0)) then inpart(e,0). dot_form(first(e))
   else e);
 
+operator_apply_error(op, arg) :=
+   if mapatom(arg) and get(arg,'internal) then (
+      error("I don't know how to apply ", e))
+   else (
+       error("I don't know how to apply ", e," to ", arg));
+       
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
    operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/ 
 operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
@@ -76,8 +82,9 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
   elseif timesp(e) then (
     if constantp(first(e)) then (
       operator_apply(first(e), operator_apply(rest(e),ψ)))
-    else (     
-      error("I don't know how to apply ", e, " to ", ψ)))
+    else (   
+      operator_apply_error(e,ψ)))
+    
 
   elseif ncexptp(e) and plusp(first(e)) then (
      [e,n] : args(e),
@@ -88,8 +95,8 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
         else (
             ee : operator_simp(e^^((n+1)/2)),
             operator_apply(operator_simp(e^^((n-1)/2)),operator_apply(ee, ψ))))
-      else error("I don't know how to apply ", e^^n, " to ", ψ)) 
-
+      else operator_apply_error(e^^n,ψ))
+    
   elseif ncexptp(e) then (
     [e,n] : args(e),
     if integerp(n) and n > 0 then (
@@ -100,8 +107,7 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
       operator_apply(first(e), operator_apply(rest(e), ψ)))
 
   /* Catches, for example, F^n, F/G, ... */
-  else (
-        error("I don't know how to apply ", e, " to ", ψ)));
+  else operator_apply_error(e,ψ)); 
 
 /* For an expression in dot form, apply the formulae for the operators to evaluate
    the expression e. Example
@@ -154,8 +160,11 @@ simplifying('operator_adjoint,'simp_op_adjoint)$
 /* For an operator in dot form, return a simplified version of e. The operator
    e is applied to a gensym, that is converted to a functional form and sent
    through the simplifier, and finally, the result is converted by to a dot form.
+
+   To supress error messages involving the gensym variables, give 'f' the internal property.
 */   
 operator_simp(e) := block([f : gensym()],
+   put(f,true,'internal),
    subst(f=1, dot_form(expand(operator_apply(e,f)))));
 
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */

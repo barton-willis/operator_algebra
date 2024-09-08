@@ -127,7 +127,7 @@ starting from a fresh Maxima session, we have
 @example
 @group
 (%i1) commutator(α*f, β*g);
-I don't know how to apply  g β  to  g173
+I don't know how to apply  g β
 @end group
 @end example
 
