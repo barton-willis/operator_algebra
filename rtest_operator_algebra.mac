@@ -317,6 +317,32 @@ false$
 extended_operatorp(cos(f));
 false$
 
+bch(f,g,1);
+f+g$
+
+bch(f,g,2);
+(f . g - g . f)/2 + g + f$
+
+bch(f,g,3);
+(g^^2 . f+g . f^^2-2*g . f . g+f^^2 . g+f . g^^2-2*f . g . f)/12  +(f . g-g . f)/2+g+f$
+
+bch(f,g,4);
+-((-(2*(g . f)^^2)+g^^2 . f^^2+2*(f . g)^^2-f^^2 . g^^2)/24)
+ +(g^^2 . f+g . f^^2-2*g . f . g+f^^2 . g+f . g^^2-2*f . g . f)/12
+ +(f . g - g . f)/2+g+f$
+
+ errcatch(bch(f,g,5));
+ []$
+
+ errcatch(bch(ff,gg,5));
+ []$
+
+(remove([f,g,h],operator), remove(n,integer), 0);
+0$
+
+props;
+[]$
+
 values;
 []$
 
