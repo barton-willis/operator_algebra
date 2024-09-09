@@ -11,8 +11,7 @@ GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 /* There is no advantage to translating this code. But should a user translate this 
 file, the following eliminates some warnings from the translator. */
 eval_when(translate,
-          declare_translated(operator_formula,dot_form,operator_apply,operator_simp,
-                             operator_express,operator_adjoint))$
+          declare_translated(operator_formula,dot_form,operator_apply,operator_simp,operator_express))$
 load("simplifying");
 
 /* Tell Maxima that 'operator' is a feature.*/
