@@ -109,9 +109,9 @@ ul.toc {list-style: none}
 
 <p>The operator_algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
-specifying domains and codomains, even though these are mathematical necessities. A common use of this 
+specifying domains or codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
-to the left in the product, a form known as <em>normal order</em>.
+to the left in a product, a form known as <em>normal order</em>.
 </p>
 <p>The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
@@ -143,9 +143,8 @@ the spring of 2021.
 
 <p>To install the operator_algebra package, copy the folder &lsquo;<tt>operator_algebra</tt>&rsquo; to a location that Maxima
 can find. If needed, append new members to the lists <code>file_search_maxima</code> and <code>file_search_lisp</code> 
-to allow Maxima to find the package.
-</p>
-<p>This package does not autoload; therefore, it must be manually loaded. Load the package with the following command:
+to allow Maxima to find the package.,This package does not autoload; therefore, it must be manually loaded. 
+Load the package with the following command:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)  load(&quot;operator_algebra&quot;)$
 </pre><pre class="example">
 </pre></td></tr></table>
@@ -276,7 +275,7 @@ this package.)
 </p>
 <p>We will start by loading the simplifying package and defining predicates that detect if the main operator
 of an expression is <code>Dx</code> or <code>X</code>. 
-Fd</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	load(simplifying)$
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	load(simplifying)$
 
 (%i2)	Dx_p(e) := not mapatom(e) and inpart(e,0) = 'Dx$
 
@@ -297,7 +296,7 @@ multiplication operators <code>X</code>; our code is
 </pre><pre class="example">
 </pre></td></tr></table>
 
-<p>Some simple examples
+<p>Some simple examples:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i6)	operator_simp(Dx . X);
 (%o6)	X . Dx + Dx
 
@@ -337,7 +336,7 @@ should be able to run the demo using the commands:
 <a name="Error-messages-1"></a>
 <h2 class="section">1.4 Error messages</h2>
 
-<p>Attempting to apply a non-operator expression to an argument results in the 
+<p>Attempting to apply a non-operator to an argument results in the 
 error message &quot;I don&rsquo;t know how to apply <code>X</code> to <code>Y</code>.&quot; Here are some examples:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(%i1) operator_apply(f, x);
@@ -368,9 +367,17 @@ I don't know how to apply  a f  to  x
 </pre><pre class="example">
 </pre></td></tr></table>
 
-<p>For cases such as applying <code>cos(f)</code>, where <code>f</code> is a declared operator, there is no easy
-workaround.
-</p>
+<p>Most functions of operators, for example, <code>cos(f)</code>, where <code>f</code> is a declared operator, 
+are unhandled by this package, and attempting to use them results in an error:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator);
+(%o1) done
+(%i2) operator_apply(cos(f),x);
+I don't know how to apply  cos(f)  to  x
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+
 
 <hr size="6">
 <a name="Functions-and-Variables-for-operator_005falgebra"></a>
@@ -799,8 +806,8 @@ be an operator; for example
 <dt><a name="index-bch"></a><u>Function:</u> <b>bch</b><i>(@code(f,g,n))</i></dt>
 <dd>
 <p>The function call <code>bch(f,g,n)</code> returns the first <code>n</code> terms of the Baker–Campbell–Hausdorff formula.
-Specifically, given operators <code>f</code> and <code>g</code>, it returns the first <code>n</code> terms of the solution 
-<code>z</code> to the equation <code>exp(f) exp(g) = exp(z)</code>.
+Specifically, given operators <code>f</code> and <code>g</code>, it returns the first <code>n</code> terms of the
+asymptotic series solution <code>z</code> to the equation <code>exp(f) exp(g) = exp(z)</code>.
 </p>
 <p>The argument <code>n</code> should be an explicit integer that is in <code>0,1,2,3,4</code>. This code is unable
 to handle cases with <code>n &gt; 4</code>$

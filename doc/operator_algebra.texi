@@ -39,9 +39,9 @@
 
 The operator_algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
-specifying domains and codomains, even though these are mathematical necessities. A common use of this 
+specifying domains or codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
-to the left in the product, a form known as @emph{normal order}.
+to the left in a product, a form known as @emph{normal order}.
 
 The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
@@ -55,9 +55,8 @@ A related Maxima package, but specialized to Clifford algebras, can be found at
 
 To install the operator_algebra package, copy the folder @file{operator_algebra} to a location that Maxima
 can find. If needed, append new members to the lists @code{file_search_maxima} and @code{file_search_lisp} 
-to allow Maxima to find the package.
-
-This package does not autoload; therefore, it must be manually loaded. Load the package with the following command:
+to allow Maxima to find the package.,This package does not autoload; therefore, it must be manually loaded. 
+Load the package with the following command:
 @example
 @group
 (%i1)  load("operator_algebra")$
@@ -180,7 +179,7 @@ this package.)
 
 We will start by loading the simplifying package and defining predicates that detect if the main operator
 of an expression is @code{Dx} or @code{X}. 
-Fd@example
+@example
 @group 
 (%i1)	load(simplifying)$
 
@@ -203,7 +202,7 @@ multiplication operators @code{X}; our code is
 (%i5)	simplifying('Dx, 'simp_Dx)$
 @end group
 @end example
-Some simple examples
+Some simple examples:
 @example
 @group 
 (%i6)	operator_simp(Dx . X);
@@ -227,7 +226,7 @@ should be able to run the demo using the commands:
 @node Error messages,  Functions and Variables for operator_algebra, Basic usage, Top
 @section Error messages
 
-Attempting to apply a non-operator expression to an argument results in the 
+Attempting to apply a non-operator to an argument results in the 
 error message "I don't know how to apply @code{X} to @code{Y}." Here are some examples:
 
 @example
@@ -261,8 +260,17 @@ I don't know how to apply  a f  to  x
 (%o6) a f(x)
 @end group
 @end example
-For cases such as applying @code{cos(f)}, where @code{f} is a declared operator, there is no easy
-workaround.
+Most functions of operators, for example, @code{cos(f)}, where @code{f} is a declared operator, 
+are unhandled by this package, and attempting to use them results in an error:
+@example
+@group
+(%i1) declare(f,operator);
+(%o1) done
+(%i2) operator_apply(cos(f),x);
+I don't know how to apply  cos(f)  to  x
+@end group
+@end example
+
 
 
 @node Functions and Variables for operator_algebra, , Basic usage, Top
@@ -668,8 +676,8 @@ be an operator; for example
 @deffn {Function} bch(@code(f,g,n))
 
 The function call @code{bch(f,g,n)} returns the first @code{n} terms of the Baker–Campbell–Hausdorff formula.
-Specifically, given operators @code{f} and @code{g}, it returns the first @code{n} terms of the solution 
-@code{z} to the equation @code{exp(f) exp(g) = exp(z)}.
+Specifically, given operators @code{f} and @code{g}, it returns the first @code{n} terms of the
+asymptotic series solution @code{z} to the equation @code{exp(f) exp(g) = exp(z)}.
 
 The argument @code{n} should be an explicit integer that is in @code{0,1,2,3,4}. This code is unable
 to handle cases with @code{n > 4}$
