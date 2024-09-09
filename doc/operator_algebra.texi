@@ -665,6 +665,61 @@ be an operator; for example
 @end group
 @end example
 
+@deffn {Function} bch(@code(f,g,n))
+
+The function call @code{bch(f,g,n)} returns the first @code{n} terms of the Baker–Campbell–Hausdorff formula.
+Specifically, given operators @code{f} and @code{g}, it returns the first @code{n} terms of the solution 
+@code{z} to the equation @code{exp(f) exp(g) = exp(z)}.
+
+The argument @code{n} should be an explicit integer that is in @code{0,1,2,3,4}. This code is unable
+to handle cases with @code{n > 4}$
+
+@end deffn
+
+@emph{Examples}
+
+@example
+@group
+(%i1) declare([f,g],operator)$
+
+(%i2) bch(f,g,2);
+(%o2) (f . g - g . f)/2 + g + f
+
+(%i3) bch(f,f,4);
+(%o3) 2*f  
+@end group
+@end example
+
+@deffn {Function} extended_operatorp(@code{e})
+
+The function call @code{extended_operatorp(e)} returns @code{true} when the input @code{e} is either a 
+declared operator, a linear combination of operators, a composition of operators, or a noncommuting
+integer (either explicit or declared) power of an operator.
+
+@end deffn
+
+@emph{Examples}
+
+@example
+@group
+(%i1) extended_operatorp(f);
+(%o1) true
+
+(%i2) declare([f,g], operator)$
+(%i3) extended_operatorp(f);
+(%o3) true
+
+(%i4) extended_operatorp(f.g - g.f);
+(%o4) true
+
+(%i5) extended_operatorp(f / %pi);
+(%o5) true
+
+(%i6) extended_operatorp(f^^3 / %pi);
+(%o6) true
+@end group
+@end example
+
 @deffn {Function} commutator (@code{f,g})
 
 The function call @code{commutator(f,g)} returns @code{operator_simp(f.g - g.f)}. 

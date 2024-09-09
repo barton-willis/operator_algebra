@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
 <html>
-<!-- Created on September 8, 2024 by texi2html 1.82
+<!-- Created on September 9, 2024 by texi2html 1.82
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -796,6 +796,63 @@ be an operator; for example
 
 
 <dl>
+<dt><a name="index-bch"></a><u>Function:</u> <b>bch</b><i>(@code(f,g,n))</i></dt>
+<dd>
+<p>The function call <code>bch(f,g,n)</code> returns the first <code>n</code> terms of the Baker–Campbell–Hausdorff formula.
+Specifically, given operators <code>f</code> and <code>g</code>, it returns the first <code>n</code> terms of the solution 
+<code>z</code> to the equation <code>exp(f) exp(g) = exp(z)</code>.
+</p>
+<p>The argument <code>n</code> should be an explicit integer that is in <code>0,1,2,3,4</code>. This code is unable
+to handle cases with <code>n &gt; 4</code>$
+</p>
+</dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare([f,g],operator)$
+
+(%i2) bch(f,g,2);
+(%o2) (f . g - g . f)/2 + g + f
+
+(%i3) bch(f,f,4);
+(%o3) 2*f  
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
+<dt><a name="index-extended_005foperatorp"></a><u>Function:</u> <b>extended_operatorp</b><i>(<code>e</code>)</i></dt>
+<dd>
+<p>The function call <code>extended_operatorp(e)</code> returns <code>true</code> when the input <code>e</code> is either a 
+declared operator, a linear combination of operators, a composition of operators, or a noncommuting
+integer (either explicit or declared) power of an operator.
+</p>
+</dd></dl>
+
+
+<p><em>Examples</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(%i1) extended_operatorp(f);
+(%o1) true
+
+(%i2) declare([f,g], operator)$
+(%i3) extended_operatorp(f);
+(%o3) true
+
+(%i4) extended_operatorp(f.g - g.f);
+(%o4) true
+
+(%i5) extended_operatorp(f / %pi);
+(%o5) true
+
+(%i6) extended_operatorp(f^^3 / %pi);
+(%o6) true
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
+<dl>
 <dt><a name="index-commutator"></a><u>Function:</u> <b>commutator</b><i> (<code>f,g</code>)</i></dt>
 <dd>
 <p>The function call <code>commutator(f,g)</code> returns <code>operator_simp(f.g - g.f)</code>. 
@@ -845,7 +902,9 @@ be an operator; for example
 </tr></table>
 <a name="Function-and-Variable-index"></a>
 <h1 class="appendix">A. Function and Variable index</h1>
-<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-B" class="summary-letter"><b>B</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
  &nbsp; 
 <a href="#Function-and-Variable-index_fn_letter-D" class="summary-letter"><b>D</b></a>
  &nbsp; 
@@ -865,6 +924,9 @@ be an operator; for example
 <table border="0" class="index-fn">
 <tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
 <tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="Function-and-Variable-index_fn_letter-B">B</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-bch"><code>bch</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
 <tr><th><a name="Function-and-Variable-index_fn_letter-C">C</a></th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#index-commutator"><code>commutator</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
@@ -873,6 +935,7 @@ be an operator; for example
 <tr><td colspan="3"> <hr></td></tr>
 <tr><th><a name="Function-and-Variable-index_fn_letter-E">E</a></th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#index-exptp"><code>exptp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-extended_005foperatorp"><code>extended_operatorp</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
 <tr><th><a name="Function-and-Variable-index_fn_letter-G">G</a></th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#index-get_005foperator_005fformula"><code>get_operator_formula</code></a></td><td valign="top"><a href="#Functions">Functions</a></td></tr>
@@ -896,7 +959,9 @@ be an operator; for example
 <tr><td></td><td valign="top"><a href="#index-timesp"><code>timesp</code></a></td><td valign="top"><a href="#Predicates">Predicates</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
 </table>
-<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#Function-and-Variable-index_fn_letter-B" class="summary-letter"><b>B</b></a>
+ &nbsp; 
+<a href="#Function-and-Variable-index_fn_letter-C" class="summary-letter"><b>C</b></a>
  &nbsp; 
 <a href="#Function-and-Variable-index_fn_letter-D" class="summary-letter"><b>D</b></a>
  &nbsp; 
@@ -923,7 +988,7 @@ be an operator; for example
 </tr></table>
 <h1>About This Document</h1>
 <p>
-  This document was generated on <i>September 8, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 9, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
 </p>
 <p>
   The buttons in the navigation panels have the following meaning:
@@ -1025,7 +1090,7 @@ be an operator; for example
 <hr size="1">
 <p>
  <font size="-1">
-  This document was generated on <i>September 8, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 9, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
  </font>
  <br>
 
