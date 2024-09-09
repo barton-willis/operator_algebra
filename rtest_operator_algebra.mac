@@ -340,9 +340,6 @@ bch(f,g,4);
 (remove([f,g,h],operator), remove(n,integer), 0);
 0$
 
-props;
-[]$
-
 values;
 []$
 

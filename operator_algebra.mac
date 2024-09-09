@@ -163,9 +163,11 @@ simplifying('operator_adjoint,'simp_op_adjoint)$
 
    To supress error messages involving the gensym variables, give 'f' the internal property.
 */   
-operator_simp(e) := block([f : gensym(), dotdistrib : true],
+operator_simp(e) := block([f : gensym(), dotdistrib : true, ans],
    put(f,true,'internal),
-   subst(f=1, dot_form(operator_apply(e,f))));
+   ans : subst(f=1, dot_form(operator_apply(e,f))),
+   rem(f,'internal),
+   ans);
 
 /* Return the commutator of the operators f & g; that is, return f.g - g.f. */
 commutator(f,g) := operator_simp(f.g - g.f);
