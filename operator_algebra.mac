@@ -55,9 +55,9 @@ dot_form(e) := block([inflag : true],
 
 operator_apply_error(op, arg) :=
    if mapatom(arg) and get(arg,'internal) then (
-      error("I don't know how to apply ", e))
+      error("I don't know how to apply ", op))
    else (
-       error("I don't know how to apply ", e," to ", arg));
+       error("I don't know how to apply ", op," to ", arg));
        
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
    operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/ 
