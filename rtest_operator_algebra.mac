@@ -278,6 +278,45 @@ operator_adjoint(f)/sqrt(2)$
 (remvalue(M),0);
 0$
 
+(declare([f,g,h],operator), declare([a,b,c], constant), declare(n,integer), 0);
+0$
+
+ extended_operatorp(f);
+ true$
+
+ extended_operatorp(f.g);
+ true$
+
+extended_operatorp(f.g.h);
+true$
+
+extended_operatorp(f.g + g.f);
+true$
+
+extended_operatorp(f^^2);
+true$
+
+extended_operatorp(f^^n);
+true$
+
+extended_operatorp(42*f^^n / sqrt(2));
+true$
+
+extended_operatorp(a*f^^n / sqrt(2) - h);
+true$
+
+extended_operatorp(a*b*f.g + c*h);
+true$
+
+extended_operatorp(f*g);
+false$
+
+extended_operatorp(f^a);
+false$
+
+extended_operatorp(cos(f));
+false$
+
 values;
 []$
 
