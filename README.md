@@ -2,13 +2,13 @@
 
 This is a package for handling operator algebra within the Maxima Computer Algebra System, with a particular emphasis on quantum mechanical operators.
 
-
 ### Installation
+To install the `operator_algebra` package:
 
-To install the `operator_algebra` package, copy the folder `operator_algebra` to a location that Maxima
-can find. If needed, append new members to the lists `file_search_maxima` and `file_search_lisp`
-to allow Maxima to find the package. This package does not autoload; therefore, it must be manually loaded. 
-Load the package with the following command:
+1. Copy the `operator_algebra` folder to a location where Maxima can find it.
+2. If needed, add new entries to the `file_search_maxima` and `file_search_lisp` lists so that Maxima can locate the package.
+3. Load the package manually using the following command:
+
 ```
 (%i1)  load("operator_algebra")$
 ```
