@@ -1,6 +1,7 @@
 # A Maxima package for operator algebra
 
-This is an operator package for the Maxima Computer Algebra System, with a focus on quantum mechanical operators.
+This is a package for handling operator algebra within the Maxima Computer Algebra System, with a particular emphasis on quantum mechanical operators.
+
 
 ### Installation
 
@@ -14,8 +15,7 @@ Load the package with the following command:
 
 ### Documentation
 
-User documentation for this package is in the folder `doc`. Additionally, there is a demo file.
-To run this demo, append the path to the `operator_algebra` package to `file_search_demo`. Now you 
+The user documentation is located in the doc folder. Additionally, a demo file is included. To run this demo, append the path to the `operator_algebra` package to `file_search_demo`. Now you 
 should be able to run the demo using the commands:
 ```
 (%i1) load(operator_algebra)$
@@ -51,8 +51,7 @@ Now we can compute some commutators:
 (%o7)	f . g - g . f
 ```
 In the last example, the user must manually apply expand to fully simplify the result.
-In this case, as an alternative to manually expanding, the user can set the value of the option 
-variable `dotdistrib` to `true`:
+Alternatively, the user can automatically expand results by setting the option variable dotdistrib to `true:`
 ```
 (%i8)	block([dotdistrib : true], commutator(f + g, g));
 (%o8)	f . g - g . f
