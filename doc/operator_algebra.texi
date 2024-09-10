@@ -37,13 +37,13 @@
 @node Introduction to the package operator_algebra, Installation, Top, Top
 @section Introduction to the package operator_algebra
 
-The operator_algebra package provides support for working with operators (i.e., linear functions), 
+The operator algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
 specifying domains or codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
 to the left in a product, a form known as @emph{normal order}.
 
-The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
+The operator algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
 the spring of 2021.
 
@@ -53,9 +53,9 @@ A related Maxima package, but specialized to Clifford algebras, can be found at
 @node Installation, Basic usage, Introduction to the package operator_algebra, Top
 @section Installation 
 
-To install the operator_algebra package, copy the folder @file{operator_algebra} to a location that Maxima
+To install the operator algebra package, copy the folder @file{operator_algebra} to a location that Maxima
 can find. If needed, append new members to the lists @code{file_search_maxima} and @code{file_search_lisp} 
-to allow Maxima to find the package.,This package does not autoload; therefore, it must be manually loaded. 
+to allow Maxima to find the package. This package does not autoload; therefore, it must be manually loaded. 
 Load the package with the following command:
 @example
 @group
@@ -130,7 +130,7 @@ I don't know how to apply  g β
 @end group
 @end example
 
-Assign a formula to an operator using @code{put}. For example, to define an operator @code{Dx} 
+To assign a formula to an operator use @code{put}. For example, to define an operator @code{Dx} 
 that differentiates with respect to @code{x} and an operator @code{X} that multiplies an expression 
 by @code{x}, we first need to declare @code{Dx} and @code{X} as operators. Next, define  
 simplification functions using @code{put}:
@@ -170,7 +170,7 @@ Here is an example that uses both operators @code{Dx} and @code{X}:
 @end group
 @end example
 
-In output %o6 above, we see that @code{operator_apply} effectively changes the dotted notation
+In output (%o6) above, we see that @code{operator_apply} effectively changes the dotted notation
 for function composition (in this case @code{X.Dx.X}) to traditional parenthesized function
 notation @code{X(Dx(X(x^2)))}. The traditional notation allows the use of the @code{simplifying} 
 package to define operators as simplifying functions. (The source code for the @code{simplifying}

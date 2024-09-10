@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
 <html>
-<!-- Created on September 9, 2024 by texi2html 1.82
+<!-- Created on September 10, 2024 by texi2html 1.82
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -107,13 +107,13 @@ ul.toc {list-style: none}
 <a name="Introduction-to-the-package-operator_005falgebra-1"></a>
 <h2 class="section">1.1 Introduction to the package operator_algebra</h2>
 
-<p>The operator_algebra package provides support for working with operators (i.e., linear functions), 
+<p>The operator algebra package provides support for working with operators (i.e., linear functions), 
 particularly quantum mechanical operators. The package focuses on computations and does not support 
 specifying domains or codomains, even though these are mathematical necessities. A common use of this 
 package is reordering quantum creation and annihilation operators so that all creation operators appear 
 to the left in a product, a form known as <em>normal order</em>.
 </p>
-<p>The operator_algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
+<p>The operator algebra package was developed and is maintained by Barton Willis, Professor Emeritus of 
 Mathematics and Statistics at the University of Nebraska at Kearney. The package was first released in 
 the spring of 2021.
 </p>
@@ -141,9 +141,9 @@ the spring of 2021.
 <a name="Installation-1"></a>
 <h2 class="section">1.2 Installation</h2>
 
-<p>To install the operator_algebra package, copy the folder &lsquo;<tt>operator_algebra</tt>&rsquo; to a location that Maxima
+<p>To install the operator algebra package, copy the folder &lsquo;<tt>operator_algebra</tt>&rsquo; to a location that Maxima
 can find. If needed, append new members to the lists <code>file_search_maxima</code> and <code>file_search_lisp</code> 
-to allow Maxima to find the package.,This package does not autoload; therefore, it must be manually loaded. 
+to allow Maxima to find the package. This package does not autoload; therefore, it must be manually loaded. 
 Load the package with the following command:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)  load(&quot;operator_algebra&quot;)$
 </pre><pre class="example">
@@ -230,7 +230,7 @@ I don't know how to apply  g β
 </pre></td></tr></table>
 
 
-<p>Assign a formula to an operator using <code>put</code>. For example, to define an operator <code>Dx</code> 
+<p>To assign a formula to an operator use <code>put</code>. For example, to define an operator <code>Dx</code> 
 that differentiates with respect to <code>x</code> and an operator <code>X</code> that multiplies an expression 
 by <code>x</code>, we first need to declare <code>Dx</code> and <code>X</code> as operators. Next, define  
 simplification functions using <code>put</code>:
@@ -266,7 +266,7 @@ simplification functions using <code>put</code>:
 </pre></td></tr></table>
 
 
-<p>In output %o6 above, we see that <code>operator_apply</code> effectively changes the dotted notation
+<p>In output (%o6) above, we see that <code>operator_apply</code> effectively changes the dotted notation
 for function composition (in this case <code>X.Dx.X</code>) to traditional parenthesized function
 notation <code>X(Dx(X(x^2)))</code>. The traditional notation allows the use of the <code>simplifying</code> 
 package to define operators as simplifying functions. (The source code for the <code>simplifying</code>
@@ -995,7 +995,7 @@ integer (either explicit or declared) power of an operator.
 </tr></table>
 <h1>About This Document</h1>
 <p>
-  This document was generated on <i>September 9, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 10, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
 </p>
 <p>
   The buttons in the navigation panels have the following meaning:
@@ -1097,7 +1097,7 @@ integer (either explicit or declared) power of an operator.
 <hr size="1">
 <p>
  <font size="-1">
-  This document was generated on <i>September 9, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 10, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
  </font>
  <br>
 
