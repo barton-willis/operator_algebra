@@ -1,6 +1,3 @@
-\input texinfo  @c -*-texinfo-*-
-@c @setfilename operator_algebra.html
-
 @c texi2html --output=operator_algebra.html operator_algebra.texi
 @settitle An operator_algebra Package: A Tool for Operator Manipulation in Maxima.
 
@@ -21,16 +18,6 @@
 * Basic usage::
 * Error messages::
 * Functions and Variables for operator_algebra::
-
-@detailmenu
- --- The Detailed Node Listing ---
-
-* Introduction to the package operator_algebra::
-* Installation::
-* Basic usage::
-* Error messages::
-* Functions and Variables for operator_algebra::
-@end detailmenu
 @end menu
 
 @chapter Package operator_algebra
@@ -673,7 +660,7 @@ be an operator; for example
 @end group
 @end example
 
-@deffn {Function} bch(@code(f,g,n))
+@deffn {Function} bch(@code{f,g,n})
 
 The function call @code{bch(f,g,n)} returns the first @code{n} terms of the Baker–Campbell–Hausdorff formula.
 Specifically, given operators @code{f} and @code{g}, it returns the first @code{n} terms of the

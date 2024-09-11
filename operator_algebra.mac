@@ -196,6 +196,7 @@ bch(x,y,n) := block([ans : 0],
 
    if n <= 0 or n >= 5 then (
      error("Only able to compute the order four or lower BCH formula; requested order ",n)),
+     
    if n >= 1 then (
       ans : ans + x + y),  
    if n >= 2 then (
