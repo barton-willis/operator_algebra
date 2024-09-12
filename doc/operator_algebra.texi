@@ -1,11 +1,9 @@
 @c texi2html --output=operator_algebra.html operator_algebra.texi
-@settitle An operator_algebra Package: A Tool for Operator Manipulation in Maxima.
+\input texinfo   @c -*-texinfo-*-
 
-@ifinfo
-@macro var {expr}
-<\expr\>
-@end macro
-@end ifinfo
+@setfilename operator_algebra.info
+
+@settitle An operator_algebra Package: A Tool for Operator Manipulation in Maxima
 
 @dircategory Mathematics/Maxima
 @direntry
@@ -19,6 +17,8 @@
 * Error messages::
 * Functions and Variables for operator_algebra::
 @end menu
+@node Top, Introduction to the package operator_algebra, (dir), (dir)
+@top
 
 @chapter Package operator_algebra
 @node Introduction to the package operator_algebra, Installation, Top, Top
