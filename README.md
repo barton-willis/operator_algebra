@@ -27,7 +27,7 @@ should be able to run the demo using the commands:
 Operator composition is denoted by `.`, which is Maxima's generic noncommutative multiplication operator, and the composition of an operator with itself is denoted by `^^`, which
 is  Maxima's generic noncommutative exponentiation operator.
 
-To declare that a symbol is an operator, use the Maxima function `declare`.
+To declare that a symbol is an operator, use the Maxima function `declare`. Additionally, we will declare some constants:
 
 ```
 (%i1)	declare([f,g],operator)$
