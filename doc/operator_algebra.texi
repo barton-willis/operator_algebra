@@ -3,7 +3,7 @@
 
 @setfilename operator_algebra.info
 
-@settitle An operator_algebra Package: A Tool for Operator Manipulation in Maxima
+@settitle An operator algebra package: A tool for operator manipulation in Maxima
 
 @dircategory Mathematics/Maxima
 @direntry
@@ -15,7 +15,7 @@
 * Installation::
 * Basic usage::
 * Error messages::
-* Functions and Variables for operator_algebra::
+* Functions and variables for operator_algebra::
 @end menu
 @node Top, Introduction to the package operator_algebra, (dir), (dir)
 @top
@@ -59,7 +59,7 @@ You can run the package's regression tests using the following command:
 @end group
 @end example
 
-@node Basic usage, Functions and Variables for operator_algebra, Installation, Top
+@node Basic usage, Functions and variables for operator_algebra, Installation, Top
 @section Basic usage
 
 Operator composition is denoted by `@code{.}', which is Maxima's generic noncommutative 
@@ -210,7 +210,7 @@ should be able to run the demo using the commands:
 @end group
 @end example
 
-@node Error messages,  Functions and Variables for operator_algebra, Basic usage, Top
+@node Error messages,  Functions and variables for operator_algebra, Basic usage, Top
 @section Error messages
 
 Attempting to apply a non-operator to an argument results in the 
@@ -260,15 +260,15 @@ I don't know how to apply  cos(f)  to  x
 
 
 
-@node Functions and Variables for operator_algebra, , Basic usage, Top
-@section Functions and Variables for operator_algebra
+@node Functions and variables for operator_algebra, , Basic usage, Top
+@section Functions and variables for operator_algebra
 
 @heading Predicates
 
 The @code{operator_algebra} package defines the predicate @code{operatorp}, which checks 
 if a symbol is a declared operator, and @code{operator_adjointp}, which detects whether an 
 expression is an operator adjoint nounform; and it defines five general purpose predicates 
-@code{exptp, ncexptp, nctimesp, timesp},and @code{plusp} that return @code{true} if and only 
+@code{exptp, ncexptp, nctimesp, timesp}, and @code{plusp} that return @code{true} if and only 
 if the main operator of a Maxima expression is @code{^, ^^, ., *} and @code{+}, respectively.
 
 @deffn {Function} exptp (@code{e})
@@ -538,8 +538,8 @@ The adjoint is additive
 (%i5)	operator_adjoint(2*F - 5*G);
 (%o5)	2*G-5*F
 
-(%i6)	operator_adjoint(P .Q);
-(%o6)	Q . P
+(%i6)	operator_adjoint(F . G);
+(%o6)	F . G
 
 (%i7)	operator_adjoint(F^^2);
 (%o7)	G^^2
@@ -666,7 +666,7 @@ The function call @code{bch(f,g,n)} returns the first @code{n} terms of the Bake
 Specifically, given operators @code{f} and @code{g}, it returns the first @code{n} terms of the
 asymptotic series solution @code{z} to the equation @code{exp(f) exp(g) = exp(z)}.
 
-The argument @code{n} should be an explicit integer that is in @code{0,1,2,3,4}. This code is unable
+The argument @code{n} should be an explicit integer that is either @code{0,1,2,3}, or @code{4}. This code is unable
 to handle cases with @code{n > 4}$
 
 @end deffn
@@ -744,8 +744,8 @@ To allow for more simplification, we'll set @code{ dotdistrib} to true:
 @end group
 @end example
 
-@node Function and Variable Index, , Top, Top
-@appendix Function and Variable index
+@node Function and variable index, , Top, Top
+@appendix Function and variable index
 @printindex fn
 @printindex vr
 @bye
