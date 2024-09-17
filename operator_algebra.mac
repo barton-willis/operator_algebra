@@ -207,6 +207,16 @@ bch(x,y,n) := block([ans : 0],
       ans : ans - commutator(y, commutator(x, commutator(x,y)))/24),
    ans);
 
+
+bch_extended(l, n) := block([ans : 0],
+  if not listp(l) then (
+      error("The first argument to bch_extended must be a Maxima list; found ",l)),
+
+  if not every('extended_operatorp, l) then (
+      error("The first agument to bch_extended must be a list of operators; found ",l)),
+
+  rreduce(lambda([f,g], bch(f,g,n)),l));
+ 
 /* Terribly slow!
 bch_alternative(x,y,n) := block([t, expx : 0, expy : 0, expz : 0, zpoly : 0, z : gensym(),eqs,sol : []],
   n : n+1,  
