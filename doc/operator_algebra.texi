@@ -685,6 +685,25 @@ to handle cases with @code{n > 4}$
 @end group
 @end example
 
+@deffn {Function} bch_extended(@code{[f,g,h, ...],n})
+
+The function @code{bch_extended} extends the @code{bch} from a binary to a nary function by left associativity. Thus
+@code{bch_extended([f,g,h],n) = bch(f, bch(g,h,n),n)}. The first argument to @code{bch_extended} must be a Maxima list with 
+one or more members.
+@end deffn
+
+@emph{Examples}
+@examples
+@group
+(%i1) declare([f,g,h],operator)$
+
+(%i2) block([dotdistrib : true], bch_extended([f,g,h],2));
+
+(%o2) (-((h . f . g - h . g . f)/2) - h . g - h . f + g . h + (f . g . h - g . f . h)/2 + f. h)/2 + h + (f . g - g . f)/2 + g + f
+
+@end group
+@end examples
+
 @deffn {Function} extended_operatorp(@code{e})
 
 The function call @code{extended_operatorp(e)} returns @code{true} when the input @code{e} is either a 

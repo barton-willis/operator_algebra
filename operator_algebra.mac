@@ -209,13 +209,21 @@ bch(x,y,n) := block([ans : 0],
 
 
 bch_extended(l, n) := block([ans : 0],
+
+  if n <= 0 or n >= 5 then (
+     error("Only able to compute the order four or lower BCH formula; requested order ",n)),
+   
   if not listp(l) then (
       error("The first argument to bch_extended must be a Maxima list; found ",l)),
 
   if not every('extended_operatorp, l) then (
       error("The first agument to bch_extended must be a list of operators; found ",l)),
 
-  rreduce(lambda([f,g], bch(f,g,n)),l));
+   if emptyp(rest(l)) then (
+      error("The first argument to bch_extended must be a list with two or more members; found", l)),
+      
+
+  lreduce(lambda([f,g], bch(f,g,n)),l));
  
 /* Terribly slow!
 bch_alternative(x,y,n) := block([t, expx : 0, expy : 0, expz : 0, zpoly : 0, z : gensym(),eqs,sol : []],
