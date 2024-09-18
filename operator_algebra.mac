@@ -135,7 +135,7 @@ simp_op_adjoint(e) := block([estar],
       conjugate(e))
    /* for a matrix, map operator_adjoint onto the matrix & transpose */
    elseif matrixp(e) then (
-       block(matrix_element_transpose : 'operator_adjoint, transpose(e)))
+       block([matrix_element_transpose : 'operator_adjoint], transpose(e)))
    /* operator_adjoint is an involution */
    elseif operator_adjointp(e) then (
         first(e))

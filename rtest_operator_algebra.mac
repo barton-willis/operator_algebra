@@ -1,6 +1,10 @@
 (kill(all), load('operator_algebra),0);
 0$
 
+(reset(dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
+dotexptsimp, dotident,dotscrules),0);
+0$
+
 (declare([F,G,H], operator),0);
 0$
 
@@ -351,6 +355,24 @@ errcatch(bch(f,g,5));
 
  errcatch(bch(ff,gg,5));
  []$
+
+bch_extended([],2);
+0$
+
+bch_extended([f],2);
+f$
+
+bch_extended([f,g],2) - bch(f,g,2);
+0$
+
+bch_extended([f,f,f],2);
+3*f$
+
+bch_extended([f,2*f,-3*f],2);
+0$
+
+bch_extended([f,g,f],2);
+((f . g . f-g . f^^2)/2+g . f-((f^^2 . g-f . g . f)/2)-f . g)/2+((f . g-g . f)/2)+g+2*f$
 
 (remove([f,g,h],operator), remove(n,integer), 0);
 0$
