@@ -4,7 +4,7 @@
    Professor of Mathematics
    University of Nebraska at Kearney
 
-Copyright (c) Barton Willis, 2021, 2022, 2024
+Copyright © Barton Willis, 2021, 2022, 2024
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 */
 
@@ -13,6 +13,7 @@ file, the following eliminates some warnings from the translator. */
 eval_when(translate,
           declare_translated(operator_formula,dot_form,operator_apply,operator_simp,operator_express))$
 load("simplifying");
+load("operator_algebra.lisp");
 
 /* Tell Maxima that 'operator' is a feature.*/
 declare(operator, feature);
