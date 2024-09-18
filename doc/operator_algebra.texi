@@ -688,8 +688,7 @@ to handle cases with @code{n > 4}$
 @deffn {Function} bch_extended(@code{[f,g,h, ...],n})
 
 The function @code{bch_extended} extends the @code{bch} from a binary to a nary function by left associativity. Thus
-@code{bch_extended([f,g,h],n) = bch(f, bch(g,h,n),n)}. The first argument to @code{bch_extended} must be a Maxima list with 
-one or more members.
+@code{bch_extended([f,g,h],n) = bch(f, bch(g,h,n),n)}. The first argument to @code{bch_extended} must be a Maxima list.
 @end deffn
 
 @emph{Examples}
