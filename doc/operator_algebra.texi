@@ -1,5 +1,4 @@
 @c texi2html --output=operator_algebra.html operator_algebra.texi
-\input texinfo   @c -*-texinfo-*-
 
 @setfilename operator_algebra.info
 
@@ -10,15 +9,18 @@
 * Package operator_algebra: A Maxima package for operator algebras
 @end direntry
 
+@node Top, Introduction to the package operator_algebra, (dir), (dir)
+@top
+
 @menu
 * Introduction to the package operator_algebra::
 * Installation::
 * Basic usage::
 * Error messages::
 * Functions and variables for operator_algebra::
+* Function and variable index::
 @end menu
-@node Top, Introduction to the package operator_algebra, (dir), (dir)
-@top
+
 
 @chapter Package operator_algebra
 @node Introduction to the package operator_algebra, Installation, Top, Top
