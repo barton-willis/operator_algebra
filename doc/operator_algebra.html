@@ -215,8 +215,7 @@ as operators and <code>α</code> and <code>β</code> as constants, issue the com
 </pre></td></tr></table>
 
 <p>In the last example, the user must manually apply <code>expand</code> to fully simplify the result.
-In this case, as an alternative to manually expanding, the user can set the value of the option 
-variable <code>dotdistrib</code> to <code>true</code>:
+Alternatively, the user can set the value of the option variable <code>dotdistrib</code> to <code>true</code>:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i8)	block([dotdistrib : true], commutator(f + g, g));
 (%o8)	f . g - g . f
 </pre><pre class="example">
@@ -267,7 +266,7 @@ simplification functions using <code>put</code>:
 </pre></td></tr></table>
 
 
-<p>In output (%o6) above, we see that <code>operator_apply</code> effectively changes the dotted notation
+<p>In output (%o6), we see that <code>operator_apply</code> effectively changes the dotted notation
 for function composition (in this case <code>X.Dx.X</code>) to traditional parenthesized function
 notation <code>X(Dx(X(x^2)))</code>. The traditional notation allows the use of the <code>simplifying</code> 
 package to define operators as simplifying functions. (The source code for the <code>simplifying</code>
@@ -337,8 +336,8 @@ should be able to run the demo using the commands:
 <a name="Error-messages-1"></a>
 <h2 class="section">1.4 Error messages</h2>
 
-<p>Attempting to apply a non-operator to an argument results in the 
-error message &quot;I don&rsquo;t know how to apply <code>X</code> to <code>Y</code>.&quot; Here are some examples:
+<p>Attempting to apply a non-operator results in the error message &quot;I don&rsquo;t know how to apply <code>X</code> to <code>Y</code>.&quot; 
+For example:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(%i1) operator_apply(f, x);
 
@@ -571,7 +570,7 @@ returns false.
 <dt><a name="index-operator_005fapply"></a><u>Function:</u> <b>operator_apply</b><i>(<code>e</code>,<code>ψ</code>)</i></dt>
 <dd>
 <p>The function call <code>operator_apply(<code>e</code>,<code>ψ</code>)</code> applies an operator or a dotted form operator to
-an argument <code>ψ</code>. If the first argument is not an operator or a dotted form operator, the result
+an argument <code>ψ</code>. If the first argument is neither not an operator nor a dotted form operator, the result
 is an error.
 </p>
 </dd></dl>

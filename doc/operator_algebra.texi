@@ -101,8 +101,7 @@ Now we can compute some commutators:
 @end group
 @end example
 In the last example, the user must manually apply @code{expand} to fully simplify the result.
-In this case, as an alternative to manually expanding, the user can set the value of the option 
-variable @code{dotdistrib} to @code{true}:
+Alternatively, the user can set the value of the option variable @code{dotdistrib} to @code{true}:
 @example
 @group
 (%i8)	block([dotdistrib : true], commutator(f + g, g));
@@ -159,7 +158,7 @@ Here is an example that uses both operators @code{Dx} and @code{X}:
 @end group
 @end example
 
-In output (%o6) above, we see that @code{operator_apply} effectively changes the dotted notation
+In output (%o6), we see that @code{operator_apply} effectively changes the dotted notation
 for function composition (in this case @code{X.Dx.X}) to traditional parenthesized function
 notation @code{X(Dx(X(x^2)))}. The traditional notation allows the use of the @code{simplifying} 
 package to define operators as simplifying functions. (The source code for the @code{simplifying}
@@ -215,8 +214,8 @@ should be able to run the demo using the commands:
 @node Error messages,  Functions and variables for operator_algebra, Basic usage, Top
 @section Error messages
 
-Attempting to apply a non-operator to an argument results in the 
-error message "I don't know how to apply @code{X} to @code{Y}." Here are some examples:
+Attempting to apply a non-operator results in the error message "I don't know how to apply @code{X} to @code{Y}." 
+For example:
 
 @example
 @group
@@ -425,7 +424,7 @@ returns false.
 @deffn {Function} operator_apply(@code{e},@code{ψ})
 
 The function call @code{operator_apply(@code{e},@code{ψ})} applies an operator or a dotted form operator to
-an argument @code{ψ}. If the first argument is not an operator or a dotted form operator, the result
+an argument @code{ψ}. If the first argument is neither not an operator nor a dotted form operator, the result
 is an error.
 
 @end deffn
