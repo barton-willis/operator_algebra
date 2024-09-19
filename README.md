@@ -3,6 +3,7 @@
 This is a package for handling operator algebra within the Maxima Computer Algebra System, with a particular emphasis on quantum mechanical operators.
 
 ### Installation
+
 To install the `operator_algebra` package:
 
 1. Copy the `operator_algebra` folder to a location where Maxima can find it.
@@ -50,7 +51,7 @@ Now we can compute some commutators:
 (%i7)	expand(%);
 (%o7)	f . g - g . f
 ```
-In the last example, the user must manually apply expand to fully simplify the result.
+In the last example, you need to manually apply expand to simplify the result.
 Alternatively, the user can automatically expand results by setting the option variable dotdistrib to `true:`
 ```
 (%i8)	block([dotdistrib : true], commutator(f + g, g));
@@ -59,8 +60,7 @@ Alternatively, the user can automatically expand results by setting the option v
 
 To assign a formula to an operator,  use `put`. For example, to define an operator `Dx`
 that differentiates with respect to `x` and an operator `X` that multiplies an expression 
-by `x`, we first need to declare `Dx` and `X` as operators. Next, 
-define functions for these operators using `put`:
+by `x`, we first need to declare `Dx` and `X` as operators. Next, we define the functions for these operators with put:
 ```
 (%i1)	declare(Dx, operator, X, operator)$
 
