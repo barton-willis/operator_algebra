@@ -94,7 +94,7 @@ for function composition (in this case `X.Dx.X` to traditional parenthesized fun
 notation `X(Dx(X(x^2)))`. The traditional notation allows the use of the `simplifying` 
 package to define operators as simplifying functions. 
 
-We will start by loading the simplifying package and defining predicates that detect if the main operator
+We will start by loading the simplifying package and defining predicates that detect whether the main operator
 of an expression is `Dx` or `X`. 
 ```
 (%i1)	load(simplifying)$
