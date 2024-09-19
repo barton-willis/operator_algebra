@@ -336,6 +336,9 @@ The function call @code{operator_adjointp(e)} returns true if the main operator 
 Maxima function @code{inpart}, not @code{part}.
 @end deffn
 
+When the option variable `display2d` is true, `operator_adjoint` displays as a postfix superscribted star;
+when `display2d` is false, `operator_adjoint` displays as a prefix operator. These examples are shown
+using display2d` set to false.
 @emph{Examples}
 
 @example
@@ -504,6 +507,10 @@ The function call @code{operator_adjoint (e)} returns the operator adjoint of @c
 mechanics, the adjoint is generally known as the @emph{hermitian conjugate}.
 
 @end deffn
+
+When the option variable `display2d` is true, `operator_adjoint` displays as a postfix superscribted star;
+when `display2d` is false, `operator_adjoint` displays as a prefix operator. These examples are shown
+using display2d` set to false.
 
 The operator adjoint is a @emph{simplifying function}. Thus, unless an operator has a declared adjoint,
 the operator adjoint of an operator returns an @code{operator_adjoint} nounform; for example
@@ -692,7 +699,7 @@ The function @code{bch_extended} extends the @code{bch} from a binary to a nary 
 @end deffn
 
 @emph{Examples}
-@examples
+@example
 @group
 (%i1) declare([f,g,h],operator)$
 
@@ -701,7 +708,7 @@ The function @code{bch_extended} extends the @code{bch} from a binary to a nary 
 (%o2) (-((h . f . g - h . g . f)/2) - h . g - h . f + g . h + (f . g . h - g . f . h)/2 + f. h)/2 + h + (f . g - g . f)/2 + g + f
 
 @end group
-@end examples
+@end example
 
 @deffn {Function} extended_operatorp(@code{e})
 

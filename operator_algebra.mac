@@ -1,12 +1,11 @@
 /* Maxima code for working with operators, especially quantum mechanical operators.
 
    Barton Willis
-   Professor of Mathematics
+   Professor Emeritus of Mathematics
    University of Nebraska at Kearney
 
 Copyright © Barton Willis, 2021, 2022, 2024
-GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
-*/
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 */
 
 /* There is no advantage to translating this code. But should a user translate this 
 file, the following eliminates some warnings from the translator. */
@@ -60,7 +59,7 @@ operator_apply_error(op, arg) :=
        error("I don't know how to apply ", op," to ", arg));
        
 /* Convert from "dot" form to a functional form; for example, if Jx & Jy are
-   operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)).*/ 
+   operators, operator_apply(Jx.Jy, ψ) --> Jx(Jy(ψ)). */ 
 operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
 
   if listp(e) then (
@@ -115,8 +114,8 @@ operator_apply(e,ψ) := block([opsubst : true,n, inflag : true,ee],
    (%i3)	ham : p.p/2 +  q^^2/2$
    (%i4)	operator_apply(ham ,exp(- x^2/(2*ħ)))$
    (%i5)	operator_express(%),factor;
-   (%o5)	(ħ*%e^(-x^2/(2*ħ)))/2
-*/
+   (%o5)	(ħ*%e^(-x^2/(2*ħ)))/2 */
+
 operator_express(e) := block([opsubst : true,fn],
    if mapatom(e) then e
    else (
@@ -161,8 +160,7 @@ simplifying('operator_adjoint,'simp_op_adjoint)$
    e is applied to a gensym, that is converted to a functional form and sent
    through the simplifier, and finally, the result is converted by to a dot form.
 
-   To supress error messages involving the gensym variables, give 'f' the internal property.
-*/   
+   To supress error messages involving the gensym variables, give 'f' the internal property. */   
 operator_simp(e) := block([f : gensym(), dotdistrib : true, ans],
    put(f,true,'internal),
    ans : subst(f=1, dot_form(operator_apply(e,f))),

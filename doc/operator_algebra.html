@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
 <html>
-<!-- Created on September 18, 2024 by texi2html 1.82
+<!-- Created on September 19, 2024 by texi2html 1.82
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -178,7 +178,7 @@ the load command has been suppressed.
 
 <p>Operator composition is denoted by &lsquo;<code>.</code>&rsquo;, which is Maxima&rsquo;s generic noncommutative 
 multiplication operator, and the composition of an operator with itself is denoted by &lsquo;<code>^^</code>&rsquo;, which
-is  Maxima&rsquo;s generic noncommutative exponentiation operator. Thus, the settings of the option
+is  Maxima&rsquo;s generic noncommutative exponentiation operator. Thus, the setttings of the option
 variables <code>dot0nscsimp, dot1simp, dot0simp, dot1simp, dotassoc, dotconstrules, dotdistrib,
 dotexptsimp, dotident</code>, and <code>dotscrules</code> can alter the way Maxima simplifies compositions of 
 operators.
@@ -476,7 +476,10 @@ Maxima function <code>inpart</code>, not <code>part</code>.
 </p></dd></dl>
 
 
-<p><em>Examples</em>
+<p>When the option variable &lsquo;display2d&lsquo; is true, &lsquo;operator_adjoint&lsquo; displays as a postfix superscribted star;
+when &lsquo;display2d&lsquo; is false, &lsquo;operator_adjoint&lsquo; displays as a prefix operator. These examples are shown
+using display2d&lsquo; set to false.
+<em>Examples</em>
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare(f,operator)$
 
@@ -649,6 +652,10 @@ mechanics, the adjoint is generally known as the <em>hermitian conjugate</em>.
 </dd></dl>
 
 
+<p>When the option variable &lsquo;display2d&lsquo; is true, &lsquo;operator_adjoint&lsquo; displays as a postfix superscribted star;
+when &lsquo;display2d&lsquo; is false, &lsquo;operator_adjoint&lsquo; displays as a prefix operator. These examples are shown
+using display2d&lsquo; set to false.
+</p>
 <p>The operator adjoint is a <em>simplifying function</em>. Thus, unless an operator has a declared adjoint,
 the operator adjoint of an operator returns an <code>operator_adjoint</code> nounform; for example
 </p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1)	declare(F,operator,G, operator)$
@@ -834,16 +841,16 @@ to handle cases with <code>n &gt; 4</code>$
 
 
 <p><em>Examples</em>
-@examples
-</p><p>(%i1) declare([f,g,h],operator)$
-</p>
-<p>(%i2) block([dotdistrib : true], bch_extended([f,g,h],2));
-</p>
-<p>(%o2) (-((h . f . g - h . g . f)/2) - h . g - h . f + g . h + (f . g . h - g . f . h)/2 + f. h)/2 + h + (f . g - g . f)/2 + g + f
-</p>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(%i1) declare([f,g,h],operator)$
 
-<p>@end examples
-</p>
+(%i2) block([dotdistrib : true], bch_extended([f,g,h],2));
+
+(%o2) (-((h . f . g - h . g . f)/2) - h . g - h . f + g . h + (f . g . h - g . f . h)/2 + f. h)/2 + h + (f . g - g . f)/2 + g + f
+
+</pre><pre class="example">
+</pre></td></tr></table>
+
+
 <dl>
 <dt><a name="index-extended_005foperatorp"></a><u>Function:</u> <b>extended_operatorp</b><i>(<code>e</code>)</i></dt>
 <dd>
@@ -1012,7 +1019,7 @@ integer (either explicit or declared) power of an operator.
 </tr></table>
 <h1>About This Document</h1>
 <p>
-  This document was generated on <i>September 18, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 19, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
 </p>
 <p>
   The buttons in the navigation panels have the following meaning:
@@ -1114,7 +1121,7 @@ integer (either explicit or declared) power of an operator.
 <hr size="1">
 <p>
  <font size="-1">
-  This document was generated on <i>September 18, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
+  This document was generated on <i>September 19, 2024</i> using <a href="http://www.nongnu.org/texi2html/"><i>texi2html 1.82</i></a>.
  </font>
  <br>
 
